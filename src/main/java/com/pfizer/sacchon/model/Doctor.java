@@ -14,6 +14,7 @@ public class Doctor {
     private String password;
     private Date dateOfBirth;
     private String speciality;
+    private boolean active;
 
     @OneToMany (mappedBy = "doctor")
     private List<Patient> patientList = new ArrayList<>();

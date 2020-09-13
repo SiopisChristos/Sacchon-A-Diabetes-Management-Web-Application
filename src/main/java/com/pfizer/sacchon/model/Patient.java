@@ -13,6 +13,7 @@ public class Patient {
     private String username;
     private String password;
     private Date dateOfBirth;
+    private boolean active;
 
     @OneToMany(mappedBy = "patient")
     private List<Glucose> glucoseList = new ArrayList<>();
@@ -26,4 +27,7 @@ public class Patient {
     @ManyToOne
     @JoinColumn (name = "doctor_id")
     private Doctor doctor;
+
+
+
 }

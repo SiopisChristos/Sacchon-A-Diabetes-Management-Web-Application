@@ -10,7 +10,7 @@ public class Glucose {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
     private Date dateTime;
-    private double concentration;
+    private double measurement;
     @ManyToOne
     @JoinColumn (name = "patient_id")
     private Patient patient;
