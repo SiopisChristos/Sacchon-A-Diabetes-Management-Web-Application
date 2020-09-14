@@ -1,10 +1,13 @@
 package com.pfizer.sacchon.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
 
 @Entity
+@Data
 public class Note {
 
     @Id
