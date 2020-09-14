@@ -11,7 +11,6 @@ public class Doctor {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
     private String username;
-    private String password;
     private Date dateOfBirth;
     private String speciality;
     private boolean active;
