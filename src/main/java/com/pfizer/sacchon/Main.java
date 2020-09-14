@@ -18,8 +18,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws Exception {
 
-        //EntityManager em = JpaUtil.getEntityManager();
-
+        EntityManager em = JpaUtil.getEntityManager();
 
         //HibernateStart.main();
         Component c = new Component();
