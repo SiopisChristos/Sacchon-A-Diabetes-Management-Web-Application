@@ -1,36 +1,35 @@
 package com.pfizer.sacchon.representation;
 
 import com.pfizer.sacchon.model.Patient;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
 public class PatientRepresentation {
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String city;
+    private String zipCode;
+    private String phoneNumber;
     private String username;
-   // private String password;
     private Date dateOfBirth;
-    private boolean active;
-   // The URL of this resource.
-    private String uri;
 
 
-    public PatientRepresentation(
-            Patient patient) {
+    public PatientRepresentation(Patient patient) {
         if (patient != null) {
+            firstName = patient.getFirstName();
+            lastName = patient.getLastName();
+            address = patient.getAddress();
+            city = patient.getCity();
+            zipCode = patient.getZipCode();
+            phoneNumber = patient.getPhoneNumber();
             username = patient.getUsername();
-     //       password = patient.getPassword();
             dateOfBirth = patient.getDateOfBirth();
-            uri = "http://localhost:9000/v1/patient/" + patient.getId();
         }
-    }
-
-    public Patient createPatient() {
-        Patient patient = new Patient();
-        patient.setUsername(username);
-        patient.setActive(true);
-       // patient.setPassword(password);
-        patient.setDateOfBirth(dateOfBirth);
-
-        return patient;
     }
 
 }

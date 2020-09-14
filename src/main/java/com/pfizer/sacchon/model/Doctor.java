@@ -1,19 +1,28 @@
 package com.pfizer.sacchon.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@Data
 public class Doctor {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
-    private String username;
+    private long id; /** Technical identifier.  primary key */
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
     private Date dateOfBirth;
     private String speciality;
-    private boolean active;
+
+    // related column between Doctor and UserTable
+    @Column(unique = true)
+    private String username;
+
 
     @OneToMany (mappedBy = "doctor")
     private List<Patient> patientList = new ArrayList<>();
