@@ -18,23 +18,6 @@ public class PatientRepository {
         return patient != null ? Optional.of(patient) : Optional.empty();
     }
 
-    public List<Patient> findAll() {
-        return entityManager.createQuery("from Patient").getResultList();
-    }
-
-    public Optional<Patient> findByName(String username) {
-        Patient patient = entityManager.createQuery("SELECT p FROM Patient p WHERE p.username = :username", Patient.class)
-                .setParameter("username", username)
-                .getSingleResult();
-        return patient != null ? Optional.of(patient) : Optional.empty();
-    }
-
-    public Optional<Patient> findByNameNamedQuery(String username) {
-        Patient patient = entityManager.createNamedQuery("Patient.findByUserName", Patient.class)
-                .setParameter("username", username)
-                .getSingleResult();
-        return patient != null ? Optional.of(patient) : Optional.empty();
-    }
 
 
     public Optional<Patient> save(Patient patient){
@@ -51,21 +34,6 @@ public class PatientRepository {
     }
 
 
-    public Optional<Patient> update(Patient patient) {
-
-        Patient in = entityManager.find(Patient.class, patient.getId());
-        in.setUsername(patient.getUsername());
-        in.setDateOfBirth(patient.getDateOfBirth());
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist (in);
-            entityManager.getTransaction().commit();
-            return Optional.of(in);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Optional.empty();
-    }
 
 
 }

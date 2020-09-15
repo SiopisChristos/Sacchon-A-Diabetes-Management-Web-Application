@@ -1,5 +1,6 @@
 package com.pfizer.sacchon.representation;
 
+import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Patient;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,10 @@ public class PatientRepresentation {
     private String phoneNumber;
     private String username;
     private Date dateOfBirth;
+    /**
+     * The URL of this resource.
+     */
+    private String uri;
 
 
     public PatientRepresentation(Patient patient) {
@@ -29,7 +34,20 @@ public class PatientRepresentation {
             phoneNumber = patient.getPhoneNumber();
             username = patient.getUsername();
             dateOfBirth = patient.getDateOfBirth();
+            uri = "http://localhost:9000/v1/patient/" + patient.getId();
         }
+    }
+    public Patient createPatient(){
+        Patient patient = new Patient();
+        patient.setUsername(username);
+        patient.setFirstName(firstName);
+        patient.setLastName(lastName);
+        patient.setAddress(address);
+        patient.setCity(city);
+        patient.setPhoneNumber(phoneNumber);
+        patient.setZipCode(zipCode);
+
+        return patient;
     }
 
 }
