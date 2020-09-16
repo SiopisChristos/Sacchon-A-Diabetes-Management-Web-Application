@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class CarbRepresentation {
-    private long gram;
+    private double gram;
     private Date date;
 
     public CarbRepresentation(Carb carb) {

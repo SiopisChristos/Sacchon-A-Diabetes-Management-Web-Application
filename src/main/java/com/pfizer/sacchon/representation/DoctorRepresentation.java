@@ -14,7 +14,7 @@ public class DoctorRepresentation {
     private String phoneNumber;
     private String username;
     private Date dateOfBirth;
-    private String speciality;
+    private String specialty;
 
     public DoctorRepresentation(Doctor doctor) {
         firstName = doctor.getFirstName();
@@ -22,6 +22,6 @@ public class DoctorRepresentation {
         phoneNumber = doctor.getPhoneNumber();
         username = doctor.getUsername();
         dateOfBirth = doctor.getDateOfBirth();
-        speciality = doctor.getSpeciality();
+        specialty = doctor.getSpecialty();
     }
 }

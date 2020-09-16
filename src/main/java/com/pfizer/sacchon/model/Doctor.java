@@ -17,7 +17,7 @@ public class Doctor {
     private String lastName;
     private String phoneNumber;
     private Date dateOfBirth;
-    private String speciality;
+    private String specialty;
 
     // related column between Doctor and UserTable
     @Column(unique = true)

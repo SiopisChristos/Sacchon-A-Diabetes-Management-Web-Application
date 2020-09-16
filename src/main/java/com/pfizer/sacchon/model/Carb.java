@@ -12,7 +12,7 @@ public class Carb {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
-    private long gram;
+    private double gram;
     private Date date;
     @ManyToOne
     @JoinColumn (name = "patient_id")
