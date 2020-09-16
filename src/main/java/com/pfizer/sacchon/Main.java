@@ -7,7 +7,6 @@ import org.restlet.Application;
 import org.restlet.Component;
 import org.restlet.Restlet;
 import org.restlet.data.Protocol;
-import org.restlet.engine.application.CorsFilter;
 import org.restlet.routing.Router;
 import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Role;
@@ -18,7 +17,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws Exception {
 
-        //EntityManager em = JpaUtil.getEntityManager();
+        EntityManager em = JpaUtil.getEntityManager();
 
 
         //HibernateStart.main();

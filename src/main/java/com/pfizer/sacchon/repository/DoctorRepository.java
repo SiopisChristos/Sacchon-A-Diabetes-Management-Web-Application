@@ -2,10 +2,10 @@ package com.pfizer.sacchon.repository;
 
 import com.pfizer.sacchon.model.Note;
 import com.pfizer.sacchon.model.Patient;
-
+import com.pfizer.sacchon.model.Doctor;
 import javax.persistence.EntityManager;
-import javax.persistence.NonUniqueResultException;
 import java.util.List;
+import java.util.Optional;
 
 public class DoctorRepository {
 
@@ -15,8 +15,7 @@ public class DoctorRepository {
         this.entityManager = entityManager;
     }
 
-    // TODO: 15/9/2020
-    // delete method
+    // TODO: 17/9/2020
     // hasRightToSee method
 
 
@@ -100,6 +99,30 @@ public class DoctorRepository {
         }
     }
 
+
+    /**
+     * Deleting a doctor from the Db
+     *
+     * @param id The doctor to be deleted
+     * @return False if deleting has been completed, else true
+     */
+    public boolean removeDoctor(Long id){
+        Optional<Doctor> thedoctor = findDoctorById(id);
+        if (thedoctor.isPresent()){
+            Doctor d = thedoctor.get();
+            try{
+                entityManager.getTransaction().begin();
+                entityManager.remove(d);
+                entityManager.getTransaction().commit();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+
     /**
      * Updates an existing note in Db
      *
@@ -123,4 +146,14 @@ public class DoctorRepository {
         }
     }
 
-}
+    /**
+     * find doctor by
+     * @param id
+     * @return
+     */
+    public Optional<Doctor> findDoctorById(long id) {
+            Doctor doctor = entityManager.find(Doctor.class, id);
+            return doctor != null ? Optional.of(doctor) : Optional.empty();
+        }
+    }
+
