@@ -19,6 +19,7 @@ public class Patient {
     private String zipCode;
     private String phoneNumber;
     private Date dateOfBirth;
+    private boolean isActive;
 
     // related column between Patient and UserTable
     @Column(unique = true)
