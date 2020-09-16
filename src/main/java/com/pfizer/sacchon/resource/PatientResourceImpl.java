@@ -1,12 +1,13 @@
 package com.pfizer.sacchon.resource;
-import com.pfizer.sacchon.exception.BadEntityException;
-import com.pfizer.sacchon.resource.util.ResourceValidator;
 
+import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
+import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.PatientRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.PatientRepresentation;
+import com.pfizer.sacchon.resource.util.ResourceValidator;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
 import org.restlet.data.Status;
@@ -14,27 +15,27 @@ import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PatientResourceImpl extends ServerResource implements PatientResource {
     public static final Logger LOGGER = Engine.getLogger(PatientResourceImpl.class);
     private long id;
-    private PatientRepository patientRepository ;
+    private PatientRepository patientRepository;
 
     @Override
     protected void doInit() {
         LOGGER.info("Initialising patient resource starts");
         try {
             patientRepository =
-                    new PatientRepository (JpaUtil.getEntityManager()) ;
+                    new PatientRepository(JpaUtil.getEntityManager());
             id = Long.parseLong(getAttribute("id"));
 
-        }
-        catch(Exception e)
-        {
-            id =-1;
+        } catch (Exception e) {
+            id = -1;
         }
 
         LOGGER.info("Initialising patient resource ends");
@@ -81,12 +82,17 @@ public class PatientResourceImpl extends ServerResource implements PatientResour
     }
 
     @Override
-    public void remove()  {
+    public void deletePatient() throws NotFoundException {
 
     }
 
     @Override
-    public PatientRepresentation createPatient(PatientRepresentation patientRepresentationIn)  throws BadEntityException {
+    public PatientRepresentation updatePatient(PatientRepresentation patientRepresentationIn) throws BadEntityException {
+        return null;
+    }
+
+    @Override
+    public PatientRepresentation addPatient(PatientRepresentation patientRepresentationIn) throws BadEntityException {
 
         LOGGER.finer("Add a new patient into system.");
         // Check authorization
@@ -105,15 +111,17 @@ public class PatientResourceImpl extends ServerResource implements PatientResour
             // Convert CompanyRepresentation to Company
             Patient patientIn = new Patient();
 
-
+            Doctor d = new Doctor();
+            d.setId(1);
             patientIn.setUsername(patientRepresentationIn.getUsername());
             patientIn.setFirstName(patientRepresentationIn.getFirstName());
             patientIn.setLastName(patientRepresentationIn.getLastName());
             patientIn.setPhoneNumber(patientRepresentationIn.getPhoneNumber());
+            patientIn.setDoctor(d);
 
             Optional<Patient> patientOut =
                     patientRepository.save(patientIn);
-            Patient patient= null;
+            Patient patient = null;
             if (patientOut.isPresent())
                 patient = patientOut.get();
             else
@@ -124,14 +132,17 @@ public class PatientResourceImpl extends ServerResource implements PatientResour
                     new PatientRepresentation();
             result.setUsername(patientRepresentationIn.getUsername());
             result.setFirstName(patientRepresentationIn.getFirstName());
-            result.setLastName(patientRepresentationIn.getLastName());;
+            result.setLastName(patientRepresentationIn.getLastName());
+            result.setDoctorId(patientRepresentationIn.getDoctorId());
+
+
             result.setZipCode("23");
             result.setPhoneNumber("4234");
 
-            result.setUri("http://localhost:9000/v1/patient/"+patient.getId());
+            result.setUri("http://localhost:9000/v1/patient/" + patient.getId());
 
             getResponse().setLocationRef(
-                    "http://localhost:9000/v1/patient/"+patient.getId());
+                    "http://localhost:9000/v1/patient/" + patient.getId());
             getResponse().setStatus(Status.SUCCESS_CREATED);
 
             LOGGER.finer("Patient successfully added.");
@@ -143,8 +154,9 @@ public class PatientResourceImpl extends ServerResource implements PatientResour
             throw new ResourceException(ex);
         }
 
-
-
     }
+
+
+
 
 }
