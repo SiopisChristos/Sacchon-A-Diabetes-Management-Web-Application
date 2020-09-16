@@ -6,11 +6,12 @@ import com.pfizer.sacchon.representation.NoteRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
 import javassist.NotFoundException;
 import org.restlet.engine.Engine;
+import org.restlet.resource.ServerResource;
 
 import java.util.List;
 import java.util.logging.Logger;
 
-public class DoctorResourceImpl implements DoctorResource {
+public class DoctorResourceImpl extends ServerResource implements DoctorResource {
 
     public static final Logger LOGGER = Engine.getLogger(DoctorResourceImpl.class);
 
