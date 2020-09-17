@@ -1,5 +1,6 @@
 package com.pfizer.sacchon.repository;
 
+import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.model.Note;
 import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.model.Doctor;
@@ -17,6 +18,7 @@ public class DoctorRepository {
 
     // TODO: 17/9/2020
     // hasRightToSee method
+
 
 
     /**
@@ -104,7 +106,7 @@ public class DoctorRepository {
      * Deleting a doctor from the Db
      *
      * @param id The doctor to be deleted
-     * @return False if deleting has been completed, else true
+     * @return True if deleting has been completed, else false
      */
     public boolean removeDoctor(Long id){
         Optional<Doctor> thedoctor = findDoctorById(id);
@@ -114,12 +116,13 @@ public class DoctorRepository {
                 entityManager.getTransaction().begin();
                 entityManager.remove(d);
                 entityManager.getTransaction().commit();
-
+                return true;
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
-        return true;
+        return false;
     }
 
 
@@ -155,5 +158,25 @@ public class DoctorRepository {
             Doctor doctor = entityManager.find(Doctor.class, id);
             return doctor != null ? Optional.of(doctor) : Optional.empty();
         }
+
+    /**
+     * find a Patient record by ID
+     * @param patient_id
+     * @return  Optional of Patient or empty
+     */
+    public Optional<Patient> findPatientById(long patient_id) {
+        Patient patient =  entityManager.find(Patient.class, patient_id);
+        return patient != null ? Optional.of(patient) : Optional.empty();
     }
+
+    public Optional<Note> findNoteById(long note_id) {
+        Note note =  entityManager.find(Note.class, note_id);
+        return note != null ? Optional.of(note) : Optional.empty();
+    }
+
+    public  <T> Optional<T>  findEntityById(T entity, long entity_id){
+        entity = (T) entityManager.find(entity.getClass(), entity_id);
+        return  (entity!= null) ? Optional.of(entity) : Optional.empty();
+    }
+}
 
