@@ -1,7 +1,6 @@
 package com.pfizer.sacchon.router;
 
-import com.pfizer.sacchon.resource.DoctorNoteImpl;
-import com.pfizer.sacchon.resource.PatientResourceImpl;
+import com.pfizer.sacchon.resource.DoctorRecordsImpl;
 import com.pfizer.sacchon.resource.PingServerResource;
 import org.restlet.Application;
 import org.restlet.routing.Router;
@@ -19,12 +18,8 @@ public class CustomRouterDoctor {
 
         Router router = new Router(application.getContext());
 
-        router.attach("/consultation", DoctorNoteImpl.class); //POST note
-        router.attach("/consultation/{id}", DoctorNoteImpl.class); //GET, UPDATE note
-        router.attach("/ping",PingServerResource.class);
-
-
-
+        router.attach("/record", DoctorRecordsImpl.class); //POST note
+        router.attach("/record/{id}", DoctorRecordsImpl.class); //GET patientRecords, UPDATE note
 
         return router;
     }
