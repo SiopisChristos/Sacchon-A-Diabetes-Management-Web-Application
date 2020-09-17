@@ -5,6 +5,7 @@ import com.pfizer.sacchon.security.dao.ApplicationUserPersistence;
 import org.restlet.Request;
 import org.restlet.security.Role;
 import org.restlet.security.SecretVerifier;
+import org.restlet.security.User;
 
 import java.sql.SQLException;
 
@@ -25,6 +26,9 @@ public class CustomVerifier extends SecretVerifier {
                 && compare(user.getPassword().toCharArray(), secret)) {
             Request request = Request.getCurrent();
             request.getClientInfo().getRoles().add(new Role(user.getRole().getRoleName()));
+
+            //Add Username of the User to Request
+            request.getClientInfo().setUser(new User(user.getUsername()));
             return SecretVerifier.RESULT_VALID;
         } else {
             return SecretVerifier.RESULT_INVALID;
