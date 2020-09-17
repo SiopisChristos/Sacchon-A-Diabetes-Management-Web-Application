@@ -11,6 +11,7 @@ import java.util.Date;
 public class GlucoseRepresentation {
     private Date dateTime;
     private double measurement;
+    private long patient_id;
 
     public GlucoseRepresentation(Glucose glucose) {
         if (glucose != null) {

@@ -17,6 +17,7 @@ public class PatientRepresentation {
     private String phoneNumber;
     private String username;
     private Date dateOfBirth;
+    private long doctor_id;
 
 
     public PatientRepresentation(Patient patient) {

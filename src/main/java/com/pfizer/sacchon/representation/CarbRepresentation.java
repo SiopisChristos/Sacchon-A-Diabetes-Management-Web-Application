@@ -11,6 +11,7 @@ import java.util.Date;
 public class CarbRepresentation {
     private double gram;
     private Date date;
+    private long patient_id;
 
     public CarbRepresentation(Carb carb) {
         if (carb != null) {
