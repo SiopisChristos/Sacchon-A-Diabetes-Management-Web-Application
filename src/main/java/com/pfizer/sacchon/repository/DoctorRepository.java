@@ -1,18 +1,15 @@
 package com.pfizer.sacchon.repository;
 
-import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotAuthorizedException;
-import com.pfizer.sacchon.model.*;
-import com.pfizer.sacchon.representation.CarbRepresentation;
-import com.pfizer.sacchon.representation.GlucoseRepresentation;
-import com.pfizer.sacchon.representation.NoteRepresentation;
-import org.restlet.resource.ServerResource;
+import com.pfizer.sacchon.model.Doctor;
+import com.pfizer.sacchon.model.Patient;
+import com.pfizer.sacchon.security.dao.DatabaseCredentials;
+import org.restlet.Context;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.sql.*;
+import java.util.List;
+import java.util.Optional;
 
 public class DoctorRepository {
 
@@ -21,9 +18,6 @@ public class DoctorRepository {
     public DoctorRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
-    // TODO: 17/9/2020
-    // hasRightToSee method
 
 
     /**
@@ -48,8 +42,6 @@ public class DoctorRepository {
     }
 
 
-
-
     /**
      * Checks if a patient is under supervision of a specific doctor
      *
@@ -72,7 +64,7 @@ public class DoctorRepository {
     public boolean isFreePatient(long patient_id) {
         Patient patient = (Patient) entityManager.createQuery(
                 "from Patient where doctor_id is null and patient_id = :id").
-                setParameter("id",patient_id).getSingleResult();
+                setParameter("id", patient_id).getSingleResult();
         if (!patient.equals(null))
             return true;
         return false;
@@ -97,28 +89,31 @@ public class DoctorRepository {
     }
 
 
-    /**
-     * Deleting a doctor from the Db
-     *
-     * @param id The doctor to be deleted
-     * @return True if deleting has been completed, else false
-     */
-    public boolean removeDoctor(Long id) {
-        Optional<Doctor> oDoctor = findDoctorById(id);
-        if (oDoctor.isPresent()) {
-            Doctor doctor = oDoctor.get();
-            try {
-                entityManager.getTransaction().begin();
-                entityManager.remove(doctor);
-                entityManager.getTransaction().commit();
+    public boolean removeDoctor(String username) throws SQLException {
+
+        Context.getCurrentLogger().finer(
+                "Method findById() of ApplicationUserPersistence called.");
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(DatabaseCredentials.URL, DatabaseCredentials.USER, DatabaseCredentials.PASSWORD);
+
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("delete from UserTable where username=?");
+            preparedStatement.setString(1, username);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (connection != null) {
+                connection.close();
                 return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
             }
         }
-        return false;
     }
+
 
 
     /**

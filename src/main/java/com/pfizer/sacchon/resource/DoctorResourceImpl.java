@@ -5,6 +5,7 @@ import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.repository.DoctorRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.DoctorRepresentation;
+import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
@@ -12,6 +13,9 @@ import org.restlet.resource.ServerResource;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.pfizer.sacchon.repository.util.EntityUtil.findEntityById;
+import static com.pfizer.sacchon.repository.util.EntityUtil.getFromOptionalEntityById;
 
 public class DoctorResourceImpl extends ServerResource implements DoctorResource {
 
@@ -66,19 +70,33 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
 
 
     @Override
-    public boolean removeDoctor() throws NotFoundException {
+    public void removeDoctor() throws NotFoundException {
             LOGGER.finer("delete doctor");
 
-        DoctorRepository doctorRepository = new DoctorRepository(JpaUtil.getEntityManager());
+        doctorRepository = new DoctorRepository(JpaUtil.getEntityManager());
 
-            try {
-                Boolean isDeleted = doctorRepository.removeDoctor(id);
+        try {
 
-            } catch (Exception ex) {
-                LOGGER.log(Level.WARNING, "Error when removing a product", ex);
-                throw new ResourceException(ex);
+            Doctor doctor = getFromOptionalEntityById(
+                    findEntityById(new Doctor(), JpaUtil.getEntityManager(), id),
+                    this,
+                    LOGGER);
+
+            ResourceAuthorization.checkUserAuthorization(doctor.getUsername());
+
+            Boolean isDeleted = doctorRepository.removeDoctor(doctor.getUsername());
+
+
+            if (!isDeleted) {
+                LOGGER.config("Doctor id does not exist");
+                throw new NotFoundException(
+                        "Doctor with the following identifier does not exist:"
+                                + id);
             }
-        return false;
-    }
+            LOGGER.finer("Doctor successfully removed.");
 
-    }
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error when removing a doctor", ex);
+            throw new ResourceException(ex);
+        }
+    }}

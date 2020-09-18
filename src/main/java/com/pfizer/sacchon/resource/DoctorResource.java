@@ -11,7 +11,7 @@ public interface DoctorResource {
     public DoctorRepresentation getDoctor() throws NotFoundException;
 
     @Delete
-    boolean removeDoctor() throws NotFoundException;
+    void removeDoctor() throws NotFoundException;
 
 
 
