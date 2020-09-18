@@ -1,5 +1,6 @@
 package com.pfizer.sacchon.router;
 
+import com.pfizer.sacchon.resource.DoctorRecordsImpl;
 import com.pfizer.sacchon.resource.DoctorResourceImpl;
 import com.pfizer.sacchon.resource.PatientResourceImpl;
 import com.pfizer.sacchon.resource.PingServerResource;
@@ -21,6 +22,9 @@ public class CustomRouter {
 
         router.attach("/patient/{id}", PatientResourceImpl.class);
         router.attach("/doctor/{id}", DoctorResourceImpl.class); //delete doctor's account
+
+        router.attach("/record", DoctorRecordsImpl.class); //POST note
+        router.attach("/record/{id}", DoctorRecordsImpl.class); //GET patientRecords, UPDATE note
 //        router.attach("/doctor/patient",DoctorResourceImpl.class); //view all patients (his, new and old without doctor)
 //        router.attach("/doctor/patient/{id}",DoctorResourceImpl.class); //view and edit patient's data
         return router;

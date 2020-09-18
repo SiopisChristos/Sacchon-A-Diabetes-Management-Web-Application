@@ -66,7 +66,7 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
         }
     }
 
-
+    // TODO: 18/09/2020 remove from Patients the doctor 
     @Override
     public void removeDoctor() throws NotFoundException {
         LOGGER.finer("delete doctor");
