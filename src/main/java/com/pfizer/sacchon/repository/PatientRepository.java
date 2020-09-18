@@ -48,6 +48,16 @@ public class PatientRepository {
     }
 
     /**
+     * Find all patient of the system
+     *
+     * @return a list of patients
+     */
+    public List<Patient> findAll() {
+        return entityManager.createQuery("from Patient").getResultList();
+    }
+
+
+    /**
      * Save a patient into system(db)
      *
      * @param patient
@@ -73,15 +83,29 @@ public class PatientRepository {
      * @return boolean if database has been updated
      */
     public boolean updatePatient(Patient patient) {
+
         Patient in = entityManager.find(Patient.class, patient.getId());
-        in.setDoctor(patient.getDoctor());
-        in.setFirstName(patient.getFirstName());
-        in.setLastName(patient.getLastName());
-        in.setUsername(patient.getUsername());
-        in.setPhoneNumber(patient.getPhoneNumber());
-        in.setAddress(patient.getAddress());
-        in.setCity(patient.getCity());
-        in.setZipCode(patient.getZipCode());
+        if (patient.getFirstName() != null) {
+            in.setFirstName(patient.getFirstName());
+        }
+        if (patient.getLastName() != null) {
+            in.setLastName(patient.getLastName());
+        }
+        if (patient.getUsername() != null) {
+            in.setUsername(patient.getUsername());
+        }
+        if (patient.getPhoneNumber() != null) {
+            in.setPhoneNumber(patient.getPhoneNumber());
+        }
+        if (patient.getAddress() != null) {
+            in.setAddress(patient.getAddress());
+        }
+        if (patient.getDateOfBirth() != null) {
+            in.setDateOfBirth(patient.getDateOfBirth());
+        }
+        if(patient.getDoctor()!=null){
+            in.setDoctor(patient.getDoctor());
+        }
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(in);
@@ -93,39 +117,45 @@ public class PatientRepository {
         return false;
     }
 
-    /**
-     * Find all patient of the system
-     * @return a list of patients
-     */
-    public List<Patient> findAll() {
-        return entityManager.createQuery("from Patient").getResultList();
+
+
+    public boolean removePatient(long id) {
+        Patient in = entityManager.find(Patient.class, id);
+        if (in != null) {
+            in.setActive(false);
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.persist(in);
+                entityManager.getTransaction().commit();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+
     }
 
-
     /**
-     * Remove a patient-Set as Inactive
+     * Remove a patient account-Set it as Inactive
      *
      * @param id
      * @return true if db has been updated
      */
-    public boolean remove(Long id) {
+    public boolean removeFromSystem(Long id) {
         Optional<Patient> opatient = findById(id);
         if (opatient.isPresent()) {
             Patient p = opatient.get();
-            //    p.setIsActive(false);
+             p.setActive(false);
             try {
                 entityManager.getTransaction().begin();
-                entityManager.persist(p);
+                entityManager.remove(p);
                 entityManager.getTransaction().commit();
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         return true;
     }
-
 
 }

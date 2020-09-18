@@ -1,5 +1,6 @@
 package com.pfizer.sacchon.router;
 
+import com.pfizer.sacchon.resource.PatientListResourceImpl;
 import com.pfizer.sacchon.resource.PatientResourceImpl;
 import com.pfizer.sacchon.resource.PingServerResource;
 import org.restlet.Application;
@@ -19,7 +20,7 @@ public class CustomRouter {
         Router router = new Router(application.getContext());
 
         router.attach("/patient/{id}", PatientResourceImpl.class);
-        router.attach("/patient", PatientResourceImpl.class);
+        router.attach("/patient", PatientListResourceImpl.class);
         router.attach("/patient/", PatientResourceImpl.class);
         return router;
     }

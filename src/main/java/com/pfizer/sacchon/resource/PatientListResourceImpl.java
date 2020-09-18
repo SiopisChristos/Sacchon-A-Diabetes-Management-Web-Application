@@ -39,37 +39,31 @@ public class PatientListResourceImpl extends ServerResource implements PatientLi
         LOGGER.info("Initialising patient resource ends");
     }
 
-
-
-
-
+    /**
+     * Select a list of all Patients
+     * @return list of patients
+     * @throws NotFoundException
+     */
     @Override
-    public List<PatientRepresentation> getListPatients() throws NotFoundException {
+    public List<PatientRepresentation> getListPatients()
+            throws NotFoundException {
 
         LOGGER.finer("Select all patients.");
 
         // Check authorization
         ResourceUtils.checkRole(this, Shield.ROLE_USER);
-
         try {
-
             List<Patient> patients =
                     patientRepository.findAll();
             List<PatientRepresentation> result =
                     new ArrayList<>();
 
-
-
-
-            patients.forEach(patient ->
-                    result.add(new PatientRepresentation(patient)));
-
-
+            for(Patient p:patients)
+                result.add(new PatientRepresentation(p));
             return result;
         } catch (Exception e) {
             throw new NotFoundException("patients not found");
         }
-
-
     }
+
 }

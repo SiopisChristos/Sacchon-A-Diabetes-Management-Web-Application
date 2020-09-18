@@ -20,6 +20,7 @@ public class PatientRepresentation {
     private Date dateOfBirth;
     private Doctor doctorId;
     private boolean isActive;
+    private long id;
     /**
      * The URL of this resource.
      */
@@ -38,22 +39,26 @@ public class PatientRepresentation {
             dateOfBirth = patient.getDateOfBirth();
             doctorId = patient.getDoctor();
             isActive= true;
+          id=patient.getId();
             uri = "http://localhost:9000/v1/patient/" + patient.getId();
         }
     }
 
-    public Patient createPatient() {
-        Patient patient = new Patient();
-        patient.setUsername(username);
-        patient.setFirstName(firstName);
-        patient.setLastName(lastName);
-        patient.setAddress(address);
-        patient.setCity(city);
-        patient.setPhoneNumber(phoneNumber);
-        patient.setZipCode(zipCode);
-        patient.setDoctor(getDoctorId());
-        patient.setActive(true);
-        return patient;
-    }
+//    public Patient createPatient() {
+//        Patient patient = new Patient();
+//        patient.setUsername(username);
+//        patient.setActive(true);
+//        patient.setPhoneNumber(phoneNumber);
+//
+//        return patient;
+//    }
+//
+//
+//    public Patient updatePatient(){
+//        Patient p=new Patient();
+//        p.setUsername(username);
+//        p.setActive(true);
+//        return p;
+//    }
 
 }

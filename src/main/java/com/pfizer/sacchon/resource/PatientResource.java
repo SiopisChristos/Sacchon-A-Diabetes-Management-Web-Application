@@ -16,13 +16,16 @@ public interface PatientResource {
     PatientRepresentation getPatient() throws NotFoundException;
 
     @Delete
-    void deletePatient() throws NotFoundException;
+    Boolean removePatient() throws NotFoundException;
     //set isActive as false;
 
     @Put("json")
-    PatientRepresentation updatePatient(PatientRepresentation patientRepresentationIn)  throws BadEntityException ;
+    Boolean updatePatient(PatientRepresentation patientRepresentationIn)  throws BadEntityException ;
 
     @Post("json")
     PatientRepresentation addPatient(PatientRepresentation patientRepresentationIn) throws  BadEntityException;
+
+    @Put
+    Boolean deletePatient() throws NotFoundException;
 
 }
