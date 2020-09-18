@@ -1,19 +1,15 @@
 package com.pfizer.sacchon.repository;
 
-import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotAuthorizedException;
-import com.pfizer.sacchon.model.*;
-import com.pfizer.sacchon.representation.CarbRepresentation;
-import com.pfizer.sacchon.representation.GlucoseRepresentation;
-import com.pfizer.sacchon.representation.NoteRepresentation;
-import org.hibernate.NonUniqueResultException;
-import org.restlet.resource.ServerResource;
+import com.pfizer.sacchon.model.Doctor;
+import com.pfizer.sacchon.model.Patient;
+import com.pfizer.sacchon.security.dao.DatabaseCredentials;
+import org.restlet.Context;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.sql.*;
+import java.util.List;
+import java.util.Optional;
 
 public class DoctorRepository {
 
@@ -103,25 +99,34 @@ public class DoctorRepository {
     /**
      * Deleting a doctor from the Db
      *
-     * @param id The doctor to be deleted
+     * @param username The doctor to be deleted
      * @return True if deleting has been completed, else false
      */
-    public boolean removeDoctor(Long id) {
-        Optional<Doctor> oDoctor = findDoctorById(id);
-        if (oDoctor.isPresent()) {
-            Doctor doctor = oDoctor.get();
-            try {
-                entityManager.getTransaction().begin();
-                entityManager.remove(doctor);
-                entityManager.getTransaction().commit();
+    public boolean removeDoctor(String username) throws SQLException {
+
+        Context.getCurrentLogger().finer(
+                "Method findById() of ApplicationUserPersistence called.");
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(DatabaseCredentials.URL, DatabaseCredentials.USER, DatabaseCredentials.PASSWORD);
+
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("delete from UserTable where username=?");
+            preparedStatement.setString(1, username);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (connection != null) {
+                connection.close();
                 return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
             }
         }
-        return false;
     }
+
 
 
     /**

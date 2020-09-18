@@ -29,12 +29,10 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
 
         try {
             doctorRepository =
-                    new DoctorRepository (JpaUtil.getEntityManager()) ;
+                    new DoctorRepository(JpaUtil.getEntityManager());
             id = Long.parseLong(getAttribute("id"));
-        }
-        catch(Exception e)
-        {
-            id =-1;
+        } catch (Exception e) {
+            id = -1;
         }
         LOGGER.info("Initialising doctor resource ends");
     }
@@ -71,7 +69,7 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
 
     @Override
     public void removeDoctor() throws NotFoundException {
-            LOGGER.finer("delete doctor");
+        LOGGER.finer("delete doctor");
 
         doctorRepository = new DoctorRepository(JpaUtil.getEntityManager());
 
@@ -99,4 +97,5 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
             LOGGER.log(Level.WARNING, "Error when removing a doctor", ex);
             throw new ResourceException(ex);
         }
-    }}
+    }
+}
