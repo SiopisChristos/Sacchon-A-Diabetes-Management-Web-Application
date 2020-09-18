@@ -1,8 +1,10 @@
 package com.pfizer.sacchon.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -12,7 +14,9 @@ public class Carb {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
     private long gram;
-    private Date date;
+    @Basic
+    @Temporal(TemporalType.DATE)
+    private java.util.Date date;
     @ManyToOne
     @JoinColumn (name = "patient_id")
     private Patient patient;

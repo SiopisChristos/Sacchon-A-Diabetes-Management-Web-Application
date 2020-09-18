@@ -1,19 +1,23 @@
 package com.pfizer.sacchon.repository;
 
+import com.pfizer.sacchon.model.Carb;
 import com.pfizer.sacchon.model.Patient;
+import com.pfizer.sacchon.resource.PatientResourceImpl;
+import org.restlet.engine.Engine;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 public class PatientRepository {
+
     private EntityManager entityManager;
 
+    public PatientRepository(EntityManager entityManager) { this.entityManager = entityManager; }
 
-    public PatientRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
+    public static final Logger LOGGER = Engine.getLogger(PatientResourceImpl.class);
     /**
      * Search for patient with specific id
      *
@@ -54,7 +58,7 @@ public class PatientRepository {
      * @return empty Optional
      */
     public Optional<Patient> save(Patient patient) {
-
+        LOGGER.info("PatientRepository/save is in");
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(patient);
@@ -77,7 +81,7 @@ public class PatientRepository {
         in.setDoctor(patient.getDoctor());
         in.setFirstName(patient.getFirstName());
         in.setLastName(patient.getLastName());
-        in.setUsername(patient.getUsername());
+//        in.setUsername(patient.getUsername());
         in.setPhoneNumber(patient.getPhoneNumber());
         in.setAddress(patient.getAddress());
         in.setCity(patient.getCity());
@@ -127,5 +131,12 @@ public class PatientRepository {
         return true;
     }
 
+    public Optional<Carb> findAverageCarbIntake(Date startDate, Date endDate) {
+        Carb carb = entityManager.createQuery("SELECT avg(gram) FROM Carb c WHERE c.date >= :startDate AND c.date <= :endDate", Carb.class)
+                .setParameter("date", startDate)
+                .setParameter("date", endDate)
+                .getSingleResult();
+        return carb != null ? Optional.of(carb) : Optional.empty();
+    }
 
 }

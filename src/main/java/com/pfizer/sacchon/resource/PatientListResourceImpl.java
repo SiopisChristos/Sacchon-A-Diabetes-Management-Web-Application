@@ -5,7 +5,7 @@ import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.PatientRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.PatientRepresentation;
-import com.pfizer.sacchon.security.ResourceUtils;
+//import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
 import org.restlet.engine.Engine;
 import org.restlet.resource.ServerResource;
@@ -49,7 +49,7 @@ public class PatientListResourceImpl extends ServerResource implements PatientLi
         LOGGER.finer("Select all patients.");
 
         // Check authorization
-        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+//        ResourceUtils.checkRole(this, Shield.ROLE_USER);
 
         try {
 

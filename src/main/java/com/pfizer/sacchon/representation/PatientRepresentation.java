@@ -2,14 +2,20 @@ package com.pfizer.sacchon.representation;
 
 import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Patient;
+import com.pfizer.sacchon.resource.PatientResourceImpl;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.restlet.engine.Engine;
 
 import java.util.Date;
+import java.util.logging.Logger;
 
 @Data
 @NoArgsConstructor
 public class PatientRepresentation {
+
+    public static final Logger LOGGER = Engine.getLogger(PatientResourceImpl.class);
+
     private String firstName;
     private String lastName;
     private String address;
@@ -51,7 +57,7 @@ public class PatientRepresentation {
         patient.setCity(city);
         patient.setPhoneNumber(phoneNumber);
         patient.setZipCode(zipCode);
-        patient.setDoctor(getDoctorId());
+        patient.setDoctor(doctorId);
         patient.setActive(true);
         return patient;
     }
