@@ -8,6 +8,7 @@ import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.PatientRepresentation;
 import com.pfizer.sacchon.representation.RepresentationResponse;
 import com.pfizer.sacchon.resource.util.ResourceValidator;
+//import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
 import org.restlet.data.Status;
@@ -39,7 +40,7 @@ public class PatientResourceImpl extends ServerResource
             em = JpaUtil.getEntityManager();
             patientRepository =
                     new PatientRepository(em);
-//            id = Long.parseLong(getAttribute("id"));
+            id = Long.parseLong(getAttribute("id"));
 
         } catch (Exception ex) {
             throw new ResourceException(ex);
