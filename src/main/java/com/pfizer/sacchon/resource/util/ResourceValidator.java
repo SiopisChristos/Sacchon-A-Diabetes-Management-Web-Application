@@ -1,6 +1,7 @@
 package com.pfizer.sacchon.resource.util;
 
 import com.pfizer.sacchon.exception.BadEntityException;
+import com.pfizer.sacchon.representation.CarbRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
 
 public class ResourceValidator {

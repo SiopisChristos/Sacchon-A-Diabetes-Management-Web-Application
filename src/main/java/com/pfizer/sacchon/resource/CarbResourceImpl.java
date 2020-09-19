@@ -10,7 +10,7 @@ import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
-import java.sql.Date;
+import javax.persistence.EntityManager;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,54 +19,36 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
 
     public static final Logger LOGGER = Engine.getLogger(CarbResourceImpl.class);
 
-    private long id;
     private CarbRepository carbRepository;
+    private EntityManager entityManager;
+    private long id;
 
     @Override
-    protected void doInit() {
-        LOGGER.info("Initialising carb resource starts");
-        try {
-            carbRepository = new CarbRepository (JpaUtil.getEntityManager()) ;
-            id = Long.parseLong(getAttribute("id"));
-        }
-        catch(Exception e)
-        {
-            id =-1;
-        }
-        LOGGER.info("Initialising carb resource ends");
+    protected void doRelease(){
+        entityManager.close();
     }
 
-//    @Override
-//    public CarbRepresentation getCarbEntry() throws NotFoundException {
-//        LOGGER.info("Retrieve a carb entry");
-//        // Check authorization
-////        ResourceUtils.checkRole(this, Shield.ROLE_USER);
-//        // Initialize the persistence layer.
-//        CarbRepository carbRepository = new CarbRepository(JpaUtil.getEntityManager());
-//        Carb carb;
-//        try {
-//            Optional<Carb> optionalCarb = carbRepository.findById(id);
-//
-//            setExisting(optionalCarb.isPresent());
-//            if (!isExisting()) {
-//                LOGGER.config("Carb entry id does not exist:" + id);
-//                throw new NotFoundException("No carb entry id with  : " + id);
-//            } else {
-//                carb = optionalCarb.get();
-//                LOGGER.finer("User allowed to retrieve a carb entry id");
-//                CarbRepresentation result = new CarbRepresentation(carb);
-//                LOGGER.finer("Carb entry successfully retrieved");
-//
-//                return result;
-//            }
-//        } catch (Exception ex) {
-//            throw new ResourceException(ex);
-//        }
-//    }
+    /**
+     *Initialises Carb repository
+     */
+    @Override
+    protected void doInit() {
+        LOGGER.info("Initialising carb entry resource starts");
+        try {
+            entityManager = JpaUtil.getEntityManager();
+            carbRepository = new CarbRepository (entityManager) ;
+//            id = Long.parseLong(getAttribute("id"));
+        }
+        catch(Exception ex)
+        {
+            throw new ResourceException(ex);
+        }
+        LOGGER.info("Initialising carb entry resource ends");
+    }
 
     //The patient can store their data carb intake (measured in grams)
     @Override
-    public CarbRepresentation addCarb(CarbRepresentation carbRepresentationIn){
+    public CarbRepresentation addCarbEntry(CarbRepresentation carbRepresentationIn){
 
         LOGGER.info("Add a new carb entry.");
 
@@ -80,7 +62,7 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
 //        LOGGER.finer("Product checked");
 
         try {
-            // Convert CarbRepresentation to Carb
+            // Converts CarbRepresentation to Carb
             Carb carbIn = new Carb();
             carbIn.setGram(carbRepresentationIn.getGram());
             carbIn.setDate(carbRepresentationIn.getDate());
@@ -107,12 +89,5 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
             LOGGER.log(Level.WARNING, "Error when adding a new carb entry", ex);
             throw new ResourceException(ex);
         }
-    }
-
-    @Override
-    public Double getAverageCarbIntake(Long id) throws NotFoundException {
-        LOGGER.info("Select all carbs for specified period.");
-        Double optionalCarb = carbRepository.findAverageCarbIntake(Long.valueOf(1));
-        return optionalCarb;
     }
 }

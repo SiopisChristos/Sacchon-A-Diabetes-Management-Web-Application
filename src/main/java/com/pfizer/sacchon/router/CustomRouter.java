@@ -11,7 +11,6 @@ public class CustomRouter {
 
     public CustomRouter(Application application) {
         this.application = application;
-
     }
 
     public Router createApiRouter() {
@@ -25,10 +24,7 @@ public class CustomRouter {
         router.attach("/patient/carb/", CarbResourceImpl.class);
 
         //The patient can view their average carb intake over a user-specified period *required*
-        router.attach("/patient/carb/{id}", CarbResourceImpl.class);
-
-        //Returns carb entry id (testing purposes) *NOT required*
-//        router.attach("/patient/carb/{id}", CarbResourceImpl.class);
+        router.attach("/patient/carb/date", CarbListResourceImpl.class);
 
         //The patient can store their data blood glucose level (date, time, measured in mg/dL) *required*
         router.attach("/patient/glucose/", GlucoseResourceImpl.class);
@@ -37,7 +33,6 @@ public class CustomRouter {
         router.attach("/patient/note/", NoteListResourceImpl.class);
         return router;
     }
-
 
     public Router publicResources() {
         Router router = new Router();
