@@ -6,6 +6,7 @@ import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.PatientRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.PatientRepresentation;
+import com.pfizer.sacchon.representation.RepresentationResponse;
 import com.pfizer.sacchon.resource.util.ResourceValidator;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
@@ -14,25 +15,34 @@ import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
+import javax.persistence.EntityManager;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PatientResourceImpl extends ServerResource implements PatientResource {
+public class PatientResourceImpl extends ServerResource
+        implements PatientResource {
     public static final Logger LOGGER = Engine.getLogger(PatientResourceImpl.class);
     private long id;
     private PatientRepository patientRepository;
+    private EntityManager em;
+
+    @Override
+    protected void doRelease() {
+        em.close();
+    }
 
     @Override
     protected void doInit() {
         LOGGER.info("Initialising patient resource starts");
         try {
+            em = JpaUtil.getEntityManager();
             patientRepository =
-                    new PatientRepository(JpaUtil.getEntityManager());
-            id = Long.parseLong(getAttribute("id"));
+                    new PatientRepository(em);
+//            id = Long.parseLong(getAttribute("id"));
 
-        } catch (Exception e) {
-            id = -1;
+        } catch (Exception ex) {
+            throw new ResourceException(ex);
         }
 
         LOGGER.info("Initialising patient resource ends");
@@ -45,73 +55,82 @@ public class PatientResourceImpl extends ServerResource implements PatientResour
      * @throws NotFoundException
      */
     @Override
-    public PatientRepresentation getPatient() throws NotFoundException {
+    public RepresentationResponse<PatientRepresentation> getPatient()
+            throws NotFoundException {
         LOGGER.info("Retrieve a patient");
+        id = Long.parseLong(getAttribute("id"));
         // Check authorization
         ResourceUtils.checkRole(this, Shield.ROLE_USER);
         // Initialize the persistence layer.
-        PatientRepository patientRepository = new PatientRepository(JpaUtil.getEntityManager());
-
         try {
             Optional<Patient> oPatient = patientRepository.findById(id);
             setExisting(oPatient.isPresent());
             if (!isExisting()) {
-                LOGGER.config("patient id does not exist:" + id);
-                throw new NotFoundException("No patient with  : " + id);
+                LOGGER.config("Patient id does not exist:" + id);
+                return new RepresentationResponse<>(404,
+                        "Not Found", null);
             } else {
                 LOGGER.finer("User allowed to retrieve a patient");
                 PatientRepresentation result =
                         new PatientRepresentation(oPatient.get());
                 LOGGER.finer("Patient successfully retrieved");
 
-                return result;
+                return new RepresentationResponse<>(200,
+                        "OK", result);
             }
         } catch (Exception ex) {
-            throw new ResourceException(ex);
+            throw new NotFoundException("Not found");
         }
     }
 
     /**
-     * Delete a patient from system
+     * Set a patient as inActive
      *
      * @return true if patient deleted successfully
      * @throws NotFoundException
      */
     @Override
-    public Boolean deletePatient() throws NotFoundException {
+    public RepresentationResponse<Boolean> deletePatient()
+            throws NotFoundException {
         LOGGER.finer("Delete patient");
-        PatientRepository patientRepository = new PatientRepository(JpaUtil.getEntityManager());
+        id = Long.parseLong(getAttribute("id"));
+        PatientRepository patientRepository =
+                new PatientRepository(em);
         try {
-            Patient p=new Patient();
-            p.setId(id);
+            Patient p = new Patient();
             p.setActive(false);
-            patientRepository.updatePatient(p);
-            return true;
+            if (patientRepository.removePatient(id))
+                return new RepresentationResponse(200, "OK", true);
+            else new RepresentationResponse(200, "OK", false);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when removing a patient", ex);
             throw new ResourceException(ex);
         }
+        return null;
     }
 
     /**
      * Update data of an existing patient
+     *
      * @param patientRepresentationIn
      * @return boolean
      * @throws BadEntityException
      */
     @Override
-    public Boolean updatePatient(PatientRepresentation patientRepresentationIn) throws BadEntityException {
+    public RepresentationResponse<Boolean> updatePatient
+    (PatientRepresentation patientRepresentationIn)
+            throws BadEntityException {
         ResourceUtils.checkRole(this, Shield.ROLE_USER);
         ResourceValidator.notNull(patientRepresentationIn);
         LOGGER.finer("Company checked");
+        id = Long.parseLong(getAttribute("id"));
         try {
-            Patient patientIn = dataReturn(patientRepresentationIn);
-            patientIn.setId(id);
-            boolean p = patientRepository.updatePatient(patientIn);
-            if (p == true) {
-                return true;
+            Patient patientIn = PatientRepresentation
+                    .updatePatient(patientRepresentationIn);
+            if (patientRepository.updatePatient(patientIn, id)) {
+                return new RepresentationResponse<>(200, "OK", true);
             } else {
-                return false;
+                return new RepresentationResponse<>(500, "Bad request", false);
             }
         } catch (Exception ex1) {
             {
@@ -119,38 +138,6 @@ public class PatientResourceImpl extends ServerResource implements PatientResour
                         BadEntityException(" Patient has not been created");
             }
         }
-    }
-
-    public static Patient dataReturn(PatientRepresentation patientRep) {
-        Patient patientIn = new Patient();
-        if (patientRep.getFirstName() != null) {
-            patientIn.setFirstName(patientRep.getFirstName());
-        }
-        if (patientRep.getLastName() != null) {
-            patientIn.setLastName(patientRep.getLastName());
-        }
-        if (patientRep.getUsername() != null) {
-            patientIn.setUsername(patientRep.getUsername());
-        }
-        if (patientRep.getAddress() != null) {
-            patientIn.setAddress(patientRep.getAddress());
-        }
-        if (patientRep.getCity() != null) {
-            patientIn.setCity(patientRep.getCity());
-        }
-        if (patientRep.getZipCode() != null) {
-            patientIn.setZipCode(patientRep.getZipCode());
-        }
-        if (patientRep.getDateOfBirth() != null) {
-            patientIn.setDateOfBirth(patientRep.getDateOfBirth());
-        }
-        if (patientRep.getPhoneNumber() != null) {
-            patientIn.setPhoneNumber(patientRep.getPhoneNumber());
-        }
-        if (patientRep.getDoctorId() != null) {
-            patientIn.setDoctor(patientRep.getDoctorId());
-        }
-        return patientIn;
     }
 
 
@@ -162,9 +149,9 @@ public class PatientResourceImpl extends ServerResource implements PatientResour
      * @throws BadEntityException
      */
     @Override
-    public PatientRepresentation addPatient(PatientRepresentation patientRepresentationIn) throws
-            BadEntityException {
-
+    public RepresentationResponse<PatientRepresentation> addPatient
+    (PatientRepresentation patientRepresentationIn)
+            throws BadEntityException {
         LOGGER.finer("Add a new patient into system.");
         // Check authorization
         ResourceUtils.checkRole(this, Shield.ROLE_USER);
@@ -175,69 +162,50 @@ public class PatientResourceImpl extends ServerResource implements PatientResour
         // Check entity
         LOGGER.finer("Patient checked");
         try {
-
             // Convert PatientRepresentation to Patient
-            Patient patientIn = dataReturn(patientRepresentationIn);
+            Patient patientIn = patientRepresentationIn.createPatient();
             Optional<Patient> patientOut =
                     patientRepository.save(patientIn);
             Patient patient = null;
             if (patientOut.isPresent())
                 patient = patientOut.get();
             else
-                throw new
-                        BadEntityException(" Patient has not been created");
-            PatientRepresentation result = initData(patientIn);
-
+                throw new BadEntityException(" Patient has not been created");
+            PatientRepresentation result = PatientRepresentation.initData(patientIn);
             result.setUri("http://localhost:9000/v1/patient/" + patient.getId());
             getResponse().setLocationRef(
                     "http://localhost:9000/v1/patient/" + patient.getId());
             getResponse().setStatus(Status.SUCCESS_CREATED);
             LOGGER.finer("Patient successfully added.");
-
-            return result;
+            return new RepresentationResponse<>(200,"OK",result);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when adding a patient", ex);
-
             throw new ResourceException(ex);
         }
 
     }
 
-    public static PatientRepresentation initData(Patient newPatient) {
-        PatientRepresentation result =
-                new PatientRepresentation();
-        result.setUsername(newPatient.getUsername());
-        result.setFirstName(newPatient.getFirstName());
-        result.setLastName(newPatient.getLastName());
-        result.setAddress(newPatient.getAddress());
-        result.setPhoneNumber(newPatient.getPhoneNumber());
-        result.setCity(newPatient.getCity());
-        result.setDoctorId(newPatient.getDoctor());
-        result.setActive(true);
-        return result;
-    }
 
     /**
-     * Set a patient as inActive
+     * Delete a patient from system
      *
      * @return
      * @throws NotFoundException
      */
     @Override
-    public Boolean removePatient() throws NotFoundException {
+    public RepresentationResponse<Boolean> removePatient() throws NotFoundException {
         try {
-            boolean p = patientRepository.removePatient(id);
-            if (p == true) {
-                return true;
-            } else {
-                return false;
+            id = Long.parseLong(getAttribute("id"));
+            if (patientRepository.findById(id).isPresent()) {
+                boolean p = patientRepository.removeFromSystem(id);
+                return new RepresentationResponse<>(200,"OK",p);
             }
         } catch (Exception ex1) {
             {
-                throw new
-                        NotFoundException(" Patient has not been created");
+                return new RepresentationResponse<Boolean>(400,"Bad Request",false);
             }
         }
+        return new RepresentationResponse<Boolean>(400,"Bad Request",false);
     }
 
 }

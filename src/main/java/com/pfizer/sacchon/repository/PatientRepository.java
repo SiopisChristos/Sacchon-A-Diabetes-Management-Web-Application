@@ -82,9 +82,9 @@ public class PatientRepository {
      * @param patient
      * @return boolean if database has been updated
      */
-    public boolean updatePatient(Patient patient) {
+    public boolean updatePatient(Patient patient,long id) {
 
-        Patient in = entityManager.find(Patient.class, patient.getId());
+        Patient in = entityManager.find(Patient.class, id);
         if (patient.getFirstName() != null) {
             in.setFirstName(patient.getFirstName());
         }
