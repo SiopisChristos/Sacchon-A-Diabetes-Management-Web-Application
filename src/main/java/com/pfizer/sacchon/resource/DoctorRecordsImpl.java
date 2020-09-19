@@ -15,6 +15,7 @@ import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,11 +29,18 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
     private DoctorRepository doctorRepository;
     private RecordsRepository recordsRepository;
     private long id;
+    private EntityManager entityManager;
+
+    @Override
+    protected void doRelease() {
+        entityManager.close();
+    }
 
     @Override
     protected void doInit() {
         LOGGER.info("Initialising product resource starts");
         try {
+            entityManager = JpaUtil.getEntityManager();
             id = Long.parseLong(getAttribute("id"));
         } catch (Exception e) {
             id = -1;
@@ -54,12 +62,13 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
     @Override
     public List[] patientAllRecords() throws ResourceException {
         LOGGER.info("Retrieve a patient record");
-        String username = ResourceAuthorization.currentUserToUsername();
         try {
+            String username = ResourceAuthorization.currentUserToUsername();
+
             doctorRepository =
-                    new DoctorRepository(JpaUtil.getEntityManager());
+                    new DoctorRepository(entityManager);
             recordsRepository =
-                    new RecordsRepository(JpaUtil.getEntityManager());
+                    new RecordsRepository(entityManager);
 
             Doctor doctor = getFromOptionalEntityById(
                     doctorRepository.findDoctorByUsername(username), this, LOGGER);
@@ -87,17 +96,17 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
         LOGGER.info("Post a note");
         try {
             doctorRepository =
-                    new DoctorRepository(JpaUtil.getEntityManager());
+                    new DoctorRepository(entityManager);
             recordsRepository =
-                    new RecordsRepository(JpaUtil.getEntityManager());
+                    new RecordsRepository(entityManager);
 
             Patient patient = getFromOptionalEntityById(
-                    findEntityById(new Patient(), JpaUtil.getEntityManager(), noteReprIn.getPatient_id()),
+                    findEntityById(new Patient(), entityManager, noteReprIn.getPatient_id()),
                     this,
                     LOGGER);
 
             Doctor doctor = getFromOptionalEntityById(
-                    findEntityById(new Doctor(), JpaUtil.getEntityManager(), noteReprIn.getDoctor_id()),
+                    findEntityById(new Doctor(), entityManager, noteReprIn.getDoctor_id()),
                     this,
                     LOGGER);
 
@@ -129,17 +138,17 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
                     new RecordsRepository(JpaUtil.getEntityManager());
 
             Patient patient = getFromOptionalEntityById(
-                    findEntityById(new Patient(), JpaUtil.getEntityManager(), noteReprIn.getPatient_id()),
+                    findEntityById(new Patient(), entityManager, noteReprIn.getPatient_id()),
                     this,
                     LOGGER);
 
             Doctor doctor = getFromOptionalEntityById(
-                    findEntityById(new Doctor(), JpaUtil.getEntityManager(), noteReprIn.getDoctor_id()),
+                    findEntityById(new Doctor(), entityManager, noteReprIn.getDoctor_id()),
                     this,
                     LOGGER);
 
             Note oldNote = getFromOptionalEntityById(
-                    findEntityById(new Note(), JpaUtil.getEntityManager(), id),
+                    findEntityById(new Note(), entityManager, id),
                     this,
                     LOGGER);
             Note noteIn = noteReprIn.createNote(patient, doctor);
@@ -153,7 +162,8 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ResourceException(e);
+            // TODO: 9/19/2020 Send a Representation Response
+            return false;
         }
     }
 }

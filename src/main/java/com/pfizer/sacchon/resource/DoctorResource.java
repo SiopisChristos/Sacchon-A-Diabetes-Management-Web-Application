@@ -2,13 +2,17 @@ package com.pfizer.sacchon.resource;
 
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.representation.DoctorRepresentation;
+import com.pfizer.sacchon.representation.PatientRepresentation;
 import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
+
+import java.util.List;
 
 public interface DoctorResource {
 
     @Get("json")
-    public DoctorRepresentation getDoctor() throws NotFoundException;
+    List<PatientRepresentation> getFreePatients();
+//    public DoctorRepresentation getDoctor() throws NotFoundException;
 
     @Delete
     void removeDoctor() throws NotFoundException;

@@ -21,12 +21,12 @@ public class CustomRouter {
         Router router = new Router(application.getContext());
 
         router.attach("/patient/{id}", PatientResourceImpl.class);
+        router.attach("/doctor", DoctorResourceImpl.class);
         router.attach("/doctor/{id}", DoctorResourceImpl.class); //delete doctor's account
 
-        router.attach("/record", DoctorRecordsImpl.class); //POST note
+        router.attach("/note", DoctorRecordsImpl.class); //POST note
         router.attach("/record/{id}", DoctorRecordsImpl.class); //GET patientRecords, UPDATE note
-//        router.attach("/doctor/patient",DoctorResourceImpl.class); //view all patients (his, new and old without doctor)
-//        router.attach("/doctor/patient/{id}",DoctorResourceImpl.class); //view and edit patient's data
+
         return router;
     }
 
