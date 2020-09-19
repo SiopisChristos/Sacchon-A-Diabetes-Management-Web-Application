@@ -1,6 +1,7 @@
 package com.pfizer.sacchon.router;
-
-import com.pfizer.sacchon.repository.CarbRepository;
+import com.pfizer.sacchon.resource.PatientListResourceImpl;
+import com.pfizer.sacchon.resource.PatientResourceImpl;
+import com.pfizer.sacchon.resource.PingServerResource;
 import com.pfizer.sacchon.resource.*;
 import org.restlet.Application;
 import org.restlet.routing.Router;
@@ -11,6 +12,7 @@ public class CustomRouter {
 
     public CustomRouter(Application application) {
         this.application = application;
+
     }
 
     public Router createApiRouter() {
@@ -18,7 +20,9 @@ public class CustomRouter {
         Router router = new Router(application.getContext());
 
         router.attach("/patient/{id}", PatientResourceImpl.class);
+        router.attach("/patient", PatientResourceImpl.class);
         router.attach("/patient/", PatientResourceImpl.class);
+
 
         //The patient can store their data carb intake (measured in grams) *required*
         router.attach("/patient/carb/", CarbResourceImpl.class);
@@ -33,6 +37,7 @@ public class CustomRouter {
         router.attach("/patient/note/", NoteListResourceImpl.class);
         return router;
     }
+
 
     public Router publicResources() {
         Router router = new Router();

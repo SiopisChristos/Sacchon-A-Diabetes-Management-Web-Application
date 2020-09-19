@@ -20,17 +20,38 @@ public class ResourceValidator {
     }
 
     /**
-     * d.
+     * Some checks to validate data of patient
      *
      * @param patientRepresentation
      * @throws BadEntityException
      */
     public static void validate(PatientRepresentation patientRepresentation)
             throws BadEntityException {
-        if ( patientRepresentation.getFirstName()==null) {
-            throw new BadEntityException(
-                    "patient name cannot be null");
-        }
+//        if ( patientRepresentation.getFirstName()==null) {
+//            throw new BadEntityException(
+//                    "patient name cannot be null");
+//        }
+//        if ( patientRepresentation.getLastName()==null) {
+//            throw new BadEntityException(
+//                    "patient name cannot be null");
+//        }
+//        if ( patientRepresentation.getPhoneNumber().length()!=10 && patientRepresentation.getPhoneNumber()!=null) {
+//            throw new BadEntityException(
+//                    "patient invalid phone number");
+//        }
+//        if ( patientRepresentation.getUsername()==null) {
+//            throw new BadEntityException(
+//                    "patient username cannot be null");
+//        }
+//        if ( patientRepresentation.getAddress()==null) {
+//            throw new BadEntityException(
+//                    "patient address cannot be null");
+//        }
+//        if ( patientRepresentation.getCity()==null) {
+//            throw new BadEntityException(
+//                    "patient city cannot be null");
+//        }
+//
     }
 
 }
