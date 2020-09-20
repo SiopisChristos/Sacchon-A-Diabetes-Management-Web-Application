@@ -37,6 +37,29 @@ public class RecordsRepository {
     }
 
 
+
+
+    /**
+     * Updates the seen property of a note
+     *
+     * @param note the updated note
+     * @return True if updating has been completed, else false
+     */
+    public boolean updateNoteSeen(Note note) {
+        Note in = entityManager.find(Note.class, note.getId());
+        in.setSeen(true);
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(in);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     /**
      * Updates an existing note in Db
      *
@@ -49,6 +72,7 @@ public class RecordsRepository {
         in.setDate(note.getDate());
         in.setDoctor(note.getDoctor());
         in.setPatient(note.getPatient());
+        in.setSeen(false);
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(in);

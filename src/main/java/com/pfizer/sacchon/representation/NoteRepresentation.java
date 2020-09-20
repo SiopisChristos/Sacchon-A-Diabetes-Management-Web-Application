@@ -16,6 +16,9 @@ public class NoteRepresentation {
     private Date date;
     private long patient_id;
     private long doctor_id;
+    private boolean seen;
+    private String patientLastname;
+    private String doctorLastname;
 
     public NoteRepresentation(Note note) {
         if (note != null) {
@@ -23,6 +26,8 @@ public class NoteRepresentation {
             date = note.getDate();
             patient_id = note.getPatient().getId();
             doctor_id = note.getDoctor().getId();
+            patientLastname = note.getPatient().getLastName();
+            doctorLastname = note.getDoctor().getLastName();
         }
     }
 
