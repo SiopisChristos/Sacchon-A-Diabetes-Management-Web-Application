@@ -20,7 +20,6 @@ public class Patient {
     private String lastName;
     private String address;
     private String city;
-    private String zipCode;
     private String phoneNumber;
     private Date dateOfBirth;
     private boolean isActive;

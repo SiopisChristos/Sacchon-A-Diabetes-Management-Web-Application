@@ -13,7 +13,6 @@ public class PatientRepresentation {
     private String lastName;
     private String address;
     private String city;
-    private String zipCode;
     private String phoneNumber;
     private String username;
     private Date dateOfBirth;
@@ -32,7 +31,6 @@ public class PatientRepresentation {
             lastName = patient.getLastName();
             address = patient.getAddress();
             city = patient.getCity();
-            zipCode = patient.getZipCode();
             phoneNumber = patient.getPhoneNumber();
             username = patient.getUsername();
             dateOfBirth = patient.getDateOfBirth();
@@ -53,7 +51,6 @@ public class PatientRepresentation {
         patient.setAddress(address);
         patient.setPhoneNumber(phoneNumber);
         patient.setCity(city);
-        patient.setZipCode(zipCode);
         patient.setActive(true);
         return patient;
     }
@@ -75,9 +72,6 @@ public class PatientRepresentation {
         }
         if (patientRep.getCity() != null) {
             patientIn.setCity(patientRep.getCity());
-        }
-        if (patientRep.getZipCode() != null) {
-            patientIn.setZipCode(patientRep.getZipCode());
         }
         if (patientRep.getDateOfBirth() != null) {
             patientIn.setDateOfBirth(patientRep.getDateOfBirth());
