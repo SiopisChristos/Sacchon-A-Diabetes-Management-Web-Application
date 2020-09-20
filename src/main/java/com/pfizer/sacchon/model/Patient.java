@@ -36,7 +36,7 @@ public class Patient {
     @OneToMany(mappedBy = "patient",  cascade = CascadeType.ALL)
     private List<Carb> carbList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "patient",  cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient")
     private List<Note> noteList = new ArrayList<>();
 
     @ManyToOne

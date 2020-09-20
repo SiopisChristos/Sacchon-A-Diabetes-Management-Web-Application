@@ -53,7 +53,8 @@ public class PatientRepository {
      * @return a list of patients
      */
     public List<Patient> findAll() {
-        return entityManager.createQuery("from Patient").getResultList();
+        return entityManager.createQuery("from Patient p where p.isActive = 0")
+                .getResultList();
     }
 
 

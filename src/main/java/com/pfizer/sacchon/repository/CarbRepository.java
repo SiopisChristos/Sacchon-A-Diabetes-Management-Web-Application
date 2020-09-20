@@ -49,7 +49,8 @@ public class CarbRepository {
         List<Carb> carb = entityManager.createQuery(
                      "SELECT c.date, avg(c.gram) " +
                         "FROM Carb c" +
-                        "WHERE c.date >= : startDate AND c.date <= :endDate AND date is not null")
+                        "WHERE c.date >= : startDate AND c.date <= :endDate AND c.date is not null"+
+                        "GROUP BY c.date")
                 .setParameter("date", startDate)
                 .setParameter("date", endDate)
                 .getResultList();
