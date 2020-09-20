@@ -65,6 +65,8 @@ public class importData {
                 String query30 = "INSERT INTO Glucose ( dateTime, measurement, patient_id) VALUES ( '2020-09-13 22:05:59', 84 , 2 )";
                 String query31 = "INSERT INTO Glucose ( dateTime, measurement, patient_id) VALUES ( '2020-09-12 19:00:59', 87, 3 )";
 
+                String query32 = "INSERT INTO UserTable ( username, password, role) VALUES ('gpapado','gpapado','doctor')";
+
                 stmt.executeUpdate(query1);
                 stmt.executeUpdate(query2);
                 stmt.executeUpdate(query3);
