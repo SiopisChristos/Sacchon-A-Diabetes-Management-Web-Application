@@ -15,13 +15,13 @@ public interface DoctorResource {
     @Get("json")
     List<PatientRepresentation> getFreePatients();
 
-    @Post
+    @Post("json")
     boolean notificationSeen(NoteRepresentation noteReprIn) ;
 
-    @Put
+    @Put("json")
     boolean choosePatient();
 
-    @Delete
+    @Delete("json")
     RepresentationResponse<Boolean>
     deleteDoctor() throws NotFoundException;
 
