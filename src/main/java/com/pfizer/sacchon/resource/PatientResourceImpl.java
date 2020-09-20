@@ -100,7 +100,8 @@ public class PatientResourceImpl extends ServerResource
             Patient p = new Patient();
             p.setActive(false);
             if (patientRepository.removePatient(id))
-                return new RepresentationResponse(200, "OK", true);
+                return new RepresentationResponse(200, "OK, Patient set as inActive",
+                        patientRepository.findById(id));
             else new RepresentationResponse(200, "OK", false);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when removing a patient", ex);
