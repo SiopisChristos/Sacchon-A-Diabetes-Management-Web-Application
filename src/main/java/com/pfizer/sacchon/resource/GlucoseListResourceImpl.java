@@ -1,11 +1,12 @@
 package com.pfizer.sacchon.resource;
 
-import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
-import com.pfizer.sacchon.model.Carb;
-import com.pfizer.sacchon.repository.CarbRepository;
+import com.pfizer.sacchon.model.Glucose;
+import com.pfizer.sacchon.repository.GlucoseRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
-import com.pfizer.sacchon.representation.CarbRepresentation;
+import com.pfizer.sacchon.representation.GlucoseRepresentation;
+import com.pfizer.sacchon.security.ResourceUtils;
+import com.pfizer.sacchon.security.Shield;
 import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
@@ -16,11 +17,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class CarbListResourceImpl extends ServerResource implements CarbListResource {
+public class GlucoseListResourceImpl extends ServerResource implements GlucoseListResource {
 
     public static final Logger LOGGER = Engine.getLogger(CarbResourceImpl.class);
 
-    private CarbRepository carbRepository;
+    private GlucoseRepository glucoseRepository;
     private EntityManager entityManager;
     private Date startDate;
     private Date endDate;
@@ -35,14 +36,14 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
     }
 
     /**
-     * Initializes the carb repository
+     * Initializes the glucose repository
      */
     @Override
     protected void doInit() {
-        LOGGER.info("Initialising carb resource starts");
+        LOGGER.info("Initialising glucose resource starts");
         try {
             entityManager = JpaUtil.getEntityManager();
-            carbRepository = new CarbRepository(entityManager);
+            glucoseRepository = new GlucoseRepository(entityManager);
             try {
                 String startDateString = getQueryValue("from");
                 String   endDateString = getQueryValue("to");
@@ -63,35 +64,35 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
         } catch (Exception ex) {
             throw new ResourceException(ex);
         }
-        LOGGER.info("Initialising carb resource ends");
+        LOGGER.info("Initialising glucose resource ends");
     }
 
     /**
-     * Patients can view their average carb intake over a user- specified period
-     * @return the average of carb intake per day as list
+     * Patients can view their average daily blood glucose level over a user- specified period
+     * @return the average of blood glucose level per day as list
      * @throws NotFoundException if there are NO entries for the specified period
      */
     @Override
-    public List<CarbRepresentation> getAverageCarbIntake() throws NotFoundException {
+    public List<GlucoseRepresentation> getAverageGlucoseLevel() throws NotFoundException {
         LOGGER.finer("Select all carb entries for selected period.");
 
         // Check authorization
-//        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        ResourceUtils.checkRole(this, Shield.ROLE_USER);
         try {
 
-            List<Carb> carbs;
+            List<Glucose> glucoses;
             if (startDate ==null || endDate ==null)
-                // find carbs within a range dates
-                carbs = carbRepository.findAll();
+                // find blood glucose within a range of dates
+                glucoses = glucoseRepository.findAll();
 
             else
-                carbs = carbRepository.findAverageCarbIntake(startDate , endDate);
+                glucoses = glucoseRepository.findAverageGlucoseLevel(startDate , endDate);
 
-            List<CarbRepresentation> result = new ArrayList<>();
-            carbs.forEach(carb -> result.add(new CarbRepresentation(carb)));
+            List<GlucoseRepresentation> result = new ArrayList<>();
+            glucoses.forEach(glucose -> result.add(new GlucoseRepresentation(glucose)));
             return result;
         } catch (Exception e) {
-            throw new NotFoundException("Carb entries not found during selected period");
+            throw new NotFoundException("Blood glucose entries not found during selected period");
         }
     }
 }

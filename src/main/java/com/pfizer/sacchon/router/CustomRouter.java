@@ -33,6 +33,9 @@ public class CustomRouter {
         //The patient can store their data blood glucose level (date, time, measured in mg/dL) *required*
         router.attach("/patient/glucose/", GlucoseResourceImpl.class);
 
+        //The patient can view their average daily blood glucose level over a user-specified period *required*
+        router.attach("/patient/glucose/date", GlucoseListResourceImpl.class);
+
         //The patient can view the current and past consultations from doctors *required*
         router.attach("/patient/note/", NoteListResourceImpl.class);
         return router;

@@ -9,8 +9,8 @@ import java.util.List;
 public interface CarbListResource {
 
     /**
-     * Patients can view their average daily blood glucose level over a user- specified period
-     * @return the average of carb intake per day as list
+     * Patients can view their average carb intake over a user- specified period
+     * @return the average of carbs intake per day as list
      * @throws NotFoundException if there are NO entries
      */
     @Get("json")

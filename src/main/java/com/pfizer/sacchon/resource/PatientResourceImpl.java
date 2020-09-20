@@ -40,7 +40,6 @@ public class PatientResourceImpl extends ServerResource
             em = JpaUtil.getEntityManager();
             patientRepository =
                     new PatientRepository(em);
-            id = Long.parseLong(getAttribute("id"));
 
         } catch (Exception ex) {
             throw new ResourceException(ex);

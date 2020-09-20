@@ -52,6 +52,7 @@ public class CorsFilter {
                 methodHashSet.add(Method.GET);
                 methodHashSet.add(Method.POST);
                 methodHashSet.add(Method.PUT);
+                methodHashSet.add(Method.PATCH);
                 methodHashSet.add(Method.DELETE);
 
                 response.setAccessControlAllowMethods(methodHashSet);
