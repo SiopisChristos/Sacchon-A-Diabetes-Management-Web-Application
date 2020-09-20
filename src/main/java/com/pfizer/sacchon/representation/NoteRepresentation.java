@@ -16,12 +16,14 @@ public class NoteRepresentation {
     private Date date;
     private long patient_id;
     private long doctor_id;
-    private boolean seen =false;
+    private boolean seen = false;
     private String patientLastname;
     private String doctorLastname;
+    private long id;
 
     public NoteRepresentation(Note note) {
         if (note != null) {
+            id = note.getId();
             message = note.getMessage();
             date = note.getDate();
             patient_id = note.getPatient().getId();
