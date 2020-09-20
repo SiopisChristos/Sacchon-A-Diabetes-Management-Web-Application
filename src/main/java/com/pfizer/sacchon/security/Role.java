@@ -3,8 +3,8 @@ package com.pfizer.sacchon.security;
 public enum Role {
     ROLE_NA("n/a"),
     ROLE_ADMIN("admin"),
-    ROLE_USER("user"),
-    ROLE_OWNER("owner");
+    ROLE_DOCTOR("doctor"),
+    ROLE_PATIENT("patient");
 
     private final String roleName;
 

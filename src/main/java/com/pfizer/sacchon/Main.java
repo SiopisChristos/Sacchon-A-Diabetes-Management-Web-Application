@@ -1,7 +1,8 @@
 package com.pfizer.sacchon;
 
-import com.pfizer.sacchon.repository.util.JpaUtil;
+
 import com.pfizer.sacchon.router.CustomRouter;
+
 import com.pfizer.sacchon.security.Shield;
 import org.restlet.Application;
 import org.restlet.Component;
@@ -11,16 +12,14 @@ import org.restlet.routing.Router;
 import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Role;
 
-import javax.persistence.EntityManager;
 
 public class Main extends Application {
 
     public static void main(String[] args) throws Exception {
 
-        EntityManager em = JpaUtil.getEntityManager();
+//        EntityManager em = JpaUtil.getEntityManager();
+//        em.close();
 
-
-        //HibernateStart.main();
         Component c = new Component();
         c.getServers().add(Protocol.HTTP, 9000);
         c.getDefaultHost().attach("/v1", new Main());
@@ -32,8 +31,9 @@ public class Main extends Application {
         setDescription("Full Web API tutorial");
 
         getRoles().add(new Role(this, Shield.ROLE_ADMIN));
-        getRoles().add(new Role(this, Shield.ROLE_OWNER));
-        getRoles().add(new Role(this, Shield.ROLE_USER));
+        getRoles().add(new Role(this, Shield.ROLE_DOCTOR));
+        getRoles().add(new Role(this, Shield.ROLE_PATIENT
+        ));
 
     }
 
