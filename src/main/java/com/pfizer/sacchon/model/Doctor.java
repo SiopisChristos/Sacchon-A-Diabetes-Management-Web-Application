@@ -18,6 +18,7 @@ public class Doctor {
     private String phoneNumber;
     private Date dateOfBirth;
     private String specialty;
+    private boolean isActive;
 
     // related column between Doctor and UserTable
     @Column(unique = true)

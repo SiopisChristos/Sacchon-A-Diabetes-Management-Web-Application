@@ -11,6 +11,7 @@ import org.restlet.Context;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
+import javax.print.Doc;
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
@@ -85,6 +86,45 @@ public class DoctorRepository {
             if (!isYourPatient(patient_id, doctor.getId()))
                 throw new NotAuthorizedException("Not Authorized Doctor");
         }
+    }
+
+
+    public boolean removeDoctor(long id) {
+        Doctor in = entityManager.find(Doctor.class, id);
+        if (in != null) {
+            in.setActive(false);
+            try{
+                entityManager.getTransaction().begin();
+                entityManager.persist(in);
+                entityManager.getTransaction().commit();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Remove a doctor account-Set it as Inactive
+     *
+     * @param id
+     * @return true if db has been updated
+     */
+    public boolean removeFromSystem(Long id) {
+        Optional<Doctor> odoctor = findDoctorById(id);
+        if (odoctor.isPresent()) {
+            Doctor d = odoctor.get();
+            d.setActive(false);
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.remove(d);
+                entityManager.getTransaction().commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
     }
 
 

@@ -12,6 +12,7 @@ import com.pfizer.sacchon.repository.RecordsRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.NoteRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
+import com.pfizer.sacchon.representation.RepresentationResponse;
 import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.resource.util.ResourceValidator;
 import com.pfizer.sacchon.security.ResourceUtils;
@@ -109,37 +110,24 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
     }
 
 
-    // TODO: 18/09/2020 remove from Patients the doctor
+
     @Override
-    public void removeDoctor() throws NotFoundException {
+  public RepresentationResponse<Boolean> deleteDoctor() throws NotFoundException {
         LOGGER.finer("delete doctor");
-
-        try {
-
-            Doctor doctor = getFromOptionalEntityById(
-                    findEntityById(new Doctor(), entityManager, id),
-                    this,
-                    LOGGER);
-
-            ResourceAuthorization.checkUserAuthorization(doctor.getUsername());
-            UserTable user = doctorRepository.findAccountById(doctor.getUsername());
-            Boolean isDeleted = doctorRepository.removeAccount(user);
-
-
-            if (!isDeleted) {
-                LOGGER.config("Doctor id does not exist");
-                throw new NotFoundException(
-                        "Doctor with the following identifier does not exist:"
-                                + id);
-            }
-            LOGGER.finer("Doctor successfully removed.");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.log(Level.WARNING, "Error when removing a doctor", e);
-            throw new ResourceException(e);
+        id = Long.parseLong(getAttribute("id"));
+        DoctorRepository doctorRepository = new DoctorRepository(entityManager);
+        try{
+            Doctor d = new Doctor();
+            d.setActive(false);
+            if (doctorRepository.removeDoctor(id))
+                return new RepresentationResponse(200,"OK",true);
+            else new RepresentationResponse(200,"OK",false);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error when removing a doctor", ex);
+            throw new ResourceException(ex);
         }
-    }
+        return null;
+  }
 
     @Override
     public boolean notificationSeen(NoteRepresentation noteReprIn) {
@@ -188,7 +176,7 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
     public boolean choosePatient() {
 
         try {
-            ResourceUtils.checkRole(this, Shield.ROLE_DOCTOR);
+            //ResourceUtils.checkRole(this, Shield.ROLE_DOCTOR);
             String username = ResourceAuthorization.currentUserToUsername();
             Patient patient = getFromOptionalEntityById(
                     findEntityById(new Patient(), entityManager, id),

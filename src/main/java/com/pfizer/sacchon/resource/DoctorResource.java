@@ -4,10 +4,9 @@ import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.representation.DoctorRepresentation;
 import com.pfizer.sacchon.representation.NoteRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
-import org.restlet.resource.Delete;
-import org.restlet.resource.Get;
-import org.restlet.resource.Post;
-import org.restlet.resource.Put;
+import com.pfizer.sacchon.representation.RepresentationResponse;
+import org.restlet.representation.Representation;
+import org.restlet.resource.*;
 
 import java.util.List;
 
@@ -16,14 +15,16 @@ public interface DoctorResource {
     @Get("json")
     List<PatientRepresentation> getFreePatients();
 
-    @Delete
-    void removeDoctor() throws NotFoundException;
-
     @Post
     boolean notificationSeen(NoteRepresentation noteReprIn) ;
 
     @Put
     boolean choosePatient();
+
+    @Delete
+    RepresentationResponse<Boolean>
+    deleteDoctor() throws NotFoundException;
+
 
 }
 //    @Get("json")
