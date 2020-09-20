@@ -10,11 +10,11 @@ import java.util.logging.Logger;
 
 public class ResourceValidator {
 
-    public static void checkNoteIntegrity(Note oldNote, Note noteIn) throws BadEntityException {
+    public static void checkNoteIntegrity(Note oldNote, Note noteIn) throws NotAuthorizedException {
         if (!oldNote.getDoctor().equals(noteIn.getDoctor()))
-            throw new BadEntityException("Can't change doctor_id in your Note");
+            throw new NotAuthorizedException("Can't change doctor_id in your Note");
         if (!oldNote.getPatient().equals(noteIn.getPatient()))
-            throw new BadEntityException("Can't change patient_id in your Note");
+            throw new NotAuthorizedException("Can't change patient_id in your Note");
     }
 
 

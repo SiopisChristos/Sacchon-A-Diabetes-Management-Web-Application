@@ -9,6 +9,12 @@ import javax.print.Doc;
 
 public class ResourceAuthorization {
 
+    public static void equalsUsername(String username1, String username2) throws NotAuthorizedException{
+        if (!username1.equals(username2)){
+            throw new NotAuthorizedException("Only patient can alter the notification");
+        }
+    }
+
 
     public static String currentUserToUsername(){
         User currentSystemUsername;
