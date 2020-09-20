@@ -6,7 +6,6 @@ import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Note;
 import com.pfizer.sacchon.model.Patient;
-import com.pfizer.sacchon.model.UserTable;
 import com.pfizer.sacchon.repository.DoctorRepository;
 import com.pfizer.sacchon.repository.RecordsRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
@@ -17,7 +16,6 @@ import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.resource.util.ResourceValidator;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
-import com.sun.xml.bind.v2.TODO;
 import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
@@ -28,8 +26,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.pfizer.sacchon.repository.util.EntityUtil.findEntityById;
-import static com.pfizer.sacchon.repository.util.EntityUtil.getFromOptionalEntityById;
+import static com.pfizer.sacchon.repository.util.EntityUtil.*;
 
 public class DoctorResourceImpl extends ServerResource implements DoctorResource {
 
@@ -136,15 +133,15 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
             String systemUsername = ResourceAuthorization.currentUserToUsername();
 
             //Throws BadEntityException
-            Patient patient = getFromOptionalEntityById(
+            Patient patient = getFromOptionalEntity(
                     findEntityById(new Patient(), entityManager, noteReprIn.getPatient_id()),
                     this,
                     LOGGER);
-            Doctor doctor = getFromOptionalEntityById(
+            Doctor doctor = getFromOptionalEntity(
                     findEntityById(new Doctor(), entityManager, noteReprIn.getDoctor_id()),
                     this,
                     LOGGER);
-            Note oldNote = getFromOptionalEntityById(
+            Note oldNote = getFromOptionalEntity(
                     findEntityById(new Note(), entityManager, id),
                     this,
                     LOGGER);
@@ -178,7 +175,7 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
         try {
             //ResourceUtils.checkRole(this, Shield.ROLE_DOCTOR);
             String username = ResourceAuthorization.currentUserToUsername();
-            Patient patient = getFromOptionalEntityById(
+            Patient patient = getFromOptionalEntity(
                     findEntityById(new Patient(), entityManager, id),
                     this,
                     LOGGER);
@@ -186,7 +183,7 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
             if (!doctorRepository.isFreePatient(patient.getId()))
                 throw new BadEntityException("Patient is assigned to another Doctor");
 
-            Doctor doctor = getFromOptionalEntityById(
+            Doctor doctor = getFromOptionalEntity(
                     doctorRepository.findDoctorByUsername(username),
                     this,
                     LOGGER);

@@ -30,6 +30,11 @@ public class PatientRepresentation {
             phoneNumber = patient.getPhoneNumber();
             username = patient.getUsername();
             dateOfBirth = patient.getDateOfBirth();
+            if (patient.getDoctor() != null)
+                doctor_id = patient.getDoctor().getId();
+            else
+                doctor_id = -1;
+
         }
     }
 

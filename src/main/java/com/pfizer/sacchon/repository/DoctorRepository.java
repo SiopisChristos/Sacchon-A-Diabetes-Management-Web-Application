@@ -13,8 +13,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
 import javax.print.Doc;
 import java.sql.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class DoctorRepository {
 
@@ -62,12 +66,12 @@ public class DoctorRepository {
     public boolean isYourPatient(long patient_id, long doctor_id) {
 
         List<Patient> results = findMyPatients(doctor_id);
-        if (results.isEmpty())
+        Set<Patient> resultsId = results.stream().filter(x -> x.getId() == patient_id).collect(Collectors.toSet());
+
+        if (resultsId.isEmpty())
             return false;
-        else if (results.get(0).getId() == patient_id)
-            return true;
         else
-            return false;
+            return true;
     }
 
 

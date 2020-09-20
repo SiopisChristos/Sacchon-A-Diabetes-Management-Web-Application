@@ -27,7 +27,7 @@ public class CustomRouter {
         router.attach("/doctor/{id}", DoctorResourceImpl.class); //Delete doctor's account, Put Patient's Doctor
         router.attach("/patient/record/{id}", DoctorResourceImpl.class); //POST notification's user{Note}
 
-        router.attach("/doctor/note", DoctorRecordsImpl.class); //POST note
+        router.attach("/postNote", DoctorRecordsImpl.class); //POST note
         router.attach("/record/{id}", DoctorRecordsImpl.class); //GET patientRecords, UPDATE note
 
 

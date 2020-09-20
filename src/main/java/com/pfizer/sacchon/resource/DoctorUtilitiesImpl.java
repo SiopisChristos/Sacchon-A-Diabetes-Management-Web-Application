@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static com.pfizer.sacchon.repository.util.EntityUtil.getFromOptionalEntityById;
+import static com.pfizer.sacchon.repository.util.EntityUtil.getFromOptionalEntity;
 
 public class DoctorUtilitiesImpl extends ServerResource implements DoctorUtilities {
 
@@ -55,7 +55,7 @@ public class DoctorUtilitiesImpl extends ServerResource implements DoctorUtiliti
         try {
             String username = ResourceAuthorization.currentUserToUsername();
 
-            Doctor doctor = getFromOptionalEntityById(
+            Doctor doctor = getFromOptionalEntity(
                     doctorRepository.findDoctorByUsername(username),
                     this,
                     LOGGER);

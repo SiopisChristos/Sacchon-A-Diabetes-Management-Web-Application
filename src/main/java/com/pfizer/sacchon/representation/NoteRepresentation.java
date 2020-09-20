@@ -16,7 +16,7 @@ public class NoteRepresentation {
     private Date date;
     private long patient_id;
     private long doctor_id;
-    private boolean seen;
+    private boolean seen =false;
     private String patientLastname;
     private String doctorLastname;
 
@@ -28,6 +28,7 @@ public class NoteRepresentation {
             doctor_id = note.getDoctor().getId();
             patientLastname = note.getPatient().getLastName();
             doctorLastname = note.getDoctor().getLastName();
+            seen = note.isSeen();
         }
     }
 
@@ -37,6 +38,7 @@ public class NoteRepresentation {
         note.setPatient(patient);
         note.setMessage(message);
         note.setDate(date);
+        note.setSeen(seen);
         return note;
     }
 }

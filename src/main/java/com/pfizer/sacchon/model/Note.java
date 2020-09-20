@@ -15,7 +15,7 @@ public class Note {
     private long id;
     private String message;
     private Date date;
-   @Column(nullable = false)
+    @Column(nullable = false)
     private boolean seen = false;
 
     @ManyToOne

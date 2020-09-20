@@ -27,11 +27,11 @@ public class EntityUtil {
      * @param entity         can be any Optional Model Object (Carb, Doctor, Glucose, Note, Patient)
      * @param serverResource
      * @param LOGGER
-     * @param <T>
+     * @param <T>   the class of the entity
      * @return the Model Object if it's not Null
      * @throws BadEntityException if there is not such an Entity
      */
-    public static <T> T getFromOptionalEntityById(Optional<T> entity, ServerResource serverResource, Logger LOGGER) throws BadEntityException {
+    public static <T> T getFromOptionalEntity(Optional<T> entity, ServerResource serverResource, Logger LOGGER) throws BadEntityException {
         Class<?> type = null;
         serverResource.setExisting(entity.isPresent());
         if (!serverResource.isExisting()) {

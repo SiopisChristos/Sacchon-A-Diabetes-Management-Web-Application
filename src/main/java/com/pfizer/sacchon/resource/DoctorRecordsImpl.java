@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static com.pfizer.sacchon.repository.util.EntityUtil.findEntityById;
-import static com.pfizer.sacchon.repository.util.EntityUtil.getFromOptionalEntityById;
+import static com.pfizer.sacchon.repository.util.EntityUtil.getFromOptionalEntity;
 
 public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
 
@@ -68,7 +68,7 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
         try {
             String username = ResourceAuthorization.currentUserToUsername();
 
-            Doctor doctor = getFromOptionalEntityById(
+            Doctor doctor = getFromOptionalEntity(
                     doctorRepository.findDoctorByUsername(username), this, LOGGER);
 
             //Safe Guard
@@ -93,17 +93,22 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
     public boolean postNote(NoteRepresentation noteReprIn) throws ResourceException {
         LOGGER.info("Post a note");
         try {
-           Patient patient = getFromOptionalEntityById(
+            String systemUsername = ResourceAuthorization.currentUserToUsername();
+
+            Patient patient = getFromOptionalEntity(
                     findEntityById(new Patient(), entityManager, noteReprIn.getPatient_id()),
                     this,
                     LOGGER);
 
-            Doctor doctor = getFromOptionalEntityById(
-                    findEntityById(new Doctor(), entityManager, noteReprIn.getDoctor_id()),
+            Doctor doctor = getFromOptionalEntity(
+                    doctorRepository.findDoctorByUsername(systemUsername),
                     this,
                     LOGGER);
 
             ResourceAuthorization.checkUserAuthorization(doctor.getUsername());
+            if (!doctorRepository.isYourPatient(noteReprIn.getPatient_id(),doctor.getId())){
+                throw new NotAuthorizedException("You're not Authorized to do this action");
+            }
 
             Note noteIn = noteReprIn.createNote(patient, doctor);
             recordsRepository.saveNote(noteIn);
@@ -126,17 +131,17 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
     public boolean updateNote(NoteRepresentation noteReprIn) throws ResourceException {
         LOGGER.info("Update a note");
         try {
-           Patient patient = getFromOptionalEntityById(
+            Patient patient = getFromOptionalEntity(
                     findEntityById(new Patient(), entityManager, noteReprIn.getPatient_id()),
                     this,
                     LOGGER);
 
-            Doctor doctor = getFromOptionalEntityById(
+            Doctor doctor = getFromOptionalEntity(
                     findEntityById(new Doctor(), entityManager, noteReprIn.getDoctor_id()),
                     this,
                     LOGGER);
 
-            Note oldNote = getFromOptionalEntityById(
+            Note oldNote = getFromOptionalEntity(
                     findEntityById(new Note(), entityManager, id),
                     this,
                     LOGGER);
