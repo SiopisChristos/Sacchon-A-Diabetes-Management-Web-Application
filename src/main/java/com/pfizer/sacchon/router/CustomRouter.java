@@ -21,11 +21,16 @@ public class CustomRouter {
         Router router = new Router(application.getContext());
 
         router.attach("/patient/{id}", PatientResourceImpl.class);
-        router.attach("/doctor", DoctorResourceImpl.class);
-        router.attach("/doctor/{id}", DoctorResourceImpl.class); //delete doctor's account
 
-        router.attach("/note", DoctorRecordsImpl.class); //POST note
+
+        router.attach("/doctor/patients", DoctorResourceImpl.class); //Get FreePatients
+        router.attach("/doctor/{id}", DoctorResourceImpl.class); //Delete doctor's account, Put Patient's Doctor
+        router.attach("/patient/record/{id}", DoctorResourceImpl.class); //POST notification's user{Note}
+
+        router.attach("/doctor/note", DoctorRecordsImpl.class); //POST note
         router.attach("/record/{id}", DoctorRecordsImpl.class); //GET patientRecords, UPDATE note
+
+
 
         return router;
     }

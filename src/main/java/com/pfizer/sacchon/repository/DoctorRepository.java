@@ -1,12 +1,16 @@
 package com.pfizer.sacchon.repository;
 
+import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotAuthorizedException;
 import com.pfizer.sacchon.model.Doctor;
+import com.pfizer.sacchon.model.Note;
 import com.pfizer.sacchon.model.Patient;
+import com.pfizer.sacchon.model.UserTable;
 import com.pfizer.sacchon.security.dao.DatabaseCredentials;
 import org.restlet.Context;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NonUniqueResultException;
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
@@ -97,34 +101,26 @@ public class DoctorRepository {
 
 
     /**
-     * Deleting a doctor from the Db
+     * Deleting a doctor from the Db UserTable
      *
-     * @param username The doctor to be deleted
+     * @param user The doctor to be deleted
      * @return True if deleting has been completed, else false
      */
-    public boolean removeDoctor(String username) throws SQLException {
-
-        Context.getCurrentLogger().finer(
-                "Method findById() of ApplicationUserPersistence called.");
-        Connection connection = null;
+    public boolean removeAccount(UserTable user) {
         try {
-            connection = DriverManager.getConnection(DatabaseCredentials.URL, DatabaseCredentials.USER, DatabaseCredentials.PASSWORD);
-
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("delete from UserTable where username=?");
-            preparedStatement.setString(1, username);
-            ResultSet rs = preparedStatement.executeQuery();
+            entityManager.getTransaction().begin();
+            entityManager.remove(user);
+            entityManager.getTransaction().commit();
 
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        } finally {
-            if (connection != null) {
-                connection.close();
-                return true;
-            }
         }
+    }
+
+    public UserTable findAccountById(String username){
+       return entityManager.find(UserTable.class,username);
     }
 
 
@@ -161,6 +157,22 @@ public class DoctorRepository {
         Patient patient = entityManager.find(Patient.class, patient_id);
         return patient != null ? Optional.of(patient) : Optional.empty();
     }
+
+
+    public boolean updatePatientDoctor(Doctor doctor, Patient patient){
+        Patient p = entityManager.find(Patient.class, patient.getId());
+        p.setDoctor(doctor);
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(p);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 }
 

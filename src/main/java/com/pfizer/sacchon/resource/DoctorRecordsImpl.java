@@ -41,8 +41,11 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
         LOGGER.info("Initialising product resource starts");
         try {
             entityManager = JpaUtil.getEntityManager();
+            doctorRepository = new DoctorRepository(entityManager);
+            recordsRepository = new RecordsRepository(entityManager);
             id = Long.parseLong(getAttribute("id"));
         } catch (Exception e) {
+            e.printStackTrace();
             id = -1;
         }
         LOGGER.info("Initialising product resource ends");
@@ -64,11 +67,6 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
         LOGGER.info("Retrieve a patient record");
         try {
             String username = ResourceAuthorization.currentUserToUsername();
-
-            doctorRepository =
-                    new DoctorRepository(entityManager);
-            recordsRepository =
-                    new RecordsRepository(entityManager);
 
             Doctor doctor = getFromOptionalEntityById(
                     doctorRepository.findDoctorByUsername(username), this, LOGGER);
@@ -95,12 +93,7 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
     public boolean postNote(NoteRepresentation noteReprIn) throws ResourceException {
         LOGGER.info("Post a note");
         try {
-            doctorRepository =
-                    new DoctorRepository(entityManager);
-            recordsRepository =
-                    new RecordsRepository(entityManager);
-
-            Patient patient = getFromOptionalEntityById(
+           Patient patient = getFromOptionalEntityById(
                     findEntityById(new Patient(), entityManager, noteReprIn.getPatient_id()),
                     this,
                     LOGGER);
@@ -117,6 +110,7 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
 
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ResourceException(e);
         }
 
@@ -132,12 +126,7 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
     public boolean updateNote(NoteRepresentation noteReprIn) throws ResourceException {
         LOGGER.info("Update a note");
         try {
-            DoctorRepository doctorRepository =
-                    new DoctorRepository(JpaUtil.getEntityManager());
-            RecordsRepository recordsRepository =
-                    new RecordsRepository(JpaUtil.getEntityManager());
-
-            Patient patient = getFromOptionalEntityById(
+           Patient patient = getFromOptionalEntityById(
                     findEntityById(new Patient(), entityManager, noteReprIn.getPatient_id()),
                     this,
                     LOGGER);
