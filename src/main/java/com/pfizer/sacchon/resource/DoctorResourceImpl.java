@@ -107,24 +107,25 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
     }
 
 
-
     @Override
-  public RepresentationResponse<Boolean> deleteDoctor() throws NotFoundException {
+    public RepresentationResponse<Boolean> deleteDoctor() throws NotFoundException {
         LOGGER.finer("delete doctor");
-        id = Long.parseLong(getAttribute("id"));
-        DoctorRepository doctorRepository = new DoctorRepository(entityManager);
-        try{
-            Doctor d = new Doctor();
-            d.setActive(false);
-            if (doctorRepository.removeDoctor(id))
-                return new RepresentationResponse(200,"OK",true);
-            else new RepresentationResponse(200,"OK",false);
+        ResourceUtils.checkRole(this, Shield.ROLE_DOCTOR);
+        try {
+            String username = ResourceAuthorization.currentUserToUsername();
+            Doctor doctor = getFromOptionalEntity(
+                     doctorRepository.findDoctorByUsername(username),
+                    this,
+                    LOGGER);
+            doctorRepository.removeDoctor(doctor.getId());
+            return new RepresentationResponse(200, "OK", true);
+
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when removing a doctor", ex);
-            throw new ResourceException(ex);
+           return new RepresentationResponse(200, "OK", false);
         }
-        return null;
-  }
+
+    }
 
     @Override
     public boolean notificationSeen(NoteRepresentation noteReprIn) {
@@ -191,11 +192,10 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
             boolean updated = doctorRepository.updatePatientDoctor(doctor, patient);
             return updated;
 
-        }catch (BadEntityException e){
+        } catch (BadEntityException e) {
             e.printStackTrace();
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
         }

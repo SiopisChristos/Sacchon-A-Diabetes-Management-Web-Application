@@ -95,7 +95,7 @@ public class DoctorRepository {
 
     public boolean removeDoctor(long id) {
         Doctor in = entityManager.find(Doctor.class, id);
-        if (in != null) {
+
             in.setActive(false);
             try{
                 entityManager.getTransaction().begin();
@@ -105,7 +105,7 @@ public class DoctorRepository {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+
         return false;
     }
 

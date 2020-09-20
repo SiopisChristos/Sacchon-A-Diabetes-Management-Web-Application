@@ -98,6 +98,7 @@ public class importData {
                 stmt.executeUpdate(query29);
                 stmt.executeUpdate(query30);
                 stmt.executeUpdate(query31);
+                stmt.executeUpdate(query32);
 
                 conn.commit();
                 conn.close();
