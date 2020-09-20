@@ -1,9 +1,6 @@
 package com.pfizer.sacchon.router;
 
-import com.pfizer.sacchon.resource.DoctorRecordsImpl;
-import com.pfizer.sacchon.resource.DoctorResourceImpl;
-import com.pfizer.sacchon.resource.PatientResourceImpl;
-import com.pfizer.sacchon.resource.PingServerResource;
+import com.pfizer.sacchon.resource.*;
 import org.restlet.Application;
 import org.restlet.routing.Router;
 
@@ -24,6 +21,7 @@ public class CustomRouter {
 
 
         router.attach("/doctor/see/freePatients", DoctorResourceImpl.class); //Get FreePatients
+        router.attach("/doctor/see/myPatients", DoctorUtilitiesImpl.class); //Get myPatients
         router.attach("/doctor/account", DoctorResourceImpl.class); //Delete doctor's account
         router.attach("/doctor/account/{id}", DoctorResourceImpl.class); //, Put Patient's Doctor
         router.attach("/patient/record/{id}", DoctorResourceImpl.class); //POST notification's user{Note}
