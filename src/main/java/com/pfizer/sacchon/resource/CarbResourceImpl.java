@@ -1,10 +1,17 @@
 package com.pfizer.sacchon.resource;
 
+import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Carb;
+import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.CarbRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.CarbRepresentation;
+import com.pfizer.sacchon.representation.PatientRepresentation;
+import com.pfizer.sacchon.representation.RepresentationResponse;
+import com.pfizer.sacchon.resource.util.ResourceValidator;
+import com.pfizer.sacchon.security.ResourceUtils;
+import com.pfizer.sacchon.security.Shield;
 import org.restlet.data.Status;
 import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
@@ -36,8 +43,8 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
         LOGGER.info("Initialising carb entry resource starts");
         try {
             entityManager = JpaUtil.getEntityManager();
-            carbRepository = new CarbRepository (entityManager) ;
-//            id = Long.parseLong(getAttribute("id"));
+            carbRepository = new CarbRepository (entityManager);
+            id = Long.parseLong(getAttribute("id"));
         }
         catch(Exception ex)
         {
@@ -46,48 +53,76 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
         LOGGER.info("Initialising carb entry resource ends");
     }
 
-    //The patient can store their data carb intake (measured in grams)
+    /**
+     * Update data of an existing carb entry
+     *
+     * @param carbRepresentationIn
+     * @return boolean
+     * @throws BadEntityException
+     */
     @Override
-    public CarbRepresentation addCarbEntry(CarbRepresentation carbRepresentationIn){
+    public CarbRepresentation storeCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException {
+        LOGGER.finer("Update a carb entry.");
 
-        LOGGER.info("Add a new carb entry.");
+        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        LOGGER.finer("User allowed to update a carb.");
 
-        // Check authorization
-//        ResourceUtils.checkRole(this, Shield.ROLE_USER);
-//        LOGGER.finer("User allowed to add a product.");
-
-        // Check entity
-//        ResourceValidator.notNull(productRepresentationIn);
-//        ResourceValidator.validate(productRepresentationIn);
-//        LOGGER.finer("Product checked");
-
+        // Check given entity
+        ResourceValidator.notNull(carbRepresentationIn);
+//        ResourceValidator.validate(carbReprIn);
+        LOGGER.finer("Carb entry checked");
         try {
-            // Converts CarbRepresentation to Carb
-            Carb carbIn = new Carb();
-            carbIn.setGram(carbRepresentationIn.getGram());
-            carbIn.setDate(carbRepresentationIn.getDate());
-            carbIn.setPatient(carbRepresentationIn.getPatient());
+            // Convert CarbRepresentation to Carb
+            Carb carbIn = carbRepresentationIn.createCarb();
+            carbIn.setId(id);
 
-            Optional<Carb> carbOut = carbRepository.save(carbIn);
-            Carb carb = null;
-            if (carbOut.isPresent())
-                carb = carbOut.get();
+            Optional<Carb> carbOut;
+            Optional<Carb> optionalCarb = carbRepository.findById(id);
+            setExisting(optionalCarb.isPresent());
 
-            CarbRepresentation result = new CarbRepresentation();
-            result.setGram(carb.getGram());
-            result.setDate(carb.getDate());
-            result.setPatient(carb.getPatient());
-            result.setUri("http://localhost:9000/v1/patient/carb/" + carb.getId());
+            // If carb entry exists, we update it.
+            if (isExisting()) {
+                LOGGER.finer("Update carb entry.");
 
-            getResponse().setLocationRef("http://localhost:9000/v1/patient/carb/" + carb.getId());
-            getResponse().setStatus(Status.SUCCESS_CREATED);
+                // Update product in DB and retrieve the new one.
+                carbOut = carbRepository.updateCarb(carbIn);
 
-            LOGGER.info("Carb entry successfully added.");
-
-            return result;
+                // Check if retrieved carb entry is not null : if it is null it
+                // means that the id is wrong.
+                if (!carbOut.isPresent()) {
+                    LOGGER.finer("Carb entry does not exist.");
+                    throw new NotFoundException("Carb entry with the following id does not exist: " + id);
+                }
+            } else {
+                LOGGER.finer("Resource does not exist.");
+                throw new NotFoundException("Carb entry with the following id does not exist: " + id);
+            }
+            LOGGER.finer("Carb entry successfully updated.");
+            return new CarbRepresentation(carbOut.get());
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error when adding a new carb entry", ex);
             throw new ResourceException(ex);
         }
+    }
+
+    /**
+     * Delete a carb entry from the Database
+     *
+     * @return RepresentationResponse
+     * @throws NotFoundException
+     */
+    @Override
+    public RepresentationResponse<Boolean> removeCarbEntry() throws NotFoundException {
+        try {
+            id = Long.parseLong(getAttribute("id"));
+            if (carbRepository.findById(id).isPresent()) {
+                boolean p = carbRepository.removeCarbEntry(id);
+                return new RepresentationResponse<>(200,"Carb entry removed",p);
+            }
+        } catch (Exception ex1) {
+            {
+                return new RepresentationResponse<Boolean>(400,"Problem while deleting carb entry",false);
+            }
+        }
+        return new RepresentationResponse<Boolean>(400,"Problem while deleting carb entry",false);
     }
 }

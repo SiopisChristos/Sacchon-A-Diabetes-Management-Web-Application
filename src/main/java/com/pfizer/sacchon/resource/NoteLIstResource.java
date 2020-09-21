@@ -8,6 +8,11 @@ import java.util.List;
 
 public interface NoteLIstResource {
 
+    /**
+     * The patient can view the current and past consultations from doctors
+     *
+     * @return List of all notes entries
+     */
     @Get("json")
-    List<NoteRepresentation> getNotes() throws NotFoundException;
+    List<NoteRepresentation> getConsultations() throws NotFoundException;
 }

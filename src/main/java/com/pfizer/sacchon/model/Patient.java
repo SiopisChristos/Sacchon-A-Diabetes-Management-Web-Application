@@ -1,5 +1,6 @@
 package com.pfizer.sacchon.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pfizer.sacchon.resource.PatientResourceImpl;
 import lombok.Data;
 import org.restlet.engine.Engine;

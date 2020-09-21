@@ -23,20 +23,14 @@ public class CustomRouter {
         router.attach("/patient", PatientListResourceImpl.class);
         router.attach("/patient/", PatientResourceImpl.class);
 
+        router.attach("/patient/carb/{id}", CarbResourceImpl.class);
+        router.attach("/patient/carb", CarbListResourceImpl.class);
+        router.attach("/patient/carb/", CarbListResourceImpl.class);
 
-        //The patient can store their data carb intake (measured in grams) *required*
-        router.attach("/patient/carb/", CarbResourceImpl.class);
+        router.attach("/patient/glucose/{id}", GlucoseResourceImpl.class);
+        router.attach("/patient/glucose", GlucoseListResourceImpl.class);
+        router.attach("/patient/glucose/", GlucoseListResourceImpl.class);
 
-        //The patient can view their average carb intake over a user-specified period *required*
-        router.attach("/patient/carb/date", CarbListResourceImpl.class);
-
-        //The patient can store their data blood glucose level (date, time, measured in mg/dL) *required*
-        router.attach("/patient/glucose/", GlucoseResourceImpl.class);
-
-        //The patient can view their average daily blood glucose level over a user-specified period *required*
-        router.attach("/patient/glucose/date", GlucoseListResourceImpl.class);
-
-        //The patient can view the current and past consultations from doctors *required*
         router.attach("/patient/note/", NoteListResourceImpl.class);
         return router;
     }

@@ -1,18 +1,33 @@
 package com.pfizer.sacchon.resource;
 
 import com.pfizer.sacchon.exception.BadEntityException;
+import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.representation.CarbRepresentation;
+import com.pfizer.sacchon.representation.PatientRepresentation;
+import com.pfizer.sacchon.representation.RepresentationResponse;
+import org.restlet.resource.Delete;
 import org.restlet.resource.Post;
+import org.restlet.resource.Put;
 
 public interface CarbResource {
 
     /**
-     * The patient can store their data carb intake (measured in grams) *REQUIRED*
-     * @param carbRepresentationIn  representation of a Carb given by the frontEnd
-     * @return  a representation of the persisted object
+     * Deletes a carb entry from the Database
+     *
+     * @return RepresentationResponse
+     * @throws NotFoundException
+     */
+    @Delete
+    RepresentationResponse<Boolean> removeCarbEntry() throws NotFoundException;
+
+    /**
+     * Update data of an existing carb entry
+     *
+     * @param carbRepresentationIn
+     * @return boolean
      * @throws BadEntityException
      */
-    @Post("json")
-    CarbRepresentation addCarbEntry(CarbRepresentation carbRepresentationIn);
+    @Put("json")
+    CarbRepresentation storeCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException;
 
 }

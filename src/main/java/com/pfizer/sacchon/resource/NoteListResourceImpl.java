@@ -5,6 +5,8 @@ import com.pfizer.sacchon.model.Note;
 import com.pfizer.sacchon.repository.NoteRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.NoteRepresentation;
+import com.pfizer.sacchon.security.ResourceUtils;
+import com.pfizer.sacchon.security.Shield;
 import org.restlet.engine.Engine;
 import org.restlet.resource.ServerResource;
 
@@ -31,15 +33,15 @@ public class NoteListResourceImpl extends ServerResource implements NoteLIstReso
         LOGGER.info("Initialising note resource ends");
     }
 
-    public List<NoteRepresentation> getNotes() throws NotFoundException {
+    public List<NoteRepresentation> getConsultations() throws NotFoundException {
 
         LOGGER.finer("Select all notes.");
 
         // Check authorization
-//        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        ResourceUtils.checkRole(this, Shield.ROLE_USER);
 
         try{
-            List<Note> notes = noteRepository.findAll();
+            List<Note> notes = noteRepository.findAllConsultations();
             List<NoteRepresentation> result = new ArrayList<>();
 
 //            for (Product product :products)

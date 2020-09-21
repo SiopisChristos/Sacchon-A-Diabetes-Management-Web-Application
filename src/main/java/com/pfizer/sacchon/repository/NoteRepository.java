@@ -25,8 +25,13 @@ public class NoteRepository {
         return Optional.empty();
     }
 
-    public List<Note> findAll() {
-        return entityManager.createQuery("from Note").getResultList();
+    /**
+     * The patient can view the current and past consultations from doctors
+     *
+     * @return List of all notes entries
+     */
+    public List<Note> findAllConsultations() {
+        return entityManager.createQuery("from Note n").getResultList();
     }
 
 }
