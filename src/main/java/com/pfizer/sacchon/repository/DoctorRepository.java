@@ -3,21 +3,12 @@ package com.pfizer.sacchon.repository;
 import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotAuthorizedException;
 import com.pfizer.sacchon.model.Doctor;
-import com.pfizer.sacchon.model.Note;
 import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.model.UserTable;
-import com.pfizer.sacchon.security.dao.DatabaseCredentials;
-import org.restlet.Context;
+
 
 import javax.persistence.EntityManager;
-import javax.persistence.NonUniqueResultException;
-import javax.print.Doc;
-import java.sql.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collector;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DoctorRepository {
@@ -54,8 +45,6 @@ public class DoctorRepository {
     }
 
 
-
-
     /**
      * Checks if a patient is under supervision of a specific doctor
      *
@@ -76,9 +65,9 @@ public class DoctorRepository {
 
 
     public boolean isFreePatient(long patient_id) {
-               List<Patient> patientList = entityManager.createQuery(
+        List<Patient> patientList = entityManager.createQuery(
                 "from Patient where doctor_id is null and id = :id").
-                setParameter("id",patient_id).getResultList();
+                setParameter("id", patient_id).getResultList();
         if (patientList.isEmpty()) return false;
         else if (patientList.size() == 1) return true;
         return false;
@@ -86,7 +75,7 @@ public class DoctorRepository {
 
 
     public void doctorAccessPatientData(Long patient_id, Doctor doctor) throws NotAuthorizedException {
-        if(!isFreePatient(patient_id)) {
+        if (!isFreePatient(patient_id)) {
             if (!isYourPatient(patient_id, doctor.getId()))
                 throw new NotAuthorizedException("Not Authorized Doctor");
         }
@@ -96,7 +85,7 @@ public class DoctorRepository {
         List<Patient> myPatients = findMyPatients(doctor_id);
         myPatients.forEach(x -> x.setDoctor(null));
         entityManager.getTransaction().begin();
-        for (Patient p : myPatients){
+        for (Patient p : myPatients) {
             entityManager.persist(p);
         }
         entityManager.getTransaction().commit();
@@ -106,15 +95,15 @@ public class DoctorRepository {
         Doctor in = entityManager.find(Doctor.class, id);
 
         in.setActive(false);
-            try{
-                entityManager.getTransaction().begin();
-                entityManager.persist(in);
-                entityManager.getTransaction().commit();
-                freePatients(id);
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(in);
+            entityManager.getTransaction().commit();
+            freePatients(id);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return false;
     }
@@ -173,10 +162,9 @@ public class DoctorRepository {
         }
     }
 
-    public UserTable findAccountById(String username){
-       return entityManager.find(UserTable.class,username);
+    public UserTable findAccountById(String username) {
+        return entityManager.find(UserTable.class, username);
     }
-
 
 
     /**
@@ -213,7 +201,7 @@ public class DoctorRepository {
     }
 
 
-    public boolean updatePatientDoctor(Doctor doctor, Patient patient){
+    public boolean updatePatientDoctor(Doctor doctor, Patient patient) {
         Patient p = entityManager.find(Patient.class, patient.getId());
         p.setDoctor(doctor);
         try {
@@ -225,6 +213,30 @@ public class DoctorRepository {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Set<Doctor> findDoctors_active(Date to) {
+        List<Doctor> doctors = entityManager.createQuery(
+                "select d from Doctor d where isActive = 1 and creationDate <= :to")
+                .setParameter("to", to)
+                .getResultList();
+        return new HashSet<Doctor>(doctors);
+    }
+
+    public Set<Doctor> findDoctorsIdWithActivity(Date from, Date to) {
+        List<Doctor> doctorWithActivity = entityManager.createQuery(
+                "select d  from Doctor as d, Note as n where d.id = n.doctor and ( :from <= n.date) AND (:to >= n.date)")
+                .setParameter("from", from)
+                .setParameter("to", to)
+                .getResultList();
+        return new HashSet<Doctor>(doctorWithActivity);
+    }
+
+    public Set<Doctor> findDoctorsWithNoActivity(Date from, Date to){
+        Set doctorsActive = findDoctors_active(to);
+        Set doctorsWithActivity = findDoctorsIdWithActivity(from,to);
+        doctorsActive.removeAll(doctorsWithActivity);
+        return doctorsActive;
     }
 
 

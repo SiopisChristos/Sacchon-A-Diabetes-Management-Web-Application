@@ -21,12 +21,12 @@ public class importData {
                 sql = "Use " + DatabaseCredentials.DB_SCHEMA;
                 stmt.executeUpdate(sql);
 
-                String query1 = "INSERT INTO Doctor ( username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES (  'gpapado', 'Giannis', 'Papadopoulos', '6983456378' , '1984-02-08' ,'kardiologos')";
-                String query2 = "INSERT INTO Doctor ( username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES (  'egiannako', 'Eleni', 'Giannakopoulou', '6983784978' , '1990-01-07' ,'pathologos')";
-                String query3 = "INSERT INTO Doctor ( username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES (  'mpmeka', 'Maria', 'Mpeka', '6947556378' , '1987-10-01' ,'orthopedikos')";
-                String query4 = "INSERT INTO Doctor ( username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES (  'pkosto', 'Petros', 'Kostopoulos', '6983789865' , '1991-10-21' ,'pathologos')";
-                String query5 = "INSERT INTO Doctor ( username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES (  'kagiab', 'Katerina', 'Giabou', '6940127835' , '1984-07-05' ,'ofthalmiatros')";
-                String query6 = "INSERT INTO Doctor ( username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES (  'opetri', 'Orestis', 'Petridis', '6904791211' , '1967-03-03' ,'pathologos')";
+                String query1 = "INSERT INTO Doctor ( creationDate, username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES ( '2020-06-09', 'gpapado', 'Giannis', 'Papadopoulos', '6983456378' , '1984-02-08' ,'kardiologos')";
+                String query2 = "INSERT INTO Doctor ( creationDate, username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES ('2020-09-09',  'egiannako', 'Eleni', 'Giannakopoulou', '6983784978' , '1990-01-07' ,'pathologos')";
+                String query3 = "INSERT INTO Doctor (creationDate, username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES ( '2020-10-06', 'mpmeka', 'Maria', 'Mpeka', '6947556378' , '1987-10-01' ,'orthopedikos')";
+                String query4 = "INSERT INTO Doctor (creationDate, username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES ('2020-10-07',  'pkosto', 'Petros', 'Kostopoulos', '6983789865' , '1991-10-21' ,'pathologos')";
+                String query5 = "INSERT INTO Doctor ( creationDate,username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES ( '2020-10-08', 'kagiab', 'Katerina', 'Giabou', '6940127835' , '1984-07-05' ,'ofthalmiatros')";
+                String query6 = "INSERT INTO Doctor ( creationDate, username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES ( '2020-10-09', 'opetri', 'Orestis', 'Petridis', '6904791211' , '1967-03-03' ,'pathologos')";
 
                 String query7 = "INSERT INTO Patient ( username, firstName, lastName, address, city, zipCode, phoneNumber, dateOfBirth, doctor_id)" +
                         " VALUES (  'ekelid', 'Eirini', 'Kelidou', 'Lassani 6', 'Thessaloniki', '57013', '6983323232', '1995-05-05', 1)";
@@ -65,7 +65,8 @@ public class importData {
                 String query30 = "INSERT INTO Glucose ( dateTime, measurement, patient_id) VALUES ( '2020-09-13 22:05:59', 84 , 2 )";
                 String query31 = "INSERT INTO Glucose ( dateTime, measurement, patient_id) VALUES ( '2020-09-12 19:00:59', 87, 3 )";
 
-                String query32 = "INSERT INTO UserTable ( username, password, role) VALUES ('gpapado','gpapado','doctor')";
+                String query32 = "INSERT INTO UserTable ( username, password, role) VALUES ('gpapado','gpapado','doctor')," +
+                        " ('admin','admin','admin')";
 
                 stmt.executeUpdate(query1);
                 stmt.executeUpdate(query2);

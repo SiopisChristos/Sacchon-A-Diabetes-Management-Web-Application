@@ -1,6 +1,7 @@
 package com.pfizer.sacchon.router;
 
 import com.pfizer.sacchon.resource.*;
+import com.pfizer.sacchon.resource.chiefDoctors.DoctorsNoActivityImpl;
 import org.restlet.Application;
 import org.restlet.routing.Router;
 
@@ -19,17 +20,24 @@ public class CustomRouter {
 
         router.attach("/patient/{id}", PatientResourceImpl.class);
 
+        //Doctor Section
+        router.attach("/doctor/see/freePatients", DoctorResourceImpl.class); //{Get} FreePatients
+        router.attach("/doctor/see/myPatients", DoctorUtilitiesImpl.class); //{Get} myPatients
+        router.attach("/doctor/account", DoctorResourceImpl.class); //{Delete} doctor's account
+        router.attach("/doctor/account/{id}", DoctorResourceImpl.class); //{Put} [A doctor chooses a free Patient]
+        router.attach("/postNote", DoctorRecordsImpl.class); //{POST} note
 
-        router.attach("/doctor/see/freePatients", DoctorResourceImpl.class); //Get FreePatients
-        router.attach("/doctor/see/myPatients", DoctorUtilitiesImpl.class); //Get myPatients
-        router.attach("/doctor/account", DoctorResourceImpl.class); //Delete doctor's account
-        router.attach("/doctor/account/{id}", DoctorResourceImpl.class); //, Put Patient's Doctor
-        router.attach("/patient/record/{id}", DoctorResourceImpl.class); //POST notification's user{Note}
+        //{GET} patientRecordsList [id is PatientId], {UPDATE} note [id is NoteId]
+        router.attach("/record/{id}", DoctorRecordsImpl.class);
 
-        router.attach("/postNote", DoctorRecordsImpl.class); //POST note
-        router.attach("/record/{id}", DoctorRecordsImpl.class); //GET patientRecords, UPDATE note
+        //User section
+        router.attach("/patient/record/{id}", DoctorResourceImpl.class); //{POST} notification's user for a Note
 
 
+        //Chief Section
+        // Get Doctors with no activity for a certain time range
+        //URL example: /doctorsInactive?from=2020-10-09&to=2020-10-20
+        router.attach("/doctorsInactive", DoctorsNoActivityImpl.class);
 
         return router;
     }
