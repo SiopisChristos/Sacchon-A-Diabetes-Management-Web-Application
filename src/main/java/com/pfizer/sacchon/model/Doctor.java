@@ -18,9 +18,10 @@ public class Doctor {
     private String lastName;
     private String phoneNumber;
     private Date dateOfBirth;
+    private Date creationDate = new Date();
     private String specialty;
     @ColumnDefault("1")
-    private boolean isActive;
+    private boolean isActive = true;
 
     // related column between Doctor and UserTable
     @Column(unique = true)
