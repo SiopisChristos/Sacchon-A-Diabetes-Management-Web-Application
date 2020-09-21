@@ -1,5 +1,6 @@
 package com.pfizer.sacchon.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;

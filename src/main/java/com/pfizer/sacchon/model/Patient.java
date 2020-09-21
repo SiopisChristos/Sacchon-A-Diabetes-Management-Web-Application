@@ -1,11 +1,16 @@
 package com.pfizer.sacchon.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.pfizer.sacchon.resource.PatientResourceImpl;
 import lombok.Data;
+import org.restlet.engine.Engine;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
+
 @Data
 @Entity
 public class Patient {
@@ -16,9 +21,9 @@ public class Patient {
     private String lastName;
     private String address;
     private String city;
-    private String zipCode;
     private String phoneNumber;
     private Date dateOfBirth;
+    private boolean isActive;
 
     // related column between Patient and UserTable
     @Column(unique = true)
@@ -31,7 +36,7 @@ public class Patient {
     @OneToMany(mappedBy = "patient",  cascade = CascadeType.ALL)
     private List<Carb> carbList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "patient",  cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient")
     private List<Note> noteList = new ArrayList<>();
 
     @ManyToOne
