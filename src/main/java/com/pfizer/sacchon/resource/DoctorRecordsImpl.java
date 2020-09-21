@@ -9,6 +9,8 @@ import com.pfizer.sacchon.repository.DoctorRepository;
 import com.pfizer.sacchon.repository.RecordsRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.NoteRepresentation;
+import com.pfizer.sacchon.representation.RepresentationResponse;
+import com.pfizer.sacchon.resource.constant.Constants;
 import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.resource.util.ResourceValidator;
 import org.restlet.engine.Engine;
@@ -63,7 +65,7 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
      * @throws NotAuthorizedException
      */
     @Override
-    public List[] patientAllRecords() throws ResourceException {
+    public RepresentationResponse<List[]> patientAllRecords() throws ResourceException {
         LOGGER.info("Retrieve a patient record");
         try {
             String username = ResourceAuthorization.currentUserToUsername();
@@ -71,14 +73,20 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
             Doctor doctor = getFromOptionalEntity(
                     doctorRepository.findDoctorByUsername(username), this, LOGGER);
 
-            //Safe Guard
+            //Safe Guard throws NotAuthorizedException
             doctorRepository.doctorAccessPatientData(id, doctor);
 
             List[] patientData = recordsRepository.getPatientRecord(id);
-            return patientData;
+            return new RepresentationResponse(200, Constants.CODE_200, patientData);
+        } catch (NotAuthorizedException e) {
+            e.printStackTrace();
+            return new RepresentationResponse(403, Constants.CODE_403, Constants.RESPONSE_403);
+        } catch (BadEntityException e) {
+            e.printStackTrace();
+            return new RepresentationResponse(400, Constants.CODE_400, Constants.RESPONSE_400);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ResourceException(e);
+            return new RepresentationResponse(500, Constants.CODE_500, Constants.RESPONSE_500);
         }
     }
 
@@ -90,7 +98,7 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
      * @throws NotAuthorizedException
      */
     @Override
-    public boolean postNote(NoteRepresentation noteReprIn) throws ResourceException {
+    public RepresentationResponse<String> postNote(NoteRepresentation noteReprIn) throws ResourceException {
         LOGGER.info("Post a note");
         try {
             String systemUsername = ResourceAuthorization.currentUserToUsername();
@@ -105,18 +113,24 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
                     this,
                     LOGGER);
 
-            ResourceAuthorization.checkUserAuthorization(doctor.getUsername());
-            if (!doctorRepository.isYourPatient(noteReprIn.getPatient_id(),doctor.getId())){
+            //ResourceAuthorization.checkUserAuthorization(doctor.getUsername());
+            if (!doctorRepository.isYourPatient(noteReprIn.getPatient_id(), doctor.getId())) {
                 throw new NotAuthorizedException("You're not Authorized to do this action");
             }
 
             Note noteIn = noteReprIn.createNote(patient, doctor);
             recordsRepository.saveNote(noteIn);
 
-            return true;
+            return new RepresentationResponse(204, Constants.CODE_204, Constants.RESPONSE_204);
+        } catch (NotAuthorizedException e) {
+            e.printStackTrace();
+            return new RepresentationResponse<>(403, Constants.CODE_403, Constants.RESPONSE_403);
+        } catch (BadEntityException e) {
+            e.printStackTrace();
+            return new RepresentationResponse<>(400, Constants.CODE_400, Constants.RESPONSE_400);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ResourceException(e);
+            return new RepresentationResponse<>(500, Constants.CODE_500, Constants.RESPONSE_500);
         }
 
     }
@@ -128,7 +142,7 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
      * @throws NotAuthorizedException
      */
     @Override
-    public boolean updateNote(NoteRepresentation noteReprIn) throws ResourceException {
+    public RepresentationResponse<String> updateNote(NoteRepresentation noteReprIn) throws ResourceException {
         LOGGER.info("Update a note");
         try {
             Patient patient = getFromOptionalEntity(
@@ -147,17 +161,23 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
                     LOGGER);
             Note noteIn = noteReprIn.createNote(patient, doctor);
 
+
             ResourceAuthorization.checkUserAuthorization(doctor.getUsername());
             ResourceValidator.checkNoteIntegrity(oldNote, noteIn);
 
             noteIn.setId(id);
             recordsRepository.updateNote(noteIn);
 
-            return true;
+            return new RepresentationResponse(204, Constants.CODE_204, Constants.RESPONSE_204);
+        } catch (NotAuthorizedException e) {
+            e.printStackTrace();
+            return new RepresentationResponse<>(403, Constants.CODE_403, Constants.RESPONSE_403);
+        } catch (BadEntityException e) {
+            e.printStackTrace();
+            return new RepresentationResponse<>(400, Constants.CODE_400, Constants.RESPONSE_400);
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: 9/19/2020 Send a Representation Response
-            return false;
+            return new RepresentationResponse<>(500, Constants.CODE_500, Constants.RESPONSE_500);
         }
     }
 }
