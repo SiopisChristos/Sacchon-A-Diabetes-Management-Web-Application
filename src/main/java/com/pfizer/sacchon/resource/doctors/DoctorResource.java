@@ -13,13 +13,13 @@ import java.util.List;
 public interface DoctorResource {
 
     @Get("json")
-    List<PatientRepresentation> getFreePatients();
+    RepresentationResponse<List<PatientRepresentation>> getFreePatients();
 
     @Post("json")
-    boolean notificationSeen(NoteRepresentation noteReprIn) ;
+    RepresentationResponse <Boolean> notificationSeen(NoteRepresentation noteReprIn) ;
 
     @Put("json")
-    boolean choosePatient();
+    RepresentationResponse <Boolean> choosePatient();
 
     @Delete("json")
     RepresentationResponse<Boolean>

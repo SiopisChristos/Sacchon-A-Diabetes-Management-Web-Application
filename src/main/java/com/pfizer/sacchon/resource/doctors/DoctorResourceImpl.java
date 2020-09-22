@@ -12,11 +12,13 @@ import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.NoteRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
 import com.pfizer.sacchon.representation.RepresentationResponse;
+import com.pfizer.sacchon.resource.constant.Constants;
 import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.resource.util.ResourceValidator;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
 import org.restlet.engine.Engine;
+import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
 import javax.persistence.EntityManager;
@@ -26,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.pfizer.sacchon.repository.util.EntityUtil.*;
+import static com.pfizer.sacchon.resource.constant.Constants.*;
 
 public class DoctorResourceImpl extends ServerResource implements DoctorResource {
 
@@ -88,18 +91,22 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
 //    }
 
     @Override
-    public List<PatientRepresentation> getFreePatients() {
+    public RepresentationResponse<List<PatientRepresentation>> getFreePatients() {
 
         LOGGER.finer("Get free patients");
-        ResourceUtils.checkRole(this, Shield.ROLE_DOCTOR);
+
         try {
+
             List<Patient> patients = doctorRepository.findFreePatients();
             List<PatientRepresentation> patientsOut = new ArrayList<>();
             patients.forEach(x -> patientsOut.add(new PatientRepresentation(x)));
-            return patientsOut;
+            return new RepresentationResponse(200, Constants.CODE_200, patientsOut);
+        } catch (ResourceException e) {
+            e.printStackTrace();
+            return new RepresentationResponse(403, Constants.CODE_403, Constants.RESPONSE_403);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new RepresentationResponse(500, CODE_500, Constants.RESPONSE_500);
         }
 
 
@@ -109,25 +116,32 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
     @Override
     public RepresentationResponse<Boolean> deleteDoctor() throws NotFoundException {
         LOGGER.finer("delete doctor");
-        ResourceUtils.checkRole(this, Shield.ROLE_DOCTOR);
+
         try {
+            ResourceUtils.checkRole(this, Shield.ROLE_DOCTOR);
             String username = ResourceAuthorization.currentUserToUsername();
             Doctor doctor = getFromOptionalEntity(
-                     doctorRepository.findDoctorByUsername(username),
+                    doctorRepository.findDoctorByUsername(username),
                     this,
                     LOGGER);
             doctorRepository.removeDoctor(doctor.getId());
             return new RepresentationResponse(200, "OK", true);
-
+        } catch (ResourceException e) {
+            e.printStackTrace();
+            return new RepresentationResponse(403, CODE_403, RESPONSE_403);
+        } catch (BadEntityException e) {
+            LOGGER.log(Level.WARNING, "Entity error ", e);
+            return new RepresentationResponse(400, CODE_400, RESPONSE_400);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when removing a doctor", ex);
-           return new RepresentationResponse(200, "OK", false);
+            return new RepresentationResponse(500, CODE_500, RESPONSE_500);
         }
+
 
     }
 
     @Override
-    public boolean notificationSeen(NoteRepresentation noteReprIn) {
+    public RepresentationResponse<Boolean> notificationSeen(NoteRepresentation noteReprIn) {
         try {
 
             String systemUsername = ResourceAuthorization.currentUserToUsername();
@@ -155,25 +169,25 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
             noteIn.setId(id);
             recordsRepository.updateNoteSeen(noteIn);
 
-            return true;
+            return new RepresentationResponse(200, Constants.CODE_200, "true");
         } catch (NotAuthorizedException e) {
             e.printStackTrace();
-            return false;
+            return new RepresentationResponse(403, Constants.CODE_403, Constants.RESPONSE_403);
+
         } catch (BadEntityException e) {
             e.printStackTrace();
-            return false;
+            return new RepresentationResponse(400, Constants.CODE_400, Constants.RESPONSE_400);
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return new RepresentationResponse(500, CODE_500, Constants.RESPONSE_500);
         }
 
     }
 
     @Override
-    public boolean choosePatient() {
+    public RepresentationResponse<Boolean> choosePatient() {
 
         try {
-            //ResourceUtils.checkRole(this, Shield.ROLE_DOCTOR);
             String username = ResourceAuthorization.currentUserToUsername();
             Patient patient = getFromOptionalEntity(
                     findEntityById(new Patient(), entityManager, id),
@@ -181,7 +195,7 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
                     LOGGER);
 
             if (!doctorRepository.isFreePatient(patient.getId()))
-                throw new BadEntityException("Patient is assigned to another Doctor");
+                throw new NotAuthorizedException("Patient is assigned to another Doctor");
 
             Doctor doctor = getFromOptionalEntity(
                     doctorRepository.findDoctorByUsername(username),
@@ -189,15 +203,16 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
                     LOGGER);
 
             boolean updated = doctorRepository.updatePatientDoctor(doctor, patient);
-            return updated;
-
+            return new RepresentationResponse(200, Constants.CODE_200, updated);
         } catch (BadEntityException e) {
             e.printStackTrace();
-
+            return new RepresentationResponse(400, CODE_400, RESPONSE_400);
+        } catch (NotAuthorizedException e) {
+            e.printStackTrace();
+            return new RepresentationResponse(403, Constants.CODE_403, Constants.RESPONSE_403);
         } catch (Exception e) {
             e.printStackTrace();
-
+            return new RepresentationResponse(500, CODE_500, RESPONSE_500);
         }
-        return false;
     }
 }

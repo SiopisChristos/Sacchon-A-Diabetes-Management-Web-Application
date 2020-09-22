@@ -6,6 +6,8 @@ import com.pfizer.sacchon.repository.DoctorRepository;
 import com.pfizer.sacchon.repository.RecordsRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.PatientRepresentation;
+import com.pfizer.sacchon.representation.RepresentationResponse;
+import com.pfizer.sacchon.resource.constant.Constants;
 import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
@@ -18,6 +20,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static com.pfizer.sacchon.repository.util.EntityUtil.getFromOptionalEntity;
+import static com.pfizer.sacchon.resource.constant.Constants.CODE_500;
+import static com.pfizer.sacchon.resource.constant.Constants.RESPONSE_500;
 
 public class DoctorUtilitiesImpl extends ServerResource implements DoctorUtilities {
 
@@ -49,7 +53,7 @@ public class DoctorUtilitiesImpl extends ServerResource implements DoctorUtiliti
 
 
     @Override
-    public List<PatientRepresentation> getMyPatients() {
+    public RepresentationResponse<List<PatientRepresentation>> getMyPatients() {
         LOGGER.finer("Get my patients");
         ResourceUtils.checkRole(this, Shield.ROLE_DOCTOR);
         try {
@@ -63,10 +67,10 @@ public class DoctorUtilitiesImpl extends ServerResource implements DoctorUtiliti
             List<Patient> myPatients = doctorRepository.findMyPatients(doctor.getId());
             List<PatientRepresentation> patientsOut = new ArrayList<>();
             myPatients.forEach(x -> patientsOut.add(new PatientRepresentation(x)));
-            return patientsOut;
+            return new RepresentationResponse(200, Constants.CODE_200, patientsOut);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new RepresentationResponse(500, CODE_500, RESPONSE_500);
         }
     }
 }
