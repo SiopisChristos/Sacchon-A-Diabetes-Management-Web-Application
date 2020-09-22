@@ -1,6 +1,6 @@
 package com.pfizer.sacchon.router;
 
-import com.pfizer.sacchon.resource.DoctorRecordsImpl;
+import com.pfizer.sacchon.resource.doctors.DoctorRecordsImpl;
 import com.pfizer.sacchon.resource.PingServerResource;
 import org.restlet.Application;
 import org.restlet.routing.Router;

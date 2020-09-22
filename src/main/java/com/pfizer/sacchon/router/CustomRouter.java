@@ -1,7 +1,13 @@
 package com.pfizer.sacchon.router;
 
 import com.pfizer.sacchon.resource.*;
+import com.pfizer.sacchon.resource.chiefDoctors.DoctorSubmissionsImpl;
 import com.pfizer.sacchon.resource.chiefDoctors.DoctorsNoActivityImpl;
+import com.pfizer.sacchon.resource.chiefDoctors.PatientSubmissionsImpl;
+import com.pfizer.sacchon.resource.chiefDoctors.PatientsNoActivityImpl;
+import com.pfizer.sacchon.resource.doctors.DoctorRecordsImpl;
+import com.pfizer.sacchon.resource.doctors.DoctorResourceImpl;
+import com.pfizer.sacchon.resource.doctors.DoctorUtilitiesImpl;
 import org.restlet.Application;
 import org.restlet.routing.Router;
 
@@ -38,7 +44,9 @@ public class CustomRouter {
         // Get Doctors with no activity for a certain time range
         //URL example: /doctorsInactive?from=2020-10-09&to=2020-10-20
         router.attach("/doctorsInactive", DoctorsNoActivityImpl.class);
-
+        router.attach("/patientsInactive", PatientsNoActivityImpl.class);
+        router.attach("/doctorNotes/{id}", DoctorSubmissionsImpl.class);
+        router.attach("/patientData/{id}", PatientSubmissionsImpl.class);
         return router;
     }
 

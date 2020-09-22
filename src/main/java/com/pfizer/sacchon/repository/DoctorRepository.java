@@ -19,9 +19,6 @@ public class DoctorRepository {
         this.entityManager = entityManager;
     }
 
-    // TODO: 17/9/2020
-    // hasRightToSee method
-
 
     /**
      * Find the patients for a specific doctor_id
@@ -215,29 +212,7 @@ public class DoctorRepository {
         }
     }
 
-    public Set<Doctor> findDoctors_active(Date to) {
-        List<Doctor> doctors = entityManager.createQuery(
-                "select d from Doctor d where isActive = 1 and creationDate <= :to")
-                .setParameter("to", to)
-                .getResultList();
-        return new HashSet<Doctor>(doctors);
-    }
 
-    public Set<Doctor> findDoctorsIdWithActivity(Date from, Date to) {
-        List<Doctor> doctorWithActivity = entityManager.createQuery(
-                "select d  from Doctor as d, Note as n where d.id = n.doctor and ( :from <= n.date) AND (:to >= n.date)")
-                .setParameter("from", from)
-                .setParameter("to", to)
-                .getResultList();
-        return new HashSet<Doctor>(doctorWithActivity);
-    }
-
-    public Set<Doctor> findDoctorsWithNoActivity(Date from, Date to){
-        Set doctorsActive = findDoctors_active(to);
-        Set doctorsWithActivity = findDoctorsIdWithActivity(from,to);
-        doctorsActive.removeAll(doctorsWithActivity);
-        return doctorsActive;
-    }
 
 
 }

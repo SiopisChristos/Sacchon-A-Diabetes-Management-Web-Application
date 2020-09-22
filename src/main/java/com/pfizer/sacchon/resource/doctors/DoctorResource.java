@@ -1,4 +1,4 @@
-package com.pfizer.sacchon.resource;
+package com.pfizer.sacchon.resource.doctors;
 
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.representation.DoctorRepresentation;

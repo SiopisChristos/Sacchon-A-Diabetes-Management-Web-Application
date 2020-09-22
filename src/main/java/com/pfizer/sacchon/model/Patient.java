@@ -1,6 +1,7 @@
 package com.pfizer.sacchon.model;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ public class Patient {
     private String zipCode;
     private String phoneNumber;
     private Date dateOfBirth;
+    @ColumnDefault("1")
+    private boolean isActive = true;
+    private Date creationDate = new Date();
 
     // related column between Patient and UserTable
     @Column(unique = true)
