@@ -18,7 +18,7 @@ public class Doctor {
     private String lastName;
     private String phoneNumber;
     private Date dateOfBirth;
-    private Date creationDate = new Date();
+    private Date creationDate;
     private String specialty;
     @ColumnDefault("1")
     private boolean isActive = true;

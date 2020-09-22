@@ -22,7 +22,7 @@ public class Patient {
     private Date dateOfBirth;
     @ColumnDefault("1")
     private boolean isActive = true;
-    private Date creationDate = new Date();
+    private Date creationDate;
 
     // related column between Patient and UserTable
     @Column(unique = true)

@@ -52,7 +52,7 @@ public class ChiefRepository {
         List<Patient> patientsWithActivity = entityManager.createQuery(
                 "select DISTINCT p from Patient as p, Carb as c, Glucose as g where " +
                         "(p.id = g.patient and :from <= g.dateTime AND :to >= g.dateTime)" +
-                        " OR ( p.id=c.patient  and  :from <= g.dateTime AND :to >= g.dateTime)")
+                        " OR ( p.id=c.patient  and  :from <= c.date AND :to >= c.date)")
                 .setParameter("from", from)
                 .setParameter("to", to)
                 .getResultList();
@@ -69,7 +69,7 @@ public class ChiefRepository {
 
 
     public List<Note> findDoctorNotes(Long doctor_id, Date startDate, Date endDate){
-        List<Note> notes = entityManager.createQuery("from Note as n where n.doctor = :id and :startDate <= n.date AND :endDate >= n.date")
+        List<Note> notes = entityManager.createQuery("select n from Note as n, Doctor d where d.isActive = 1 and d n.doctor = :id and :startDate <= n.date AND :endDate >= n.date")
                 .setParameter("id",doctor_id)
                 .setParameter("startDate",startDate)
                 .setParameter("endDate",endDate)
@@ -78,7 +78,7 @@ public class ChiefRepository {
     }
 
     public List<Carb> findCarbs(long patient_id,Date startDate, Date endDate) {
-        List<Carb> carb = entityManager.createQuery("from Carb as c where c.patient = :id and :startDate <= c.date AND :endDate >= c.date")
+        List<Carb> carb = entityManager.createQuery("select c from Carb as c, Patient p where p.isActive = 1 and c.patient = :id and :startDate <= c.date AND :endDate >= c.date")
                 .setParameter("id",patient_id)
                 .setParameter("startDate",startDate)
                 .setParameter("endDate",endDate)
@@ -87,7 +87,7 @@ public class ChiefRepository {
     }
 
     public List<Glucose> findGlucose(long patient_id, Date startDate, Date endDate) {
-        List<Glucose> glucose = entityManager.createQuery("from Glucose as g where g.patient = :id and :startDate <= g.dateTime AND :endDate >= g.dateTime")
+        List<Glucose> glucose = entityManager.createQuery("select g from Glucose as g, Patient as p where p.isActive = 1 and g.patient = :id and :startDate <= g.dateTime AND :endDate >= g.dateTime")
                 .setParameter("id",patient_id)
                 .setParameter("startDate",startDate)
                 .setParameter("endDate",endDate)
