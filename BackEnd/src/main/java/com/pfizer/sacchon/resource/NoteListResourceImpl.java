@@ -38,7 +38,7 @@ public class NoteListResourceImpl extends ServerResource implements NoteLIstReso
         LOGGER.finer("Select all notes.");
 
         // Check authorization
-        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
 
         try{
             List<Note> notes = noteRepository.findAllConsultations();

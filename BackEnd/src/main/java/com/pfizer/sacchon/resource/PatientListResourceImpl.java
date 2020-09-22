@@ -59,7 +59,7 @@ public class PatientListResourceImpl extends ServerResource implements PatientLi
         LOGGER.finer("Select all patients.");
 
         // Check authorization
-        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
         try {
             List<Patient> patients =
                     patientRepository.findAll();

@@ -64,7 +64,7 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
     public CarbRepresentation storeCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException {
         LOGGER.finer("Update a carb entry.");
 
-        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
         LOGGER.finer("User allowed to update a carb.");
 
         // Check given entity

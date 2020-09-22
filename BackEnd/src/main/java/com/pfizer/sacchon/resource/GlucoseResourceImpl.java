@@ -63,7 +63,7 @@ public class GlucoseResourceImpl extends ServerResource implements GlucoseResour
     public GlucoseRepresentation storeGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException {
         LOGGER.finer("Update a Glucose entry.");
 
-        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
         LOGGER.finer("User allowed to update a Glucose.");
 
         // Check given entity

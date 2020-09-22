@@ -60,7 +60,7 @@ public class PatientResourceImpl extends ServerResource
         LOGGER.info("Retrieve a patient");
         id = Long.parseLong(getAttribute("id"));
         // Check authorization
-        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
         // Initialize the persistence layer.
         try {
             Optional<Patient> oPatient = patientRepository.findById(id);
@@ -121,7 +121,7 @@ public class PatientResourceImpl extends ServerResource
     public RepresentationResponse<Boolean> updatePatient
     (PatientRepresentation patientRepresentationIn)
             throws BadEntityException {
-        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
         ResourceValidator.notNull(patientRepresentationIn);
         LOGGER.finer("Company checked");
         id = Long.parseLong(getAttribute("id"));
@@ -155,7 +155,7 @@ public class PatientResourceImpl extends ServerResource
             throws BadEntityException {
         LOGGER.finer("Add a new patient into system.");
         // Check authorization
-        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
         LOGGER.finer("User allowed to add a patient.");
         //Check validation of InputData-argument
         ResourceValidator.notNull(patientRepresentationIn);

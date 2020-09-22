@@ -132,7 +132,7 @@ public class GlucoseListResourceImpl extends ServerResource implements GlucoseLi
         LOGGER.finer("Select all carb entries for selected period.");
 
         // Check authorization
-        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
         try {
 
             List<Glucose> glucoses;
