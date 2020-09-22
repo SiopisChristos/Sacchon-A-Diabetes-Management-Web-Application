@@ -1,0 +1,30 @@
+<form [formGroup]="formGlucoseEntry">
+  
+    <!-- Glucose entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Glucose</label>
+      <input type="text" 
+             class="form-control" 
+             id="measurement" 
+             placeholder="Enter number of blood glucose" 
+             formControlName = "measurement">
+      <div *ngIf="formGlucoseEntry.get('measurement').errors?.required && formGlucoseEntry.get('measurement').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>  
+    <!-- /glucose entry -->
+  
+  
+    <div class="form-group">
+      <label for="formGroupExampleInput2">Date</label>
+      <input type="text" 
+             class="form-control" 
+             id="dateTime" 
+             placeholder="YYYY-MM-DD" 
+             formControlName="dateTime">
+      <div *ngIf="formGlucoseEntry.get('dateTime').errors?.required && formGlucoseEntry.get('dateTime').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <button  (click)="clickGlucoseEntrySubmit()">Submit </button>
+  </form>
