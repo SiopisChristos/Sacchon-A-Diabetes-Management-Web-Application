@@ -1,9 +1,12 @@
 package com.pfizer.sacchon.security;
 
+
 import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+
 public class ResourceUtils {
+
     /**
      * Indicates if the authenticated client user associated to the current
      * request is in the given role name.
@@ -24,4 +27,7 @@ public class ResourceUtils {
                     "You're not authorized to send this call.");
         }
     }
+
 }
+
+

@@ -1,6 +1,7 @@
 package com.pfizer.sacchon.model;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,7 +18,10 @@ public class Doctor {
     private String lastName;
     private String phoneNumber;
     private Date dateOfBirth;
-    private String speciality;
+    private Date creationDate;
+    private String specialty;
+    @ColumnDefault("1")
+    private boolean isActive = true;
 
     // related column between Doctor and UserTable
     @Column(unique = true)

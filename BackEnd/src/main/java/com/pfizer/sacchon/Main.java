@@ -25,9 +25,9 @@ public class Main extends Application {
     public static void main(String[] args) throws Exception {
         LOGGER.info("Contacts application starting...");
 
-        EntityManager em = JpaUtil.getEntityManager();
+//        EntityManager em = JpaUtil.getEntityManager();
+//        em.close();
 
-        //HibernateStart.main();
         Component c = new Component();
         c.getServers().add(Protocol.HTTP, 9000);
         c.getDefaultHost().attach("/v1", new Main());
@@ -42,8 +42,9 @@ public class Main extends Application {
         setDescription("Full Web API tutorial");
 
         getRoles().add(new Role(this, Shield.ROLE_ADMIN));
-        getRoles().add(new Role(this, Shield.ROLE_OWNER));
-        getRoles().add(new Role(this, Shield.ROLE_USER));
+        getRoles().add(new Role(this, Shield.ROLE_DOCTOR));
+        getRoles().add(new Role(this, Shield.ROLE_PATIENT
+        ));
 
     }
 

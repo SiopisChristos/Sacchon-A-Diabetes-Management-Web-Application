@@ -14,6 +14,7 @@ public class GlucoseRepresentation {
     private double measurement;
     private Patient patient;
     private String uri;
+    private long patient_id;
 
     public GlucoseRepresentation(Glucose glucose) {
         if (glucose != null) {

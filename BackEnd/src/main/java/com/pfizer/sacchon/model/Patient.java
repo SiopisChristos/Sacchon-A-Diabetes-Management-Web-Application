@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pfizer.sacchon.resource.PatientResourceImpl;
 import lombok.Data;
 import org.restlet.engine.Engine;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,9 +22,12 @@ public class Patient {
     private String lastName;
     private String address;
     private String city;
+    private String zipCode;
     private String phoneNumber;
     private Date dateOfBirth;
-    private boolean isActive;
+    @ColumnDefault("1")
+    private boolean isActive = true;
+    private Date creationDate;
 
     // related column between Patient and UserTable
     @Column(unique = true)
@@ -36,7 +40,7 @@ public class Patient {
     @OneToMany(mappedBy = "patient",  cascade = CascadeType.ALL)
     private List<Carb> carbList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient",  cascade = CascadeType.ALL)
     private List<Note> noteList = new ArrayList<>();
 
     @ManyToOne

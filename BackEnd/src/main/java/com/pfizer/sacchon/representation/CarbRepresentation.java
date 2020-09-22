@@ -9,10 +9,11 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class CarbRepresentation {
-    private long gram;
+    private double gram;
     private Date date;
     private Patient patient;
     private String uri;
+    private long patient_id;
 
     public CarbRepresentation(Carb carb) {
         if (carb != null) {
