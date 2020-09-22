@@ -8,6 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface DoctorsNoActivity {
-    @Get
+    @Get("json")
     RepresentationResponse<List<DoctorRepresentation>> doctorsWithNoActivity();
 }

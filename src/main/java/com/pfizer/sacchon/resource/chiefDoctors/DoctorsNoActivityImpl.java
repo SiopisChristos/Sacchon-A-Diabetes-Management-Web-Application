@@ -2,6 +2,7 @@ package com.pfizer.sacchon.resource.chiefDoctors;
 
 import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.model.Doctor;
+import com.pfizer.sacchon.repository.ChiefRepository;
 import com.pfizer.sacchon.repository.DoctorRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.DoctorRepresentation;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
 public class DoctorsNoActivityImpl extends ServerResource implements DoctorsNoActivity {
 
     public static final Logger LOGGER = Engine.getLogger(DoctorsNoActivityImpl.class);
-    private DoctorRepository doctorRepository;
+    private ChiefRepository chiefRepository;
     private EntityManager entityManager;
     private Date startDate;
     private Date endDate;
@@ -38,7 +39,7 @@ public class DoctorsNoActivityImpl extends ServerResource implements DoctorsNoAc
         LOGGER.info("Initializing doctorsNoActivity starts");
         try {
             entityManager = JpaUtil.getEntityManager();
-            doctorRepository = new DoctorRepository(entityManager);
+            chiefRepository = new ChiefRepository(entityManager);
 
             try {
                 String startDateString = getQueryValue("from");
@@ -68,17 +69,17 @@ public class DoctorsNoActivityImpl extends ServerResource implements DoctorsNoAc
 
     @Override
     public RepresentationResponse<List<DoctorRepresentation>> doctorsWithNoActivity() {
-        LOGGER.finer("Return a doctor list with no activity.");
+        LOGGER.finer("Return doctors with no activity.");
         try {
             if (startDate == null || endDate == null)
                 throw new BadEntityException("The input dates are not valid");
 
             ResourceUtils.checkRole(this, Shield.ROLE_ADMIN);
 
-            Set<Doctor> doctorIdWithNoActivity = doctorRepository.findDoctorsWithNoActivity(startDate, endDate);
+            Set<Doctor> doctorsWithNoActivity = chiefRepository.findDoctorsWithNoActivity(startDate, endDate);
 
             List<DoctorRepresentation> doctorRepresentation = new ArrayList<>();
-            doctorIdWithNoActivity.forEach(x -> doctorRepresentation.add(new DoctorRepresentation(x)));
+            doctorsWithNoActivity.forEach(x -> doctorRepresentation.add(new DoctorRepresentation(x)));
 
             return new RepresentationResponse(200, Constants.CODE_200, doctorRepresentation);
         } catch (ResourceException e) {
