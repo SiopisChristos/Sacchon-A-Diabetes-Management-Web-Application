@@ -1,4 +1,4 @@
-package com.pfizer.sacchon.resource;
+package com.pfizer.sacchon.resource.doctors;
 
 import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Patient;
