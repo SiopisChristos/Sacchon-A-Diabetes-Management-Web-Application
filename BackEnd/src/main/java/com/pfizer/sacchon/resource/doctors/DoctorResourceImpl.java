@@ -7,6 +7,7 @@ import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Note;
 import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.DoctorRepository;
+import com.pfizer.sacchon.repository.PatientRepository;
 import com.pfizer.sacchon.repository.RecordsRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.NoteRepresentation;
@@ -35,6 +36,7 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
     public static final Logger LOGGER = Engine.getLogger(DoctorResourceImpl.class);
     private DoctorRepository doctorRepository;
     private RecordsRepository recordsRepository;
+    private PatientRepository patientRepository;
     private long id;
     private EntityManager entityManager;
 
@@ -53,6 +55,7 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
             doctorRepository =
                     new DoctorRepository(entityManager);
             recordsRepository = new RecordsRepository(entityManager);
+            patientRepository = new PatientRepository(entityManager);
             id = Long.parseLong(getAttribute("id"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,33 +65,6 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
     }
 
 
-//    @Override
-//    public DoctorRepresentation getDoctor() throws NotFoundException {
-//
-//        DoctorRepository doctorRepository = new DoctorRepository(JpaUtil.getEntityManager());
-//        Doctor doctor;
-//        try {
-//
-//            Optional<Doctor> thedoctor = doctorRepository.findDoctorById(id);
-//
-//            setExisting(thedoctor.isPresent());
-//            if (!isExisting()) {
-//                LOGGER.config("doctor id does not exist:" + id);
-//                throw new NotFoundException("No doctor with  : " + id);
-//            } else {
-//                doctor = thedoctor.get();
-//                LOGGER.finer("User allowed to retrieve a doctor");
-//                DoctorRepresentation result =
-//                        new DoctorRepresentation(doctor);
-//
-//                LOGGER.finer("Doctor successfully retrieved");
-//
-//                return result;
-//            }
-//        } catch (Exception ex) {
-//            throw new ResourceException(ex);
-//        }
-//    }
 
     @Override
     public RepresentationResponse<List<PatientRepresentation>> getFreePatients() {
@@ -140,34 +116,29 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
-    public RepresentationResponse<Boolean> notificationSeen(NoteRepresentation noteReprIn) {
+    public RepresentationResponse<Boolean> notificationSeen() {
         try {
 
             String systemUsername = ResourceAuthorization.currentUserToUsername();
 
             //Throws BadEntityException
-            Patient patient = getFromOptionalEntity(
-                    findEntityById(new Patient(), entityManager, noteReprIn.getPatient_id()),
-                    this,
-                    LOGGER);
-            Doctor doctor = getFromOptionalEntity(
-                    findEntityById(new Doctor(), entityManager, noteReprIn.getDoctor_id()),
-                    this,
-                    LOGGER);
+            Patient patient = getFromOptionalEntity(patientRepository.findPatientByUsername(systemUsername), this, LOGGER);
+
             Note oldNote = getFromOptionalEntity(
                     findEntityById(new Note(), entityManager, id),
                     this,
                     LOGGER);
 
-            Note noteIn = noteReprIn.createNote(patient, doctor);
+            if (!oldNote.getPatient().equals(patient))
+                throw new NotAuthorizedException("It's not your note!");
 
-            //Throws a NotAuthorized Exception
-            ResourceAuthorization.equalsUsername(systemUsername, patient.getUsername());
-            ResourceValidator.checkNoteIntegrity(oldNote, noteIn);
 
-            noteIn.setId(id);
-            recordsRepository.updateNoteSeen(noteIn);
+            recordsRepository.updateNoteSeen(oldNote);
 
             return new RepresentationResponse(200, Constants.CODE_200, "true");
         } catch (NotAuthorizedException e) {

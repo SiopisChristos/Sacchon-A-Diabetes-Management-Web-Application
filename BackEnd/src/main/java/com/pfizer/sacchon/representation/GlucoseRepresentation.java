@@ -12,24 +12,22 @@ import java.util.Date;
 public class GlucoseRepresentation {
     private Date dateTime;
     private double measurement;
-    private Patient patient;
-    private String uri;
     private long patient_id;
 
     public GlucoseRepresentation(Glucose glucose) {
         if (glucose != null) {
             dateTime = glucose.getDateTime();
             measurement = glucose.getMeasurement();
-            patient = glucose.getPatient();
-            uri = "http://localhost:9000/v1/patient/glucose/" + glucose.getId();
+           patient_id = glucose.getPatient().getId();
+//            uri = "http://localhost:9000/v1/patient/glucose/" + glucose.getId();
         }
     }
 
-    public Glucose createGlucose() {
+    public Glucose createGlucose(Patient patient) {
         Glucose glucose = new Glucose();
         glucose.setDateTime(dateTime);
         glucose.setMeasurement(measurement);
-        glucose.setPatient(patient);
+      glucose.setPatient(patient);
         return glucose;
     }
 }

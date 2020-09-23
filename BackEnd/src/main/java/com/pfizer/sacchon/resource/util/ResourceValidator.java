@@ -1,22 +1,45 @@
 package com.pfizer.sacchon.resource.util;
 
 import com.pfizer.sacchon.exception.BadEntityException;
+import com.pfizer.sacchon.exception.NotAuthorizedException;
+import com.pfizer.sacchon.model.*;
 import com.pfizer.sacchon.representation.CarbRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
+
+import java.lang.reflect.Parameter;
 
 public class ResourceValidator {
     /**
      * Checks that the given entity is not null.
      *
-     * @param entity
-     *            The entity to check.
-     * @throws BadEntityException
-     *             In case the entity is null.
+     * @param entity The entity to check.
+     * @throws BadEntityException In case the entity is null.
      */
     public static void notNull(Object entity) throws BadEntityException {
         if (entity == null) {
             throw new BadEntityException("No input entity");
         }
+    }
+
+    public static void checkNotePatient(Note oldNote, Patient loggedInPatient) throws NotAuthorizedException{
+        if (!oldNote.getPatient().equals(loggedInPatient))
+            throw new NotAuthorizedException("Not your note!");
+    }
+
+    public static void checkNoteDoctor(Note oldNote, Doctor loggedInDoctor) throws NotAuthorizedException{
+        if (!oldNote.getDoctor().equals(loggedInDoctor))
+            throw new NotAuthorizedException("Not your note");
+    }
+
+
+    public static void checkCarbIntegrity(Carb oldCarb, Carb carbIn) throws NotAuthorizedException {
+        if (!oldCarb.getDate().equals(carbIn.getDate()))
+            throw new NotAuthorizedException("Can't change date");
+    }
+
+    public static void checkGlucoseIntegrity(Glucose oldGlucose, Patient patient) throws NotAuthorizedException {
+        if (!oldGlucose.getPatient().equals(patient))
+            throw new NotAuthorizedException("Can't change date");
     }
 
     /**

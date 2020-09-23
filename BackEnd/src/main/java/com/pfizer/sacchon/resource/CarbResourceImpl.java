@@ -5,10 +5,13 @@ import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Carb;
 import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.CarbRepository;
+import com.pfizer.sacchon.repository.PatientRepository;
+import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.CarbRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
 import com.pfizer.sacchon.representation.RepresentationResponse;
+import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.resource.util.ResourceValidator;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
@@ -29,7 +32,7 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
     private CarbRepository carbRepository;
     private EntityManager entityManager;
     private long id;
-
+private PatientRepository patientRepository;
     @Override
     protected void doRelease(){
         entityManager.close();
@@ -43,6 +46,7 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
         LOGGER.info("Initialising carb entry resource starts");
         try {
             entityManager = JpaUtil.getEntityManager();
+            patientRepository = new PatientRepository(entityManager);
             carbRepository = new CarbRepository (entityManager);
             id = Long.parseLong(getAttribute("id"));
         }
@@ -61,7 +65,7 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
      * @throws BadEntityException
      */
     @Override
-    public CarbRepresentation storeCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException {
+    public CarbRepresentation updateCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException {
         LOGGER.finer("Update a carb entry.");
 
         ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
@@ -71,9 +75,12 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
         ResourceValidator.notNull(carbRepresentationIn);
 //        ResourceValidator.validate(carbReprIn);
         LOGGER.finer("Carb entry checked");
+        String username = ResourceAuthorization.currentUserToUsername();
         try {
+            Patient p = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(username), this, this.LOGGER);
+
             // Convert CarbRepresentation to Carb
-            Carb carbIn = carbRepresentationIn.createCarb();
+            Carb carbIn = carbRepresentationIn.createCarb(p);
             carbIn.setId(id);
 
             Optional<Carb> carbOut;
@@ -113,7 +120,7 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
     @Override
     public RepresentationResponse<Boolean> removeCarbEntry() throws NotFoundException {
         try {
-            id = Long.parseLong(getAttribute("id"));
+
             if (carbRepository.findById(id).isPresent()) {
                 boolean p = carbRepository.removeCarbEntry(id);
                 return new RepresentationResponse<>(200,"Carb entry removed",p);

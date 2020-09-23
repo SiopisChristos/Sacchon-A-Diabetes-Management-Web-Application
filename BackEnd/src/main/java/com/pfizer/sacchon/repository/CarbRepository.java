@@ -18,16 +18,16 @@ public class CarbRepository {
     /**
      * The patient can store their data carb intake (measured in grams)
      */
-    public Optional<Carb> save(Carb carb){
+    public boolean save(Carb carb){
         try {
             entityManager.getTransaction().begin();
             entityManager.persist (carb);
             entityManager.getTransaction().commit();
-            return Optional.of(carb);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return Optional.empty();
     }
 
     /**

@@ -18,7 +18,7 @@ public interface GlucoseListResource {
      * @throws BadEntityException
      */
     @Post("json")
-    GlucoseRepresentation addGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException;
+    Boolean addGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException;
 
     /**
      * Patients can view their average daily blood glucose level over a user- specified period

@@ -154,10 +154,6 @@ public class PatientResourceImpl extends ServerResource
     (PatientRepresentation patientRepresentationIn)
             throws BadEntityException {
         LOGGER.finer("Add a new patient into system.");
-        // Check authorization
-        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
-        LOGGER.finer("User allowed to add a patient.");
-        //Check validation of InputData-argument
         ResourceValidator.notNull(patientRepresentationIn);
         ResourceValidator.validate(patientRepresentationIn);
         // Check entity
@@ -172,11 +168,11 @@ public class PatientResourceImpl extends ServerResource
                 patient = patientOut.get();
             else
                 throw new BadEntityException(" Patient has not been created");
-            PatientRepresentation result = PatientRepresentation.initData(patientIn);
-            result.setUri("http://localhost:9000/v1/patient/" + patient.getId());
-            getResponse().setLocationRef(
-                    "http://localhost:9000/v1/patient/" + patient.getId());
-            getResponse().setStatus(Status.SUCCESS_CREATED);
+            PatientRepresentation result = new PatientRepresentation(patient);
+//            result.setUri("http://localhost:9000/v1/patient/" + patient.getId());
+//            getResponse().setLocationRef(
+//                    "http://localhost:9000/v1/patient/" + patient.getId());
+//            getResponse().setStatus(Status.SUCCESS_CREATED);
             LOGGER.finer("Patient successfully added.");
             return new RepresentationResponse<>(200,"OK",result);
         } catch (Exception ex) {

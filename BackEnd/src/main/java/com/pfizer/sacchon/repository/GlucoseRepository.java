@@ -18,16 +18,16 @@ public class GlucoseRepository {
     /**
      * The patient can store their data blood glucose level (date, time, measured in mg/dL)
      */
-    public Optional<Glucose> save(Glucose glucose){
+    public Boolean save(Glucose glucose){
         try {
             entityManager.getTransaction().begin();
             entityManager.persist (glucose);
             entityManager.getTransaction().commit();
-            return Optional.of(glucose);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return false;
     }
 
     /**
@@ -72,7 +72,7 @@ public class GlucoseRepository {
      * @param glucose
      * @return boolean if database has been updated
      */
-    public Optional<Glucose> updateGlucose(Glucose glucose) {
+    public Boolean updateGlucose(Glucose glucose) {
 
         Glucose in = entityManager.find(Glucose.class, glucose.getId());
         in.setMeasurement(glucose.getMeasurement());
@@ -82,11 +82,11 @@ public class GlucoseRepository {
             entityManager.getTransaction().begin();
             entityManager.persist (in);
             entityManager.getTransaction().commit();
-            return Optional.of(in);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return false;
     }
 
     /**

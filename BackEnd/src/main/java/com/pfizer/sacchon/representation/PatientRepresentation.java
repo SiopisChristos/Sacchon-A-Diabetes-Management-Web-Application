@@ -1,4 +1,5 @@
 package com.pfizer.sacchon.representation;
+
 import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Patient;
 import lombok.Data;
@@ -16,13 +17,9 @@ public class PatientRepresentation {
     private String phoneNumber;
     private String username;
     private Date dateOfBirth;
-    private Doctor doctorId;
-    private boolean isActive;
-  //  private long id;
-    /**
-     * The URL of this resource.
-     */
-    private String uri;
+    private long doctor_id;
+    private String zipCode;
+
 
 
     public PatientRepresentation(Patient patient) {
@@ -31,14 +28,16 @@ public class PatientRepresentation {
             lastName = patient.getLastName();
             address = patient.getAddress();
             city = patient.getCity();
+            zipCode = patient.getZipCode();
             phoneNumber = patient.getPhoneNumber();
             username = patient.getUsername();
             dateOfBirth = patient.getDateOfBirth();
-            doctorId = patient.getDoctor();
-            isActive = true;
-     //       id=patient.getId();
+            //       id=patient.getId();
+            if (patient.getDoctor() != null)
+                doctor_id = patient.getDoctor().getId();
+            else
+                doctor_id = -1;
 
-            uri = "http://localhost:9000/v1/patient/" + patient.getId();
         }
     }
 
@@ -79,9 +78,6 @@ public class PatientRepresentation {
         if (patientRep.getPhoneNumber() != null) {
             patientIn.setPhoneNumber(patientRep.getPhoneNumber());
         }
-        if (patientRep.getDoctorId() != null) {
-            patientIn.setDoctor(patientRep.getDoctorId());
-        }
         return patientIn;
     }
 
@@ -94,8 +90,7 @@ public class PatientRepresentation {
         result.setAddress(newPatient.getAddress());
         result.setPhoneNumber(newPatient.getPhoneNumber());
         result.setCity(newPatient.getCity());
-        result.setDoctorId(newPatient.getDoctor());
-        result.setActive(true);
+
 
         return result;
     }

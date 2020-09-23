@@ -1,14 +1,21 @@
 package com.pfizer.sacchon.resource;
 
 import com.pfizer.sacchon.exception.BadEntityException;
+import com.pfizer.sacchon.exception.NotAuthorizedException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Carb;
 import com.pfizer.sacchon.model.Glucose;
+import com.pfizer.sacchon.model.Note;
+import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.GlucoseRepository;
+import com.pfizer.sacchon.repository.PatientRepository;
+import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.CarbRepresentation;
 import com.pfizer.sacchon.representation.GlucoseRepresentation;
 import com.pfizer.sacchon.representation.RepresentationResponse;
+import com.pfizer.sacchon.resource.constant.Constants;
+import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.resource.util.ResourceValidator;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
@@ -16,37 +23,41 @@ import org.restlet.data.Status;
 import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+
 import javax.persistence.EntityManager;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.pfizer.sacchon.repository.util.EntityUtil.findEntityById;
+import static com.pfizer.sacchon.repository.util.EntityUtil.getFromOptionalEntity;
 
 public class GlucoseResourceImpl extends ServerResource implements GlucoseResource {
 
     public static final Logger LOGGER = Engine.getLogger(CarbResourceImpl.class);
 
     private GlucoseRepository glucoseRepository;
+    private PatientRepository patientRepository;
     private EntityManager entityManager;
     private long id;
 
     @Override
-    protected void doRelease(){
+    protected void doRelease() {
         entityManager.close();
     }
 
     /**
-     *Initialises Glucose repository
+     * Initialises Glucose repository
      */
     @Override
     protected void doInit() {
         LOGGER.info("Initialising glucose entry resource starts");
         try {
             entityManager = JpaUtil.getEntityManager();
-            glucoseRepository = new GlucoseRepository(entityManager) ;
+            patientRepository = new PatientRepository(entityManager);
+            glucoseRepository = new GlucoseRepository(entityManager);
             id = Long.parseLong(getAttribute("id"));
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             throw new ResourceException(ex);
         }
         LOGGER.info("Initialising glucose entry resource ends");
@@ -60,7 +71,7 @@ public class GlucoseResourceImpl extends ServerResource implements GlucoseResour
      * @throws BadEntityException
      */
     @Override
-    public GlucoseRepresentation storeGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException {
+    public Boolean updateGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException {
         LOGGER.finer("Update a Glucose entry.");
 
         ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
@@ -70,34 +81,26 @@ public class GlucoseResourceImpl extends ServerResource implements GlucoseResour
         ResourceValidator.notNull(glucoseRepresentationIn);
 //        ResourceValidator.validate(carbReprIn);
         LOGGER.finer("Glucose entry checked");
+        String username = ResourceAuthorization.currentUserToUsername();
         try {
+            Glucose oldGlucose = getFromOptionalEntity(
+                    findEntityById(new Glucose(), entityManager, id),
+                    this,
+                    LOGGER);
+            Patient patient = getFromOptionalEntity(patientRepository.findPatientByUsername(username),
+                    this,
+                    LOGGER);
+
+
             // Convert GlucoseRepresentation to Glucose
-            Glucose glucoseIn = glucoseRepresentationIn.createGlucose();
-            glucoseIn.setId(id);
+            Glucose newGlucose = glucoseRepresentationIn.createGlucose(patient);
+            ResourceValidator.checkGlucoseIntegrity(oldGlucose, patient);
+            newGlucose.setId(id);
+            newGlucose.setDateTime(oldGlucose.getDateTime());
 
-            Optional<Glucose> glucoseOut;
-            Optional<Glucose> optionalGlucose = glucoseRepository.findById(id);
-            setExisting(optionalGlucose.isPresent());
+            Boolean updated = glucoseRepository.updateGlucose(newGlucose);
 
-            // If glucose entry exists, we update it.
-            if (isExisting()) {
-                LOGGER.finer("Update glucose entry.");
-
-                // Update glucose in DB and retrieve the new one.
-                glucoseOut = glucoseRepository.updateGlucose(glucoseIn);
-
-                // Check if retrieved glucose entry is not null : if it is null it
-                // means that the id is wrong.
-                if (!glucoseOut.isPresent()) {
-                    LOGGER.finer("glucose entry does not exist.");
-                    throw new NotFoundException("glucose entry with the following id does not exist: " + id);
-                }
-            } else {
-                LOGGER.finer("Resource does not exist.");
-                throw new NotFoundException("glucose entry with the following id does not exist: " + id);
-            }
-            LOGGER.finer("glucose entry successfully updated.");
-            return new GlucoseRepresentation(glucoseOut.get());
+            return updated;
         } catch (Exception ex) {
             throw new ResourceException(ex);
         }
@@ -111,17 +114,21 @@ public class GlucoseResourceImpl extends ServerResource implements GlucoseResour
      */
     @Override
     public RepresentationResponse<Boolean> removeGlucoseEntry() throws NotFoundException {
+        String username = ResourceAuthorization.currentUserToUsername();
         try {
-            id = Long.parseLong(getAttribute("id"));
-            if (glucoseRepository.findById(id).isPresent()) {
-                boolean p = glucoseRepository.removeGlucoseEntry(id);
-                return new RepresentationResponse<>(200,"Glucose entry removed",p);
-            }
+            Glucose glucose = EntityUtil.getFromOptionalEntity(glucoseRepository.findById(id), this, this.LOGGER);
+            if (!glucose.getPatient().getUsername().equals(username))
+                throw new NotAuthorizedException("It's not your measurement!");
+
+            boolean result = glucoseRepository.removeGlucoseEntry(id);
+
+            return new RepresentationResponse<>(200, "Glucose entry removed", result);
+
+        } catch (NotAuthorizedException e) {
+            return new RepresentationResponse(403, Constants.CODE_403, Constants.RESPONSE_403);
         } catch (Exception ex1) {
-            {
-                return new RepresentationResponse<Boolean>(400,"Problem while deleting glucose entry",false);
-            }
+            return new RepresentationResponse<Boolean>(400, "Problem while deleting glucose entry", false);
         }
-        return new RepresentationResponse<Boolean>(400,"Problem while deleting glucose entry",false);
+
     }
 }

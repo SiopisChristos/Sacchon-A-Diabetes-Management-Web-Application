@@ -144,14 +144,10 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
     @Override
     public RepresentationResponse<String> updateNote(NoteRepresentation noteReprIn) throws ResourceException {
         LOGGER.info("Update a note");
+        String username = ResourceAuthorization.currentUserToUsername();
         try {
-            Patient patient = getFromOptionalEntity(
-                    findEntityById(new Patient(), entityManager, noteReprIn.getPatient_id()),
-                    this,
-                    LOGGER);
-
             Doctor doctor = getFromOptionalEntity(
-                    findEntityById(new Doctor(), entityManager, noteReprIn.getDoctor_id()),
+                    doctorRepository.findDoctorByUsername(username),
                     this,
                     LOGGER);
 
@@ -159,13 +155,13 @@ public class DoctorRecordsImpl extends ServerResource implements DoctorRecords {
                     findEntityById(new Note(), entityManager, id),
                     this,
                     LOGGER);
-            Note noteIn = noteReprIn.createNote(patient, doctor);
+            //throws NotAuthorized Exception
+            ResourceValidator.checkNoteDoctor(oldNote,doctor);
 
+            //Create the new Note (same as old but added the new Doctor's message)
+            Note noteIn = oldNote;
+            noteIn.setMessage(noteReprIn.getMessage());
 
-            ResourceAuthorization.checkUserAuthorization(doctor.getUsername());
-            ResourceValidator.checkNoteIntegrity(oldNote, noteIn);
-
-            noteIn.setId(id);
             recordsRepository.updateNote(noteIn);
 
             return new RepresentationResponse(204, Constants.CODE_204, Constants.RESPONSE_204);

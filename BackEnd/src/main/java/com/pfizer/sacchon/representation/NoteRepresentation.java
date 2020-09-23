@@ -15,27 +15,34 @@ public class NoteRepresentation {
 
     private String message;
     private Date date;
-    private Patient patient;
-    private Doctor doctor;
-    private String uri;
+    private long patient_id;
+    private long doctor_id;
+    private boolean seen = false;
+    private String patientLastname;
+    private String doctorLastname;
+    private long id;
 
     public NoteRepresentation(Note note) {
         if (note != null) {
+            id = note.getId();
             message = note.getMessage();
             date = note.getDate();
-            patient = note.getPatient();
-            doctor = note.getDoctor();
-            uri = "http://localhost:9000/v1/patient/note/" + note.getId();
+            patient_id = note.getPatient().getId();
+            doctor_id = note.getDoctor().getId();
+            patientLastname = note.getPatient().getLastName();
+            doctorLastname = note.getDoctor().getLastName();
+            seen = note.isSeen();
         }
     }
-
-    public Note createNote() {
+    public Note createNote(Patient patient, Doctor doctor) {
         Note note = new Note();
         note.setMessage(message);
         note.setDate(date);
+        note.setSeen(seen);
         note.setPatient(patient);
         note.setDoctor(doctor);
         return note;
     }
 }
+
 

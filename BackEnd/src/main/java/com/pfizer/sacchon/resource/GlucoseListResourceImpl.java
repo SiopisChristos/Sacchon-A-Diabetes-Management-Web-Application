@@ -4,10 +4,14 @@ import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Carb;
 import com.pfizer.sacchon.model.Glucose;
+import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.GlucoseRepository;
+import com.pfizer.sacchon.repository.PatientRepository;
+import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.CarbRepresentation;
 import com.pfizer.sacchon.representation.GlucoseRepresentation;
+import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
 import org.restlet.data.Status;
@@ -32,7 +36,7 @@ public class GlucoseListResourceImpl extends ServerResource implements GlucoseLi
     private Date startDate;
     private Date endDate;
     private Long id;
-
+    private PatientRepository patientRepository;
     /**
      * This release method closes the entityManager
      */
@@ -49,6 +53,7 @@ public class GlucoseListResourceImpl extends ServerResource implements GlucoseLi
         LOGGER.info("Initialising glucose resource starts");
         try {
             entityManager = JpaUtil.getEntityManager();
+            patientRepository = new PatientRepository(entityManager);
             glucoseRepository = new GlucoseRepository(entityManager);
             try {
                 String startDateString = getQueryValue("from");
@@ -79,43 +84,31 @@ public class GlucoseListResourceImpl extends ServerResource implements GlucoseLi
      * @return  a representation of the persisted object
      */
     @Override
-    public GlucoseRepresentation addGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn){
+    public Boolean addGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn){
 
         LOGGER.info("Add a new Glucose entry.");
 
-        // Check authorization
-//        ResourceUtils.checkRole(this, Shield.ROLE_USER);
-//        LOGGER.finer("User allowed to add a product.");
+
 
         // Check entity
 //        ResourceValidator.notNull(productRepresentationIn);
 //        ResourceValidator.validate(productRepresentationIn);
-//        LOGGER.finer("Product checked");
+
+        String username = ResourceAuthorization.currentUserToUsername();
 
         try {
+            ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
+            Patient p = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(username), this, this.LOGGER);
+
             // Converts GlucoseRepresentation to Glucose
-            Glucose glucoseIn = new Glucose();
-            glucoseIn.setMeasurement(glucoseRepresentationIn.getMeasurement());
-            glucoseIn.setDateTime(glucoseRepresentationIn.getDateTime());
-            glucoseIn.setPatient(glucoseRepresentationIn.getPatient());
+            Glucose glucoseIn = glucoseRepresentationIn.createGlucose(p);
+            glucoseRepository.save(glucoseIn);
 
-            Optional<Glucose> glucoseOut = glucoseRepository.save(glucoseIn);
-            Glucose glucose = null;
-            if (glucoseOut.isPresent())
-                glucose = glucoseOut.get();
-
-            GlucoseRepresentation result = new GlucoseRepresentation();
-            result.setMeasurement(glucose.getMeasurement());
-            result.setDateTime(glucose.getDateTime());
-            result.setPatient(glucose.getPatient());
-            result.setUri("http://localhost:9000/v1/patient/glucose/" + glucose.getId());
-
-            getResponse().setLocationRef("http://localhost:9000/v1/patient/glucose/" + glucose.getId());
-            getResponse().setStatus(Status.SUCCESS_CREATED);
+            Boolean saved = glucoseRepository.save(glucoseIn);
 
             LOGGER.info("Glucose entry successfully added.");
+            return saved;
 
-            return result;
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when adding a new Glucose entry", ex);
             throw new ResourceException(ex);

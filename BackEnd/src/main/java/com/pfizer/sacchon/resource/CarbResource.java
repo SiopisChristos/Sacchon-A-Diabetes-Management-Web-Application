@@ -28,6 +28,6 @@ public interface CarbResource {
      * @throws BadEntityException
      */
     @Put("json")
-    CarbRepresentation storeCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException;
+    CarbRepresentation updateCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException;
 
 }

@@ -17,7 +17,7 @@ public interface CarbListResource {
      * @throws BadEntityException
      */
     @Post("json")
-    CarbRepresentation addCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException;
+    Boolean addCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException;
 
     /**
      * Patients can view their average carb intake over a user- specified period

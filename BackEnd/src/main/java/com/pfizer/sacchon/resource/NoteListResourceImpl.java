@@ -2,9 +2,13 @@ package com.pfizer.sacchon.resource;
 
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Note;
+import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.NoteRepository;
+import com.pfizer.sacchon.repository.PatientRepository;
+import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.NoteRepresentation;
+import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
 import org.restlet.engine.Engine;
@@ -19,15 +23,15 @@ public class NoteListResourceImpl extends ServerResource implements NoteLIstReso
     public static final Logger LOGGER = Engine.getLogger(NoteListResourceImpl.class);
 
     private NoteRepository noteRepository;
+    private PatientRepository patientRepository;
 
     @Override
     protected void doInit() {
         LOGGER.info("Initialising note resource starts");
         try {
             noteRepository = new NoteRepository(JpaUtil.getEntityManager());
-        }
-        catch(Exception e)
-        {
+            patientRepository = new PatientRepository(JpaUtil.getEntityManager());
+        } catch (Exception e) {
 
         }
         LOGGER.info("Initialising note resource ends");
@@ -39,20 +43,14 @@ public class NoteListResourceImpl extends ServerResource implements NoteLIstReso
 
         // Check authorization
         ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
-
-        try{
-            List<Note> notes = noteRepository.findAllConsultations();
+        String username = ResourceAuthorization.currentUserToUsername();
+        try {
+            Patient p = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(username), this, this.LOGGER);
+            List<Note> notes = noteRepository.findAllConsultations(p);
             List<NoteRepresentation> result = new ArrayList<>();
-
-//            for (Product product :products)
-//                result.add (new ProductRepresentation(product));
-
             notes.forEach(note -> result.add(new NoteRepresentation(note)));
-
             return result;
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new NotFoundException("notes not found");
         }
     }

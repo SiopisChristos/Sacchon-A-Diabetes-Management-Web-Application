@@ -1,8 +1,10 @@
 package com.pfizer.sacchon.repository;
 
+import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Patient;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,13 +28,12 @@ public class PatientRepository {
     }
 
     /**
-     * Search for patient with specific lastname
-     *
-     * @param lastname
-     * @return Patient as Optional
+     * @param username
+     * @return
      */
-    public Optional<Patient> findByLastname(String lastname) {
-        Patient patient = entityManager.find(Patient.class, lastname);
+    public Optional<Patient> findPatientByUsername(String username) {
+        Patient patient = (Patient) entityManager.createQuery(
+                "from Patient p where :username = p.username").setParameter("username", username).getSingleResult();
         return patient != null ? Optional.of(patient) : Optional.empty();
     }
 
@@ -65,7 +66,7 @@ public class PatientRepository {
      * @return empty Optional
      */
     public Optional<Patient> save(Patient patient) {
-
+        patient.setCreationDate(new Date());
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(patient);

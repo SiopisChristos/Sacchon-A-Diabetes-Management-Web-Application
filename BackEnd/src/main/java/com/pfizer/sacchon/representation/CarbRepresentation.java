@@ -11,24 +11,21 @@ import java.util.Date;
 public class CarbRepresentation {
     private double gram;
     private Date date;
-    private Patient patient;
-    private String uri;
     private long patient_id;
 
     public CarbRepresentation(Carb carb) {
         if (carb != null) {
             gram = carb.getGram();
             date = carb.getDate();
-            patient = carb.getPatient();
-            uri = "http://localhost:9000/v1/patient/carb/" + carb.getId();
+            patient_id = carb.getPatient().getId();
         }
     }
 
-    public Carb createCarb() {
+    public Carb createCarb(Patient p) {
         Carb carb = new Carb();
         carb.setGram(gram);
         carb.setDate(date);
-        carb.setPatient(patient);
+        carb.setPatient(p);
         return carb;
     }
 }

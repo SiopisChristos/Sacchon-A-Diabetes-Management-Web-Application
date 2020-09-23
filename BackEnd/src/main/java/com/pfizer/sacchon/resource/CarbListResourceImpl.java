@@ -3,9 +3,15 @@ package com.pfizer.sacchon.resource;
 import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Carb;
+import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.CarbRepository;
+import com.pfizer.sacchon.repository.PatientRepository;
+import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.CarbRepresentation;
+import com.pfizer.sacchon.resource.util.ResourceAuthorization;
+import com.pfizer.sacchon.security.ResourceUtils;
+import com.pfizer.sacchon.security.Shield;
 import org.restlet.data.Status;
 import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
@@ -28,7 +34,7 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
     private Date startDate;
     private Date endDate;
     private Date date;
-
+    private PatientRepository patientRepository;
     /**
      * This release method closes the entityManager
      */
@@ -45,6 +51,7 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
         LOGGER.info("Initialising carb resource starts");
         try {
             entityManager = JpaUtil.getEntityManager();
+            patientRepository = new PatientRepository(JpaUtil.getEntityManager());
             carbRepository = new CarbRepository(entityManager);
             try {
                 String startDateString = getQueryValue("from");
@@ -74,42 +81,26 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
      * @param carbRepresentationIn  representation of a Carb given by the frontEnd
      */
     @Override
-    public CarbRepresentation addCarbEntry(CarbRepresentation carbRepresentationIn){
+    public Boolean addCarbEntry(CarbRepresentation carbRepresentationIn){
 
         LOGGER.info("Add a new carb entry.");
 
-        // Check authorization
-//        ResourceUtils.checkRole(this, Shield.ROLE_USER);
-//        LOGGER.finer("User allowed to add a product.");
 
         // Check entity
-//        ResourceValidator.notNull(productRepresentationIn);
-//        ResourceValidator.validate(productRepresentationIn);
-//        LOGGER.finer("Product checked");
-
+        //        ResourceValidator.notNull(productRepresentationIn);
+        //        ResourceValidator.validate(productRepresentationIn);
+        //        LOGGER.finer("Product checked");
+        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
+        String username = ResourceAuthorization.currentUserToUsername();
         try {
+            Patient p = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(username), this, this.LOGGER);
+
             // Converts CarbRepresentation to Carb
-            Carb carbIn = new Carb();
-            carbIn.setGram(carbRepresentationIn.getGram());
-            carbIn.setDate(carbRepresentationIn.getDate());
-            carbIn.setPatient(carbRepresentationIn.getPatient());
-
-            Optional<Carb> carbOut = carbRepository.save(carbIn);
-            Carb carb = null;
-            if (carbOut.isPresent())
-                carb = carbOut.get();
-
-            CarbRepresentation result = new CarbRepresentation();
-            result.setGram(carb.getGram());
-            result.setDate(carb.getDate());
-            result.setPatient(carb.getPatient());
-            result.setUri("http://localhost:9000/v1/patient/carb/" + carb.getId());
-
-            getResponse().setLocationRef("http://localhost:9000/v1/patient/carb/" + carb.getId());
+            Carb carbIn = carbRepresentationIn.createCarb(p);
+            boolean result = carbRepository.save(carbIn);
             getResponse().setStatus(Status.SUCCESS_CREATED);
 
             LOGGER.info("Carb entry successfully added.");
-
             return result;
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when adding a new carb entry", ex);
@@ -127,14 +118,13 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
         LOGGER.finer("Select all carb entries for selected period.");
 
         // Check authorization
-//        ResourceUtils.checkRole(this, Shield.ROLE_USER);
+//        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
         try {
 
             List<Carb> carbs;
             if (startDate ==null || endDate ==null)
                 // find carbs within a range dates
                 carbs = carbRepository.findAll();
-
             else
                 carbs = carbRepository.findAverageCarbIntake(startDate , endDate);
 

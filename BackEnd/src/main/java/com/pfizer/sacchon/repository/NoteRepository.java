@@ -2,6 +2,7 @@ package com.pfizer.sacchon.repository;
 
 import com.pfizer.sacchon.model.Carb;
 import com.pfizer.sacchon.model.Note;
+import com.pfizer.sacchon.model.Patient;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -30,8 +31,9 @@ public class NoteRepository {
      *
      * @return List of all notes entries
      */
-    public List<Note> findAllConsultations() {
-        return entityManager.createQuery("from Note n").getResultList();
+    public List<Note> findAllConsultations(Patient patient) {
+        return entityManager.createQuery("from Note where patient = :patient ")
+                .setParameter( "patient" , patient).getResultList();
     }
 
 }
