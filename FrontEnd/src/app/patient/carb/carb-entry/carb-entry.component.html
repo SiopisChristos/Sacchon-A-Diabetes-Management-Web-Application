@@ -1,0 +1,29 @@
+<form [formGroup]="formCarbEntry">
+  
+  <!-- Grams entry -->
+  <div class="form-group">
+    <label for="formGroupExampleInput">Grams</label>
+    <input type="text" 
+           class="form-control" 
+           id="gram" 
+           placeholder="Enter number of grams" 
+           formControlName = "gram">
+    <div *ngIf="formCarbEntry.get('gram').errors?.required && formCarbEntry.get('gram').dirty" class="text-danger">
+      Field is required
+    </div>
+  </div>  
+  <!-- /Grams entry -->
+
+  <div class="form-group">
+    <label for="formGroupExampleInput2">Date</label>
+    <input type="text" 
+           class="form-control" 
+           id="date" 
+           placeholder="YYYY-MM-DD" 
+           formControlName="date">
+    <div *ngIf="formCarbEntry.get('date').errors?.required && formCarbEntry.get('date').dirty" class="text-danger">
+      Field is required
+    </div>
+  </div>
+  <button  (click)="clickCarbEntrySubmit()">Submit </button>
+</form>

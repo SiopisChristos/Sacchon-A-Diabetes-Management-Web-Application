@@ -4,17 +4,25 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DoctorComponent } from './doctor/doctorComponent/doctor.component';
+import {RouterModule} from '@angular/router';
+import { PatientModule } from './patient/patient.module';
+import { MainComponent } from './main/main.component';
+import { CarbModule } from './patient/carb/carb.module';
+import { GlucoseModule } from './patient/glucose/glucose.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DoctorComponent
-  ],
+    MainComponent
+    ],
   imports: [
     HttpClientModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    PatientModule,
+    CarbModule,
+    GlucoseModule,
+    RouterModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]
