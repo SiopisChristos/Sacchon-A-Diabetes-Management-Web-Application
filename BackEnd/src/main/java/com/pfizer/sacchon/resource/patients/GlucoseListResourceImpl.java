@@ -1,20 +1,16 @@
-package com.pfizer.sacchon.resource;
+package com.pfizer.sacchon.resource.patients;
 
-import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
-import com.pfizer.sacchon.model.Carb;
 import com.pfizer.sacchon.model.Glucose;
 import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.GlucoseRepository;
 import com.pfizer.sacchon.repository.PatientRepository;
 import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
-import com.pfizer.sacchon.representation.CarbRepresentation;
 import com.pfizer.sacchon.representation.GlucoseRepresentation;
 import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
-import org.restlet.data.Status;
 import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
@@ -23,7 +19,6 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

@@ -1,4 +1,4 @@
-package com.pfizer.sacchon.resource;
+package com.pfizer.sacchon.resource.patients;
 
 import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;

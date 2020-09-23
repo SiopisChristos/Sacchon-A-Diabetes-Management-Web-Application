@@ -1,6 +1,5 @@
-package com.pfizer.sacchon.resource;
+package com.pfizer.sacchon.resource.patients;
 
-import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Carb;
 import com.pfizer.sacchon.model.Patient;
@@ -21,7 +20,6 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

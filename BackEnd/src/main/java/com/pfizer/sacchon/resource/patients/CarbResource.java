@@ -1,33 +1,33 @@
-package com.pfizer.sacchon.resource;
+package com.pfizer.sacchon.resource.patients;
 
 import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.representation.CarbRepresentation;
-import com.pfizer.sacchon.representation.GlucoseRepresentation;
+import com.pfizer.sacchon.representation.PatientRepresentation;
 import com.pfizer.sacchon.representation.RepresentationResponse;
 import org.restlet.resource.Delete;
 import org.restlet.resource.Post;
 import org.restlet.resource.Put;
 
-public interface GlucoseResource {
+public interface CarbResource {
 
     /**
-     * Deletes a glucose entry from the Database
+     * Deletes a carb entry from the Database
      *
      * @return RepresentationResponse
      * @throws NotFoundException
      */
     @Delete
-    RepresentationResponse<Boolean> removeGlucoseEntry() throws NotFoundException;
+    RepresentationResponse<Boolean> removeCarbEntry() throws NotFoundException;
 
     /**
-     * Update data of an existing glucose entry
+     * Update data of an existing carb entry
      *
-     * @param glucoseRepresentationIn
+     * @param carbRepresentationIn
      * @return boolean
      * @throws BadEntityException
      */
     @Put("json")
-    Boolean updateGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException;
+    CarbRepresentation updateCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException;
 
 }

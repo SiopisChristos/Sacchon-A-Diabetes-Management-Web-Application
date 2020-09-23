@@ -1,4 +1,4 @@
-package com.pfizer.sacchon.resource;
+package com.pfizer.sacchon.resource.patients;
 
 import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
@@ -11,7 +11,6 @@ import com.pfizer.sacchon.resource.util.ResourceValidator;
 //import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
-import org.restlet.data.Status;
 import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
@@ -155,7 +154,7 @@ public class PatientResourceImpl extends ServerResource
             throws BadEntityException {
         LOGGER.finer("Add a new patient into system.");
         ResourceValidator.notNull(patientRepresentationIn);
-        ResourceValidator.validate(patientRepresentationIn);
+        ResourceValidator.validatePatient(patientRepresentationIn);
         // Check entity
         LOGGER.finer("Patient checked");
         try {
