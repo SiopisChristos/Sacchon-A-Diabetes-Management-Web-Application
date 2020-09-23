@@ -21,7 +21,8 @@ public class importData {
                 sql = "Use " + DatabaseCredentials.DB_SCHEMA;
                 stmt.executeUpdate(sql);
 
-                String query1 = "INSERT INTO Doctor ( creationDate, username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES ( '2020-06-09', 'gpapado', 'Giannis', 'Papadopoulos', '6983456378' , '1984-02-08' ,'kardiologos')," +
+                String query1 = "INSERT INTO Doctor ( creationDate, username, firstName, lastName, phoneNumber, dateOfBirth, specialty) VALUES "+
+                        "( '2020-06-09', 'gpapado', 'Giannis', 'Papadopoulos', '6983456378' , '1984-02-08' ,'kardiologos')," +
                  "('2020-09-09',  'egiannako', 'Eleni', 'Giannakopoulou', '6983784978' , '1990-01-07' ,'pathologos')," +
                   "( '2020-08-06', 'mpmeka', 'Maria', 'Mpeka', '6947556378' , '1987-10-01' ,'orthopedikos')," +
                  "('2020-08-07',  'pkosto', 'Petros', 'Kostopoulos', '6983789865' , '1991-10-21' ,'pathologos')," +
@@ -62,7 +63,9 @@ public class importData {
                  "( '2020-09-12 19:00:59', 87, 3 )";
 
                 String query5 = "INSERT INTO UserTable ( username, password, role) VALUES ('gpapado','gpapado','doctor')," +
-                        " ('admin','admin','admin')";
+                        " ('admin','admin','admin'), ('ekelid','ekelid','patient'), ('vaprask','vaparask','patient'),"+
+                        "('gstath','gstath','patient'), ('xsiop','xsiop','patient'), ('egiannako','egiannako','doctor'),"+
+                        "('mpmeka','mpmeka','doctor')";
 
                 stmt.executeUpdate(query1);
                 stmt.executeUpdate(query2);
