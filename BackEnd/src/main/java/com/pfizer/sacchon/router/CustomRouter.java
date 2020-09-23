@@ -1,10 +1,7 @@
 package com.pfizer.sacchon.router;
-import com.pfizer.sacchon.resource.PatientListResourceImpl;
-import com.pfizer.sacchon.resource.PatientResourceImpl;
+import com.pfizer.sacchon.resource.patients.*;
 import com.pfizer.sacchon.resource.PingServerResource;
-import com.pfizer.sacchon.resource.*;
 
-import com.pfizer.sacchon.resource.*;
 import com.pfizer.sacchon.resource.chiefDoctors.DoctorSubmissionsImpl;
 import com.pfizer.sacchon.resource.chiefDoctors.DoctorsNoActivityImpl;
 import com.pfizer.sacchon.resource.chiefDoctors.PatientSubmissionsImpl;
@@ -41,9 +38,12 @@ public class CustomRouter {
         router.attach("/patient/glucose/", GlucoseListResourceImpl.class);
 
         router.attach("/patient/note/", NoteListResourceImpl.class);
+
         //Doctor Section
-        router.attach("/doctor/see/freePatients", DoctorResourceImpl.class); //{Get} FreePatients
+        router.attach("/doctor/{id}", DoctorUtilitiesImpl.class); //{post} create doctor
         router.attach("/doctor/see/myPatients", DoctorUtilitiesImpl.class); //{Get} myPatients
+
+        router.attach("/doctor/see/freePatients", DoctorResourceImpl.class); //{Get} FreePatients
         router.attach("/doctor/account", DoctorResourceImpl.class); //{Delete} doctor's account
         router.attach("/doctor/account/{id}", DoctorResourceImpl.class); //{Put} [A doctor chooses a free Patient]
         router.attach("/postNote", DoctorRecordsImpl.class); //{POST} note

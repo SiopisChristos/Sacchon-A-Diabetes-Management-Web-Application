@@ -197,6 +197,18 @@ public class DoctorRepository {
         return patient != null ? Optional.of(patient) : Optional.empty();
     }
 
+    public Optional<Doctor> save(Doctor doctor) {
+        doctor.setCreationDate(new Date());
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(doctor);
+            entityManager.getTransaction().commit();
+            return Optional.of(doctor);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
 
     public boolean updatePatientDoctor(Doctor doctor, Patient patient) {
         Patient p = entityManager.find(Patient.class, patient.getId());

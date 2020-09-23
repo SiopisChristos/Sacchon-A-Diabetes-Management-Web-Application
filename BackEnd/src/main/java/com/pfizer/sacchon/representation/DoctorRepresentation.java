@@ -1,6 +1,7 @@
 package com.pfizer.sacchon.representation;
 
 import com.pfizer.sacchon.model.Doctor;
+import com.pfizer.sacchon.model.Patient;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -31,4 +32,16 @@ public class DoctorRepresentation {
         dateOfBirthString = sdf.format(doctor.getDateOfBirth() );
 
     }
+    public Doctor createDoctor() {
+        Doctor doctor = new Doctor();
+        doctor.setUsername(username);
+        doctor.setLastName(lastName);
+        doctor.setFirstName(firstName);
+        doctor.setDateOfBirth(dateOfBirth);
+        doctor.setSpecialty(specialty);
+        doctor.setPhoneNumber(phoneNumber);
+        doctor.setActive(true);
+        return doctor;
+    }
+
 }

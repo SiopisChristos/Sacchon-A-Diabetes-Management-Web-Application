@@ -4,6 +4,7 @@ import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotAuthorizedException;
 import com.pfizer.sacchon.model.*;
 import com.pfizer.sacchon.representation.CarbRepresentation;
+import com.pfizer.sacchon.representation.DoctorRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
 
 import java.lang.reflect.Parameter;
@@ -48,33 +49,62 @@ public class ResourceValidator {
      * @param patientRepresentation
      * @throws BadEntityException
      */
-    public static void validate(PatientRepresentation patientRepresentation)
+    public static void validatePatient(PatientRepresentation patientRepresentation)
             throws BadEntityException {
-//        if ( patientRepresentation.getFirstName()==null) {
-//            throw new BadEntityException(
-//                    "patient name cannot be null");
-//        }
-//        if ( patientRepresentation.getLastName()==null) {
-//            throw new BadEntityException(
-//                    "patient name cannot be null");
-//        }
-//        if ( patientRepresentation.getPhoneNumber().length()!=10 && patientRepresentation.getPhoneNumber()!=null) {
-//            throw new BadEntityException(
-//                    "patient invalid phone number");
-//        }
-//        if ( patientRepresentation.getUsername()==null) {
-//            throw new BadEntityException(
-//                    "patient username cannot be null");
-//        }
-//        if ( patientRepresentation.getAddress()==null) {
-//            throw new BadEntityException(
-//                    "patient address cannot be null");
-//        }
-//        if ( patientRepresentation.getCity()==null) {
-//            throw new BadEntityException(
-//                    "patient city cannot be null");
-//        }
-//
+        if ( patientRepresentation.getFirstName()==null) {
+            throw new BadEntityException(
+                    "patient name cannot be null");
+        }
+        if ( patientRepresentation.getLastName()==null) {
+            throw new BadEntityException(
+                    "patient name cannot be null");
+        }
+        if ( patientRepresentation.getPhoneNumber().length()!=10 && patientRepresentation.getPhoneNumber()!=null) {
+            throw new BadEntityException(
+                    "patient invalid phone number");
+        }
+        if ( patientRepresentation.getUsername()==null) {
+            throw new BadEntityException(
+                    "patient username cannot be null");
+        }
+        if ( patientRepresentation.getAddress()==null) {
+            throw new BadEntityException(
+                    "patient address cannot be null");
+        }
+        if ( patientRepresentation.getCity()==null) {
+            throw new BadEntityException(
+                    "patient city cannot be null");
+        }
+
+    }
+
+    public static void validateDoctor(DoctorRepresentation doctorRepresentation)
+            throws BadEntityException {
+        if ( doctorRepresentation.getFirstName()==null) {
+            throw new BadEntityException(
+                    "name cannot be null");
+        }
+        if ( doctorRepresentation.getLastName()==null) {
+            throw new BadEntityException(
+                    "name cannot be null");
+        }
+        if ( doctorRepresentation.getPhoneNumber().length()!=10 && doctorRepresentation.getPhoneNumber()!=null) {
+            throw new BadEntityException(
+                    "invalid phone number");
+        }
+        if ( doctorRepresentation.getUsername()==null) {
+            throw new BadEntityException(
+                    "username cannot be null");
+        }
+        if ( doctorRepresentation.getSpecialty()==null) {
+            throw new BadEntityException(
+                    "specialty cannot be null");
+        }
+        if ( doctorRepresentation.getDateOfBirth()==null) {
+            throw new BadEntityException(
+                    "date of birth city cannot be null");
+        }
+
     }
 
 }

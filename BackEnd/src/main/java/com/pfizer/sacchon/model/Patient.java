@@ -1,16 +1,12 @@
 package com.pfizer.sacchon.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pfizer.sacchon.resource.PatientResourceImpl;
 import lombok.Data;
-import org.restlet.engine.Engine;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Data
 @Entity
