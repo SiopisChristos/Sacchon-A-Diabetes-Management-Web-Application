@@ -12,12 +12,14 @@ public class CarbRepresentation {
     private double gram;
     private Date date;
     private long patient_id;
+    private String uri;
 
     public CarbRepresentation(Carb carb) {
         if (carb != null) {
             gram = carb.getGram();
             date = carb.getDate();
             patient_id = carb.getPatient().getId();
+            uri = "http://localhost:9000/v1/patient/carb/" + carb.getId();
         }
     }
 

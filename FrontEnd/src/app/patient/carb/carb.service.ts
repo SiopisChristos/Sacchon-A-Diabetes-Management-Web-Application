@@ -11,8 +11,8 @@ export class CarbService {
   constructor(private http: HttpClient) { }
   readonly baseUrl = 'http://localhost:9000/v1/patient/';
 
-  username = 'christos';
-  password = 'christos';
+  username = 'ekelid';
+  password = 'ekelid';
 
   addCarbEntry(values):Observable<any>{
     console.log(values.get('gram').value);
@@ -21,7 +21,6 @@ export class CarbService {
     {
         'gram':values.get('gram').value,
         'date':values.get('date').value,
-        'patient':values.get('patient').value
     },
     {
       headers:new HttpHeaders({'Authorization': 'Basic ' + btoa(this.username + ':' + this.password)})}

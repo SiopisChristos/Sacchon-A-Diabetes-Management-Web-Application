@@ -14,16 +14,20 @@
   </div>  
   <!-- /Grams entry -->
 
+  <!-- Date entry -->
   <div class="form-group">
     <label for="formGroupExampleInput2">Date</label>
     <input type="text" 
-           class="form-control" 
-           id="date" 
-           placeholder="YYYY-MM-DD" 
-           formControlName="date">
+          class="form-control" 
+          id="date" 
+          placeholder="DD/MM/YYYY" 
+          formControlName="date">
     <div *ngIf="formCarbEntry.get('date').errors?.required && formCarbEntry.get('date').dirty" class="text-danger">
       Field is required
     </div>
   </div>
+  <!-- /Date entry -->
+
   <button  (click)="clickCarbEntrySubmit()">Submit </button>
+
 </form>

@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CarbService } from '../carb.service';
@@ -16,8 +17,7 @@ export class CarbEntryComponent implements OnInit {
   ngOnInit(): void {
     this.formCarbEntry = new FormGroup({
       gram: new FormControl(null, Validators.required),
-      date: new FormControl,
-      patient: new FormControl
+      date: new FormControl
     })
   }
 

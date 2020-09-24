@@ -33,7 +33,7 @@ public class Main extends Application {
         c.getDefaultHost().attach("/v1", new Main());
         c.start();
         LOGGER.info("Sample Web API started");
-        LOGGER.info("URL: http://localhost:9000/v1/patient");
+        LOGGER.info("URL: http://localhost:9000/v1/");
 
     }
     public Main() {

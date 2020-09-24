@@ -73,7 +73,6 @@ public class CarbRepository {
      * @return boolean if database has been updated
      */
     public Optional<Carb> updateCarb(Carb carb) {
-
         Carb in = entityManager.find(Carb.class, carb.getId());
         in.setGram(carb.getGram());
         in.setDate(carb.getDate());

@@ -70,7 +70,7 @@ private PatientRepository patientRepository;
 
         // Check given entity
         ResourceValidator.notNull(carbRepresentationIn);
-//        ResourceValidator.validate(carbReprIn);
+//        ResourceValidator.validate(carbRepresentationIn);
         LOGGER.finer("Carb entry checked");
         String username = ResourceAuthorization.currentUserToUsername();
         try {
@@ -85,7 +85,7 @@ private PatientRepository patientRepository;
             setExisting(optionalCarb.isPresent());
 
             // If carb entry exists, we update it.
-            if (isExisting()) {
+            if (isExisting() && p.getId() == carbIn.getPatient().getId()) {
                 LOGGER.finer("Update carb entry.");
 
                 // Update product in DB and retrieve the new one.
