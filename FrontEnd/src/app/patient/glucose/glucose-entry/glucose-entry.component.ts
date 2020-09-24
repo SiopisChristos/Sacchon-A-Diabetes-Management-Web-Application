@@ -16,14 +16,13 @@ export class GlucoseEntryComponent implements OnInit {
   ngOnInit(): void {
     this.formGlucoseEntry = new FormGroup({
       measurement: new FormControl(null, Validators.required),
-      dateTime: new FormControl(null, Validators.required),
-      patient: new FormControl
+      dateTime: new FormControl(null, Validators.required)
     })
   }
 
   
   clickGlucoseEntrySubmit(){
-    this.glucoseService.addCarbEntry(this.formGlucoseEntry).subscribe(glucoseData => {
+    this.glucoseService.addGlucoseEntry(this.formGlucoseEntry).subscribe(glucoseData => {
       alert(JSON.stringify(glucoseData));
       this.ngOnInit;
     })

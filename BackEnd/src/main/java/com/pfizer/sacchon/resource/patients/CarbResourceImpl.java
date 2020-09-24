@@ -85,7 +85,7 @@ private PatientRepository patientRepository;
             setExisting(optionalCarb.isPresent());
 
             // If carb entry exists, we update it.
-            if (isExisting() && p.getId() == carbIn.getPatient().getId()) {
+            if (isExisting()) {
                 LOGGER.finer("Update carb entry.");
 
                 // Update product in DB and retrieve the new one.

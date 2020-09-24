@@ -10,17 +10,16 @@ export class GlucoseService {
   constructor(private http: HttpClient) { }
   readonly baseUrl = 'http://localhost:9000/v1/patient/';
 
-  username = 'christos';
-  password = 'christos';
+  username = 'ekelid';
+  password = 'ekelid';
 
-  addCarbEntry(values):Observable<any>{
+  addGlucoseEntry(values):Observable<any>{
     console.log(values.get('measurement').value);
     return this.http.post(
       this.baseUrl+'glucose/',
     {
         'measurement':values.get('measurement').value,
-        'dateTime':values.get('dateTime').value,
-        'patient':values.get('patient').value
+        'dateTime':values.get('dateTime').value
     },
     {
       headers:new HttpHeaders({'Authorization': 'Basic ' + btoa(this.username + ':' + this.password)})}

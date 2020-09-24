@@ -18,7 +18,7 @@ public class GlucoseRepository {
     /**
      * The patient can store their data blood glucose level (date, time, measured in mg/dL)
      */
-    public Boolean save(Glucose glucose){
+    public boolean save(Glucose glucose){
         try {
             entityManager.getTransaction().begin();
             entityManager.persist (glucose);
@@ -26,8 +26,8 @@ public class GlucoseRepository {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**

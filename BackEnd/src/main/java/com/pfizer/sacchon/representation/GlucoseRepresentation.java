@@ -28,7 +28,7 @@ public class GlucoseRepresentation {
         Glucose glucose = new Glucose();
         glucose.setDateTime(dateTime);
         glucose.setMeasurement(measurement);
-      glucose.setPatient(patient);
+        glucose.setPatient(patient);
         return glucose;
     }
 }

@@ -20,7 +20,7 @@ export class CarbService {
       this.baseUrl+'carb/',
     {
         'gram':values.get('gram').value,
-        'date':values.get('date').value,
+        'date':values.get('date').value
     },
     {
       headers:new HttpHeaders({'Authorization': 'Basic ' + btoa(this.username + ':' + this.password)})}
