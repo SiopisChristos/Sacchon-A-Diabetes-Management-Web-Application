@@ -8,6 +8,8 @@ import com.pfizer.sacchon.repository.PatientRepository;
 import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.CarbRepresentation;
+import com.pfizer.sacchon.representation.RepresentationResponse;
+import com.pfizer.sacchon.resource.constant.Constants;
 import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
@@ -16,6 +18,7 @@ import org.restlet.engine.Engine;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,7 +82,7 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
      * @param carbRepresentationIn  representation of a Carb given by the frontEnd
      */
     @Override
-    public Boolean addCarbEntry(CarbRepresentation carbRepresentationIn){
+    public RepresentationResponse<Boolean> addCarbEntry(CarbRepresentation carbRepresentationIn){
 
         LOGGER.info("Add a new carb entry.");
 
@@ -99,7 +102,7 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
             getResponse().setStatus(Status.SUCCESS_CREATED);
 
             LOGGER.info("Carb entry successfully added.");
-            return result;
+            return new RepresentationResponse(200, Constants.CODE_200, result);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when adding a new carb entry", ex);
             throw new ResourceException(ex);
@@ -112,23 +115,25 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
      * @throws NotFoundException if there are NO entries for the specified period
      */
     @Override
-    public List<CarbRepresentation> getAverageCarbIntake() throws NotFoundException {
+    public RepresentationResponse<Double> getAverageCarbIntake() throws NotFoundException {
         LOGGER.finer("Select all carb entries for selected period.");
 
         // Check authorization
 //        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
+        String username = ResourceAuthorization.currentUserToUsername();
         try {
 
-            List<Carb> carbs;
-            if (startDate ==null || endDate ==null)
-                // find carbs within a range dates
-                carbs = carbRepository.findAll();
-            else
-                carbs = carbRepository.findAverageCarbIntake(startDate , endDate);
+            Patient patient = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(username),
+                    this,LOGGER);
 
-            List<CarbRepresentation> result = new ArrayList<>();
-            carbs.forEach(carb -> result.add(new CarbRepresentation(carb)));
-            return result;
+            Double carbsAvg;
+//            if (startDate ==null || endDate ==null)
+//                // find carbsAvg within a range dates
+//                carbsAvg = carbRepository.findAll();
+//            else
+                carbsAvg = carbRepository.findAverageCarbIntake(patient, startDate , endDate);
+
+            return new RepresentationResponse<>(200,Constants.CODE_200, carbsAvg);
         } catch (Exception e) {
             throw new NotFoundException("Carb entries not found during selected period");
         }

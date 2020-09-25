@@ -1,6 +1,7 @@
 package com.pfizer.sacchon.resource.patients;
 
 import com.pfizer.sacchon.exception.BadEntityException;
+import com.pfizer.sacchon.exception.NotAuthorizedException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Carb;
 import com.pfizer.sacchon.model.Patient;
@@ -10,6 +11,8 @@ import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.CarbRepresentation;
 import com.pfizer.sacchon.representation.RepresentationResponse;
+import com.pfizer.sacchon.resource.chiefDoctors.PatientSubmissions;
+import com.pfizer.sacchon.resource.constant.Constants;
 import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.resource.util.ResourceValidator;
 import com.pfizer.sacchon.security.ResourceUtils;
@@ -29,14 +32,15 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
     private CarbRepository carbRepository;
     private EntityManager entityManager;
     private long id;
-private PatientRepository patientRepository;
+    private PatientRepository patientRepository;
+
     @Override
-    protected void doRelease(){
+    protected void doRelease() {
         entityManager.close();
     }
 
     /**
-     *Initialises Carb repository
+     * Initialises Carb repository
      */
     @Override
     protected void doInit() {
@@ -44,11 +48,9 @@ private PatientRepository patientRepository;
         try {
             entityManager = JpaUtil.getEntityManager();
             patientRepository = new PatientRepository(entityManager);
-            carbRepository = new CarbRepository (entityManager);
+            carbRepository = new CarbRepository(entityManager);
             id = Long.parseLong(getAttribute("id"));
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             throw new ResourceException(ex);
         }
         LOGGER.info("Initialising carb entry resource ends");
@@ -62,10 +64,11 @@ private PatientRepository patientRepository;
      * @throws BadEntityException
      */
     @Override
-    public CarbRepresentation updateCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException {
+    public RepresentationResponse updateCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException {
         LOGGER.finer("Update a carb entry.");
 
         ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
+
         LOGGER.finer("User allowed to update a carb.");
 
         // Check given entity
@@ -74,35 +77,19 @@ private PatientRepository patientRepository;
         LOGGER.finer("Carb entry checked");
         String username = ResourceAuthorization.currentUserToUsername();
         try {
-            Patient p = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(username), this, this.LOGGER);
+            Carb carbOld = EntityUtil.getFromOptionalEntity(carbRepository.findById(id), this, LOGGER);
+            ResourceValidator.checkCarbIntegrity(carbOld, username);
 
-            // Convert CarbRepresentation to Carb
-            Carb carbIn = carbRepresentationIn.createCarb(p);
-            carbIn.setId(id);
+            carbOld.setGram(carbRepresentationIn.getGram());
 
-            Optional<Carb> carbOut;
-            Optional<Carb> optionalCarb = carbRepository.findById(id);
-            setExisting(optionalCarb.isPresent());
+            // Update product in DB and retrieve the new one.
+            boolean result = carbRepository.updateCarb(carbOld);
 
-            // If carb entry exists, we update it.
-            if (isExisting()) {
-                LOGGER.finer("Update carb entry.");
-
-                // Update product in DB and retrieve the new one.
-                carbOut = carbRepository.updateCarb(carbIn);
-
-                // Check if retrieved carb entry is not null : if it is null it
-                // means that the id is wrong.
-                if (!carbOut.isPresent()) {
-                    LOGGER.finer("Carb entry does not exist.");
-                    throw new NotFoundException("Carb entry with the following id does not exist: " + id);
-                }
-            } else {
-                LOGGER.finer("Resource does not exist.");
-                throw new NotFoundException("Carb entry with the following id does not exist: " + id);
-            }
             LOGGER.finer("Carb entry successfully updated.");
-            return new CarbRepresentation(carbOut.get());
+            return new RepresentationResponse(204, Constants.CODE_204, Constants.RESPONSE_204);
+        } catch (NotAuthorizedException e) {
+            e.printStackTrace();
+            return new RepresentationResponse(403, Constants.CODE_403, Constants.RESPONSE_403);
         } catch (Exception ex) {
             throw new ResourceException(ex);
         }
@@ -116,17 +103,19 @@ private PatientRepository patientRepository;
      */
     @Override
     public RepresentationResponse<Boolean> removeCarbEntry() throws NotFoundException {
-        try {
 
-            if (carbRepository.findById(id).isPresent()) {
-                boolean p = carbRepository.removeCarbEntry(id);
-                return new RepresentationResponse<>(200,"Carb entry removed",p);
-            }
-        } catch (Exception ex1) {
-            {
-                return new RepresentationResponse<Boolean>(400,"Problem while deleting carb entry",false);
-            }
+        String usernameLoggedIn = ResourceAuthorization.currentUserToUsername();
+        try {
+            Carb carb = EntityUtil.getFromOptionalEntity(carbRepository.findById(id), this, LOGGER);
+            ResourceValidator.checkCarbIntegrity(carb, usernameLoggedIn);
+            boolean p = carbRepository.removeCarbEntry(id);
+            return new RepresentationResponse(200, Constants.CODE_200, true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new RepresentationResponse<Boolean>(400, "Problem while deleting carb entry", false);
+
         }
-        return new RepresentationResponse<Boolean>(400,"Problem while deleting carb entry",false);
+
     }
 }

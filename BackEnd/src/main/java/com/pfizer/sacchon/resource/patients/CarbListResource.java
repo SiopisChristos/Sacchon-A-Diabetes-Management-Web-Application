@@ -3,6 +3,7 @@ package com.pfizer.sacchon.resource.patients;
 import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.representation.CarbRepresentation;
+import com.pfizer.sacchon.representation.RepresentationResponse;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 
@@ -17,7 +18,7 @@ public interface CarbListResource {
      * @throws BadEntityException
      */
     @Post("json")
-    Boolean addCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException;
+    RepresentationResponse<Boolean> addCarbEntry(CarbRepresentation carbRepresentationIn) throws BadEntityException;
 
     /**
      * Patients can view their average carb intake over a user- specified period
@@ -25,5 +26,5 @@ public interface CarbListResource {
      * @throws NotFoundException if there are NO entries
      */
     @Get("json")
-    List<CarbRepresentation> getAverageCarbIntake() throws NotFoundException;
+    RepresentationResponse<Double> getAverageCarbIntake() throws NotFoundException;
 }

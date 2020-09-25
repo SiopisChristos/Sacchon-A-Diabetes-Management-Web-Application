@@ -51,18 +51,20 @@ public class CarbRepository {
     /**
      * The patient can view their average carb intake over a user-specified period *REQUIRED*
      *
-     * @param startDate User specified date in format "yyy-MM-dd"
-     * @param endDate User specified date in format "yyy-MM-dd"
+     * @param startDate User specified date in format "yy-MM-dd"
+     * @param endDate User specified date in format "yy-MM-dd"
      * @return The average grams of carb entries per day as list
      */
-    public List<Carb> findAverageCarbIntake(Date startDate, Date endDate) {
-        List<Carb> carb = entityManager.createQuery(
-                     "SELECT avg(c.gram) " +
+    public Double findAverageCarbIntake(Patient patient, Date startDate, Date endDate) {
+
+        Double carb = (Double) entityManager.createQuery(
+                "SELECT avg(c.gram) " +
                         "FROM Carb c" +
-                        "WHERE c.date >= :startDate' AND c.date <= :endDate AND c.date is not null")
+                        "WHERE c.date >= :startDate' AND c.date <= :endDate AND c.date is not null AND c.patient = :patient")
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
-                .getResultList();
+                .setParameter("patient", patient)
+                .getSingleResult();
         return carb;
     }
 
@@ -72,20 +74,18 @@ public class CarbRepository {
      * @param carb
      * @return boolean if database has been updated
      */
-    public Optional<Carb> updateCarb(Carb carb) {
+    public boolean updateCarb(Carb carb) {
         Carb in = entityManager.find(Carb.class, carb.getId());
         in.setGram(carb.getGram());
-        in.setDate(carb.getDate());
-        in.setPatient(carb.getPatient());
         try {
             entityManager.getTransaction().begin();
             entityManager.persist (in);
             entityManager.getTransaction().commit();
-            return Optional.of(in);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return false;
     }
 
     /**
