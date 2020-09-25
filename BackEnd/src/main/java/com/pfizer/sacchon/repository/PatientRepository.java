@@ -84,30 +84,30 @@ public class PatientRepository {
      * @param patient
      * @return boolean if database has been updated
      */
-    public boolean updatePatient(Patient patient,long id) {
+    public boolean updatePatient(Patient patient) {
 
-        Patient in = entityManager.find(Patient.class, id);
-        if (patient.getFirstName() != null) {
+        Patient in = entityManager.find(Patient.class, patient.getId());
+        if (patient.getFirstName() != null)
             in.setFirstName(patient.getFirstName());
-        }
-        if (patient.getLastName() != null) {
+
+        if (patient.getLastName() != null)
             in.setLastName(patient.getLastName());
-        }
-        if (patient.getUsername() != null) {
-            in.setUsername(patient.getUsername());
-        }
-        if (patient.getPhoneNumber() != null) {
+
+        if (patient.getPhoneNumber() != null)
             in.setPhoneNumber(patient.getPhoneNumber());
-        }
-        if (patient.getAddress() != null) {
+
+        if (patient.getAddress() != null)
             in.setAddress(patient.getAddress());
-        }
-        if (patient.getDateOfBirth() != null) {
+
+        if (patient.getDateOfBirth() != null)
             in.setDateOfBirth(patient.getDateOfBirth());
-        }
-        if(patient.getDoctor()!=null){
+
+        if (patient.getDoctor() != null)
             in.setDoctor(patient.getDoctor());
-        }
+
+        if (patient.getZipCode() != null)
+            in.setZipCode(patient.getZipCode());
+
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(in);
@@ -120,24 +120,22 @@ public class PatientRepository {
     }
 
 
-
-    public boolean removePatient(long id) {
-        Patient in = entityManager.find(Patient.class, id);
-        if (in != null) {
-            in.setActive(false);
-            try {
-                entityManager.getTransaction().begin();
-                entityManager.persist(in);
-                entityManager.getTransaction().commit();
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public boolean removePatient(Patient patient) {
+        Patient in = entityManager.find(Patient.class, patient.getId());
+        in.setActive(false);
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(in);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return false;
 
     }
 
 
-
 }
+

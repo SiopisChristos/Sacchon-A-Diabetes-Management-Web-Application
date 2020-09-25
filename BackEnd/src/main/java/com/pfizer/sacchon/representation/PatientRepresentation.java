@@ -55,29 +55,28 @@ public class PatientRepresentation {
     }
 
 
-    public static Patient updatePatient(PatientRepresentation patientRep) {
-        Patient patientIn = new Patient();
-        if (patientRep.getFirstName() != null) {
+    public static Patient updatePatient(Patient patientIn, PatientRepresentation patientRep) {
+        if (patientRep.getFirstName() != null)
             patientIn.setFirstName(patientRep.getFirstName());
-        }
-        if (patientRep.getLastName() != null) {
+
+        if (patientRep.getLastName() != null)
             patientIn.setLastName(patientRep.getLastName());
-        }
-        if (patientRep.getUsername() != null) {
-            patientIn.setUsername(patientRep.getUsername());
-        }
-        if (patientRep.getAddress() != null) {
+
+        if (patientRep.getAddress() != null)
             patientIn.setAddress(patientRep.getAddress());
-        }
-        if (patientRep.getCity() != null) {
+
+        if (patientRep.getCity() != null)
             patientIn.setCity(patientRep.getCity());
-        }
-        if (patientRep.getDateOfBirth() != null) {
+
+        if (patientRep.getZipCode() != null)
+            patientIn.setZipCode(patientRep.getZipCode());
+
+        if (patientRep.getDateOfBirth() != null)
             patientIn.setDateOfBirth(patientRep.getDateOfBirth());
-        }
-        if (patientRep.getPhoneNumber() != null) {
+
+        if (patientRep.getPhoneNumber() != null)
             patientIn.setPhoneNumber(patientRep.getPhoneNumber());
-        }
+
         return patientIn;
     }
 

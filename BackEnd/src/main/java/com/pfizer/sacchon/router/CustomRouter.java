@@ -1,4 +1,5 @@
 package com.pfizer.sacchon.router;
+import com.pfizer.sacchon.resource.LoginImpl;
 import com.pfizer.sacchon.resource.patients.*;
 import com.pfizer.sacchon.resource.PingServerResource;
 
@@ -39,7 +40,7 @@ public class CustomRouter {
         router.attach("/patient/note/", NoteListResourceImpl.class);
 
         //Doctor Section
-        router.attach("/doctor/{id}", DoctorUtilitiesImpl.class); //{post} create doctor
+        router.attach("/doctor", DoctorUtilitiesImpl.class); //{post} create doctor
         router.attach("/doctor/see/myPatients", DoctorUtilitiesImpl.class); //{Get} myPatients
 
         router.attach("/doctor/see/freePatients", DoctorResourceImpl.class); //{Get} FreePatients
@@ -52,7 +53,7 @@ public class CustomRouter {
 
         //User section
         router.attach("/patient/record/{id}", DoctorResourceImpl.class); //{POST} notification's user for a Note
-
+        router.attach("/login", LoginImpl.class); //{POST} notification's user for a Note
 
         //Chief Section
         // Get Doctors with no activity over a time range

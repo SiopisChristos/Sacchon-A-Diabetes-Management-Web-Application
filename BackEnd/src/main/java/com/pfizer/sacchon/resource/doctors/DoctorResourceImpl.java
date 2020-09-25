@@ -124,19 +124,14 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
     public RepresentationResponse<Boolean> notificationSeen() {
         try {
 
-            String systemUsername = ResourceAuthorization.currentUserToUsername();
-
-            //Throws BadEntityException
-            Patient patient = getFromOptionalEntity(patientRepository.findPatientByUsername(systemUsername), this, LOGGER);
+            String usernameLoggedIn = ResourceAuthorization.currentUserToUsername();
 
             Note oldNote = getFromOptionalEntity(
                     findEntityById(new Note(), entityManager, id),
                     this,
                     LOGGER);
 
-            if (!oldNote.getPatient().equals(patient))
-                throw new NotAuthorizedException("It's not your note!");
-
+            ResourceValidator.checkNotePatient(oldNote, usernameLoggedIn);
 
             recordsRepository.updateNoteSeen(oldNote);
 

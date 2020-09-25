@@ -140,28 +140,6 @@ public class DoctorRepository {
     }
 
 
-    /**
-     * Deleting a doctor from the Db UserTable
-     *
-     * @param user The doctor to be deleted
-     * @return True if deleting has been completed, else false
-     */
-    public boolean removeAccount(UserTable user) {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.remove(user);
-            entityManager.getTransaction().commit();
-
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public UserTable findAccountById(String username) {
-        return entityManager.find(UserTable.class, username);
-    }
 
 
     /**
@@ -186,16 +164,6 @@ public class DoctorRepository {
         return doctor != null ? Optional.of(doctor) : Optional.empty();
     }
 
-    /**
-     * find a Patient record by ID
-     *
-     * @param patient_id
-     * @return Optional of Patient or empty
-     */
-    public Optional<Patient> findPatientById(long patient_id) {
-        Patient patient = entityManager.find(Patient.class, patient_id);
-        return patient != null ? Optional.of(patient) : Optional.empty();
-    }
 
     public Optional<Doctor> save(Doctor doctor) {
         doctor.setCreationDate(new Date());

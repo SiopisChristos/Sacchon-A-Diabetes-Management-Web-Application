@@ -4,9 +4,12 @@ import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.PatientRepository;
+import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.PatientRepresentation;
 import com.pfizer.sacchon.representation.RepresentationResponse;
+import com.pfizer.sacchon.resource.constant.Constants;
+import com.pfizer.sacchon.resource.util.ResourceAuthorization;
 import com.pfizer.sacchon.resource.util.ResourceValidator;
 //import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.ResourceUtils;
@@ -48,7 +51,6 @@ public class PatientResourceImpl extends ServerResource
     }
 
 
-
     /**
      * Set a patient as inActive
      *
@@ -59,21 +61,19 @@ public class PatientResourceImpl extends ServerResource
     public RepresentationResponse<Boolean> deletePatient()
             throws NotFoundException {
         LOGGER.finer("Delete patient");
-        id = Long.parseLong(getAttribute("id"));
-        PatientRepository patientRepository =
-                new PatientRepository(em);
+        String usernameLoggedIn = ResourceAuthorization.currentUserToUsername();
         try {
+            Patient patient = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(usernameLoggedIn), this, LOGGER);
             Patient p = new Patient();
             p.setActive(false);
-            if (patientRepository.removePatient(id))
-                return new RepresentationResponse(200, "OK, Patient set as inActive",
-                        patientRepository.findById(id));
-            else new RepresentationResponse(200, "OK", false);
+            boolean result = patientRepository.removePatient(patient);
+            return new RepresentationResponse(200, Constants.CODE_200,
+                    result);
+
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when removing a patient", ex);
             throw new ResourceException(ex);
         }
-        return null;
     }
 
     /**
@@ -89,16 +89,17 @@ public class PatientResourceImpl extends ServerResource
             throws BadEntityException {
         ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
         ResourceValidator.notNull(patientRepresentationIn);
-        LOGGER.finer("Company checked");
-        id = Long.parseLong(getAttribute("id"));
+        LOGGER.finer("Update Patient - Validations Passed");
+        String usernameLoggedIn = ResourceAuthorization.currentUserToUsername();
         try {
+            Patient patient = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(usernameLoggedIn),this,LOGGER);
             Patient patientIn = PatientRepresentation
-                    .updatePatient(patientRepresentationIn);
-            if (patientRepository.updatePatient(patientIn, id)) {
-                return new RepresentationResponse<>(200, "OK", true);
-            } else {
-                return new RepresentationResponse<>(500, "Bad request", false);
-            }
+                    .updatePatient(patient, patientRepresentationIn);
+            boolean result = patientRepository.updatePatient(patientIn);
+
+
+                return new RepresentationResponse<>(200, Constants.CODE_200, result);
+
         } catch (Exception ex1) {
             {
                 throw new
@@ -140,14 +141,13 @@ public class PatientResourceImpl extends ServerResource
 //                    "http://localhost:9000/v1/patient/" + patient.getId());
 //            getResponse().setStatus(Status.SUCCESS_CREATED);
             LOGGER.finer("Patient successfully added.");
-            return new RepresentationResponse<>(200,"OK",result);
+            return new RepresentationResponse<>(200, "OK", result);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when adding a patient", ex);
             throw new ResourceException(ex);
         }
 
     }
-
 
 
 }

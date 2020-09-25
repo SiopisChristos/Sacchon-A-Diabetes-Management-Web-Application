@@ -108,10 +108,6 @@ public class DoctorUtilitiesImpl extends ServerResource implements DoctorUtiliti
             else
                 throw new BadEntityException(" Doctor has not been created");
             DoctorRepresentation result = new DoctorRepresentation(doctor);
-//            result.setUri("http://localhost:9000/v1/patient/" + patient.getId());
-//            getResponse().setLocationRef(
-//                    "http://localhost:9000/v1/patient/" + patient.getId());
-//            getResponse().setStatus(Status.SUCCESS_CREATED);
             LOGGER.finer("Doctor successfully added.");
             return new RepresentationResponse<>(200, "OK", result);
         } catch (Exception ex) {
