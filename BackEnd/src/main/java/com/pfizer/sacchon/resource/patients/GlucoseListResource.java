@@ -4,6 +4,7 @@ import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.representation.CarbRepresentation;
 import com.pfizer.sacchon.representation.GlucoseRepresentation;
+import com.pfizer.sacchon.representation.RepresentationResponse;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 
@@ -18,7 +19,7 @@ public interface GlucoseListResource {
      * @throws BadEntityException
      */
     @Post("json")
-    Boolean addGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException;
+    RepresentationResponse<Boolean> addGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException;
 
     /**
      * Patients can view their average daily blood glucose level over a user- specified period
@@ -26,5 +27,5 @@ public interface GlucoseListResource {
      * @throws NotFoundException if there are NO entries
      */
     @Get("json")
-    List<GlucoseRepresentation> getAverageGlucoseLevel() throws NotFoundException;
+    RepresentationResponse<List<Double>> getAverageGlucoseLevel() throws NotFoundException;
 }

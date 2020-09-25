@@ -1,5 +1,6 @@
 package com.pfizer.sacchon.resource.patients;
 
+import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Glucose;
 import com.pfizer.sacchon.model.Patient;
@@ -8,7 +9,10 @@ import com.pfizer.sacchon.repository.PatientRepository;
 import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.GlucoseRepresentation;
+import com.pfizer.sacchon.representation.RepresentationResponse;
+import com.pfizer.sacchon.resource.constant.Constants;
 import com.pfizer.sacchon.resource.util.ResourceAuthorization;
+import com.pfizer.sacchon.resource.util.ResourceValidator;
 import com.pfizer.sacchon.security.ResourceUtils;
 import com.pfizer.sacchon.security.Shield;
 import org.restlet.engine.Engine;
@@ -24,7 +28,7 @@ import java.util.logging.Logger;
 
 public class GlucoseListResourceImpl extends ServerResource implements GlucoseListResource {
 
-    public static final Logger LOGGER = Engine.getLogger(CarbResourceImpl.class);
+    public static final Logger LOGGER = Engine.getLogger(GlucoseListResourceImpl.class);
 
     private GlucoseRepository glucoseRepository;
     private EntityManager entityManager;
@@ -32,6 +36,7 @@ public class GlucoseListResourceImpl extends ServerResource implements GlucoseLi
     private Date endDate;
     private Long id;
     private PatientRepository patientRepository;
+
     /**
      * This release method closes the entityManager
      */
@@ -52,20 +57,18 @@ public class GlucoseListResourceImpl extends ServerResource implements GlucoseLi
             glucoseRepository = new GlucoseRepository(entityManager);
             try {
                 String startDateString = getQueryValue("from");
-                String   endDateString = getQueryValue("to");
+                String endDateString = getQueryValue("to");
 
                 String[] words = startDateString.split("-");
-                startDate = new Date(Integer.parseInt(words[0])-1900,
-                        Integer.parseInt(words[1]) - 1, Integer.parseInt(words[2])  );
+                startDate = new Date(Integer.parseInt(words[0]) - 1900,
+                        Integer.parseInt(words[1]) - 1, Integer.parseInt(words[2]));
 
                 words = endDateString.split("-");
-                endDate = new Date(Integer.parseInt(words[0])-1900,
-                        Integer.parseInt(words[1]) - 1, Integer.parseInt(words[2])  );
-            }
-            catch(Exception e)
-            {
-                startDate =null;
-                endDate =null;
+                endDate = new Date(Integer.parseInt(words[0]) - 1900,
+                        Integer.parseInt(words[1]) - 1, Integer.parseInt(words[2]));
+            } catch (Exception e) {
+                startDate = null;
+                endDate = null;
             }
         } catch (Exception ex) {
             throw new ResourceException(ex);
@@ -75,34 +78,33 @@ public class GlucoseListResourceImpl extends ServerResource implements GlucoseLi
 
     /**
      * The patient can store their blood glucose level (date, time, measured in mg/dL) *REQUIRED*
-     * @param glucoseRepresentationIn  representation of a Glucose given by the frontEnd
-     * @return  a representation of the persisted object
+     *
+     * @param glucoseRepresentationIn representation of a Glucose given by the frontEnd
+     * @return a representation of the persisted object
      */
     @Override
-    public Boolean addGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn){
+    public RepresentationResponse<Boolean> addGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) {
 
         LOGGER.info("Add a new Glucose entry.");
 
 
-
-        // Check entity
-//        ResourceValidator.notNull(productRepresentationIn);
+        try {
+            // Check entity
+            ResourceValidator.notNull(glucoseRepresentationIn);
 //        ResourceValidator.validate(productRepresentationIn);
 
-        String username = ResourceAuthorization.currentUserToUsername();
+            String username = ResourceAuthorization.currentUserToUsername();
 
-        try {
+
             ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
             Patient p = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(username), this, this.LOGGER);
 
             // Converts GlucoseRepresentation to Glucose
             Glucose glucoseIn = glucoseRepresentationIn.createGlucose(p);
-            glucoseRepository.save(glucoseIn);
-
             Boolean saved = glucoseRepository.save(glucoseIn);
 
             LOGGER.info("Glucose entry successfully added.");
-            return saved;
+            return new RepresentationResponse<>(200, Constants.CODE_200, saved);
 
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when adding a new Glucose entry", ex);
@@ -112,29 +114,31 @@ public class GlucoseListResourceImpl extends ServerResource implements GlucoseLi
 
     /**
      * Patients can view their average daily blood glucose level over a user- specified period
+     *
      * @return the average of blood glucose level per day as list
      * @throws NotFoundException if there are NO entries for the specified period
      */
     @Override
-    public List<GlucoseRepresentation> getAverageGlucoseLevel() throws NotFoundException {
+    public RepresentationResponse<List<Double>> getAverageGlucoseLevel() throws NotFoundException {
         LOGGER.finer("Select all carb entries for selected period.");
 
         // Check authorization
         ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
+        String username = ResourceAuthorization.currentUserToUsername();
         try {
 
-            List<Glucose> glucoses;
-            if (startDate ==null || endDate ==null)
-                // find blood glucose within a range of dates
-                glucoses = glucoseRepository.findAll();
+            Patient patient = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(username),
+                    this, LOGGER);
 
-            else
-                glucoses = glucoseRepository.findAverageGlucoseLevel(startDate , endDate);
+            List<Double> glucoses;
+            if (startDate == null || endDate == null)
+                throw new BadEntityException("Null Date");
 
-            List<GlucoseRepresentation> result = new ArrayList<>();
-            glucoses.forEach(glucose -> result.add(new GlucoseRepresentation(glucose)));
-            return result;
+            glucoses = glucoseRepository.findAverageGlucoseLevel(patient, startDate, endDate);
+
+            return new RepresentationResponse(200, Constants.CODE_200, glucoses);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new NotFoundException("Blood glucose entries not found during selected period");
         }
     }

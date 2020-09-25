@@ -65,7 +65,7 @@ public class GlucoseResourceImpl extends ServerResource implements GlucoseResour
      * @throws BadEntityException
      */
     @Override
-    public Boolean updateGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException {
+    public RepresentationResponse<Boolean> updateGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException {
         LOGGER.finer("Update a Glucose entry.");
 
         ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
@@ -73,7 +73,7 @@ public class GlucoseResourceImpl extends ServerResource implements GlucoseResour
 
         // Check given entity
         ResourceValidator.notNull(glucoseRepresentationIn);
-//        ResourceValidator.validate(carbReprIn);
+
         LOGGER.finer("Glucose entry checked");
         String username = ResourceAuthorization.currentUserToUsername();
         try {
@@ -81,20 +81,12 @@ public class GlucoseResourceImpl extends ServerResource implements GlucoseResour
                     findEntityById(new Glucose(), entityManager, id),
                     this,
                     LOGGER);
-            Patient patient = getFromOptionalEntity(patientRepository.findPatientByUsername(username),
-                    this,
-                    LOGGER);
 
+            ResourceValidator.checkGlucoseIntegrity(oldGlucose, username);
+            oldGlucose.setMeasurement(glucoseRepresentationIn.getMeasurement());
+            Boolean updated = glucoseRepository.updateGlucose(oldGlucose);
 
-            // Convert GlucoseRepresentation to Glucose
-            Glucose newGlucose = glucoseRepresentationIn.createGlucose(patient);
-            ResourceValidator.checkGlucoseIntegrity(oldGlucose, patient);
-            newGlucose.setId(id);
-            newGlucose.setDateTime(oldGlucose.getDateTime());
-
-            Boolean updated = glucoseRepository.updateGlucose(newGlucose);
-
-            return updated;
+            return new RepresentationResponse(200,Constants.CODE_200,updated);
         } catch (Exception ex) {
             throw new ResourceException(ex);
         }
@@ -109,10 +101,10 @@ public class GlucoseResourceImpl extends ServerResource implements GlucoseResour
     @Override
     public RepresentationResponse<Boolean> removeGlucoseEntry() throws NotFoundException {
         String username = ResourceAuthorization.currentUserToUsername();
+
         try {
-            Glucose glucose = EntityUtil.getFromOptionalEntity(glucoseRepository.findById(id), this, this.LOGGER);
-            if (!glucose.getPatient().getUsername().equals(username))
-                throw new NotAuthorizedException("It's not your measurement!");
+            Glucose glucoseOld = EntityUtil.getFromOptionalEntity(glucoseRepository.findById(id), this, this.LOGGER);
+            ResourceValidator.checkGlucoseIntegrity(glucoseOld, username);
 
             boolean result = glucoseRepository.removeGlucoseEntry(id);
 

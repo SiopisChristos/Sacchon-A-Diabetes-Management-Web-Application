@@ -28,6 +28,6 @@ public interface GlucoseResource {
      * @throws BadEntityException
      */
     @Put("json")
-    Boolean updateGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException;
+    RepresentationResponse<Boolean> updateGlucoseEntry(GlucoseRepresentation glucoseRepresentationIn) throws BadEntityException;
 
 }
