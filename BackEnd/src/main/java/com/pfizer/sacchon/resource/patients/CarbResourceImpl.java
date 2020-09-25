@@ -81,6 +81,7 @@ public class CarbResourceImpl extends ServerResource implements CarbResource {
             ResourceValidator.checkCarbIntegrity(carbOld, username);
 
             carbOld.setGram(carbRepresentationIn.getGram());
+            carbOld.setDate(carbRepresentationIn.getDate());
 
             // Update product in DB and retrieve the new one.
             boolean result = carbRepository.updateCarb(carbOld);

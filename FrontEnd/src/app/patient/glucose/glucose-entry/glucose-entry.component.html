@@ -17,10 +17,9 @@
     <!-- Date entry -->
     <div class="form-group">
       <label for="formGroupExampleInput2">Date</label>
-      <input type="text" 
+      <input type="date" 
              class="form-control" 
              id="dateTime" 
-             placeholder="DD/MM/YYYY" 
              formControlName="dateTime">
       <div *ngIf="formGlucoseEntry.get('dateTime').errors?.required && formGlucoseEntry.get('dateTime').dirty" class="text-danger">
         Field is required
@@ -28,5 +27,5 @@
     </div>
     <!-- /Date entry -->
 
-    <button  (click)="clickGlucoseEntrySubmit()">Submit </button>
+    <button class="btn-primary" [disabled]="!formGlucoseEntry.valid" (click)="clickGlucoseEntrySubmit()">Submit</button>
   </form>

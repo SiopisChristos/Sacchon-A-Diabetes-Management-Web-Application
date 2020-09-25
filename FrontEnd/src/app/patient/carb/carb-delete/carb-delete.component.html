@@ -1,0 +1,18 @@
+<form [formGroup]="formCarbDelete">
+  
+    <!-- Id entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Carb Id to delete</label>
+      <input type="text" 
+            class="form-control" 
+            id="id" 
+            formControlName="id">
+      <div *ngIf="formCarbDelete.get('id').errors?.required && formCarbDelete.get('id').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <!-- /Id entry -->
+  
+    <button class="btn-primary" [disabled]="!formCarbDelete.valid" (click)="clickCarbDeleteSubmit()">Submit</button>
+  
+</form>

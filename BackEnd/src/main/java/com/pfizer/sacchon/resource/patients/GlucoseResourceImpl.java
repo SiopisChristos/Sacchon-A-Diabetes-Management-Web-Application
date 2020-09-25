@@ -84,6 +84,7 @@ public class GlucoseResourceImpl extends ServerResource implements GlucoseResour
 
             ResourceValidator.checkGlucoseIntegrity(oldGlucose, username);
             oldGlucose.setMeasurement(glucoseRepresentationIn.getMeasurement());
+            oldGlucose.setDateTime(glucoseRepresentationIn.getDateTime());
             Boolean updated = glucoseRepository.updateGlucose(oldGlucose);
 
             return new RepresentationResponse(200,Constants.CODE_200,updated);
@@ -111,7 +112,7 @@ public class GlucoseResourceImpl extends ServerResource implements GlucoseResour
             return new RepresentationResponse<>(200, "Glucose entry removed", result);
 
         } catch (NotAuthorizedException e) {
-            return new RepresentationResponse(403, Constants.CODE_403, Constants.RESPONSE_403);
+            return new RepresentationResponse(403, "Problem while deleting glucose entry", Constants.RESPONSE_403);
         } catch (Exception ex1) {
             return new RepresentationResponse<Boolean>(400, "Problem while deleting glucose entry", false);
         }

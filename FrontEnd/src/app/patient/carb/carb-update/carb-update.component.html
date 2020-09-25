@@ -1,0 +1,46 @@
+<form [formGroup]="formCarbUpdate">
+  
+    <!-- Ids entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">id</label>
+      <input type="text" 
+             class="form-control" 
+             id="id" 
+             placeholder="Enter number of id to update" 
+             formControlName = "id">
+      <div *ngIf="formCarbUpdate.get('id').errors?.required && formCarbUpdate.get('id').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>  
+    <!-- /Id entry -->
+
+    <!-- Grams entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Grams</label>
+      <input type="text" 
+             class="form-control" 
+             id="gram" 
+             placeholder="Enter number of grams" 
+             formControlName = "gram">
+      <div *ngIf="formCarbUpdate.get('gram').errors?.required && formCarbUpdate.get('gram').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>  
+    <!-- /Grams entry -->
+  
+    <!-- Date entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Date</label>
+      <input type="date" 
+            class="form-control" 
+            id="date" 
+            formControlName="date">
+      <div *ngIf="formCarbUpdate.get('date').errors?.required && formCarbUpdate.get('date').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <!-- /Date entry -->
+  
+    <button class="btn-primary" [disabled]="!formCarbUpdate.valid" (click)="clickCarbUpdateSubmit()">Update</button>
+  
+  </form>

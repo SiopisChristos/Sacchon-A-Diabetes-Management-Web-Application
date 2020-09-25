@@ -1,0 +1,18 @@
+<form [formGroup]="formGlucoseDelete">
+  
+    <!-- Id entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Glucose Id to delete</label>
+      <input type="number" 
+            class="form-control" 
+            id="id" 
+            formControlName="id">
+      <div *ngIf="formGlucoseDelete.get('id').errors?.required && formGlucoseDelete.get('id').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <!-- /Id entry -->
+  
+    <button class="btn-primary" [disabled]="!formGlucoseDelete.valid" (click)="clickGlucoseDeleteSubmit()">Submit</button>
+  
+</form>

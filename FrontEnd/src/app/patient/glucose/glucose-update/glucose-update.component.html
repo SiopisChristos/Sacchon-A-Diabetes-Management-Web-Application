@@ -1,0 +1,46 @@
+<form [formGroup]="formGlucoseUpdate">
+  
+    <!-- Ids entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">id</label>
+      <input type="number" 
+             class="form-control" 
+             id="id" 
+             placeholder="Enter number of id to update" 
+             formControlName = "id">
+      <div *ngIf="formGlucoseUpdate.get('id').errors?.required && formGlucoseUpdate.get('id').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>  
+    <!-- /Id entry -->
+
+    <!-- Glucose entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Glucose blood level</label>
+      <input type="number" 
+             class="form-control" 
+             id="measurement" 
+             placeholder="Enter number of glucose blood level" 
+             formControlName = "measurement">
+      <div *ngIf="formGlucoseUpdate.get('measurement').errors?.required && formGlucoseUpdate.get('measurement').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>  
+    <!-- /Glucose entry -->
+  
+    <!-- Date entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Date</label>
+      <input type="date" 
+            class="form-control" 
+            id="dateTime" 
+            formControlName="dateTime">
+      <div *ngIf="formGlucoseUpdate.get('dateTime').errors?.required && formGlucoseUpdate.get('dateTime').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <!-- /Date entry -->
+  
+    <button class="btn-primary" [disabled]="!formGlucoseUpdate.valid" (click)="clickGlucoseUpdateSubmit()">Update</button>
+  
+  </form>

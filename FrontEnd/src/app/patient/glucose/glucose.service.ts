@@ -8,15 +8,22 @@ import { Observable } from 'rxjs';
 export class GlucoseService {
 
   constructor(private http: HttpClient) { }
-  readonly baseUrl = 'http://localhost:9000/v1/patient/';
+  readonly baseUrl = 'http://localhost:9000/v1/patient/glucose';
 
   username = 'ekelid';
   password = 'ekelid';
 
+  getAverageGlucoseIntake(values):Observable<any>{
+    return this.http.get(
+      this.baseUrl+'?from='+values.get('from').value+'&to='+values.get('to').value,
+        {
+          headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
+        );
+  }
+
   addGlucoseEntry(values):Observable<any>{
-    console.log(values.get('measurement').value);
     return this.http.post(
-      this.baseUrl+'glucose/',
+      this.baseUrl+'/',
     {
         'measurement':values.get('measurement').value,
         'dateTime':values.get('dateTime').value
@@ -25,4 +32,25 @@ export class GlucoseService {
       headers:new HttpHeaders({'Authorization': 'Basic ' + btoa(this.username + ':' + this.password)})}
     );
   }
+
+  updateGlucoseEntry(values):Observable<any>{
+    return this.http.put(
+      this.baseUrl+'/'+values.get('id').value,
+    {
+        'measurement':values.get('measurement').value,
+        'dateTime':values.get('dateTime').value
+    },
+    {
+      headers:new HttpHeaders({'Authorization': 'Basic ' + btoa(this.username + ':' + this.password)})}
+    );
+  }
+
+  deleteGlucoseEntry(id): Observable<any> {
+    return this.http.delete(
+      this.baseUrl+'/'+id.get('id').value,
+  {
+    headers:new HttpHeaders({'Authorization': 'Basic ' + btoa(this.username + ':' + this.password)})}
+  );
+  }
+
 }
