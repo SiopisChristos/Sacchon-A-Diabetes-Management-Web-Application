@@ -135,6 +135,7 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
 
             return new RepresentationResponse<>(200,Constants.CODE_200, carbsAvg);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new NotFoundException("Carb entries not found during selected period");
         }
     }

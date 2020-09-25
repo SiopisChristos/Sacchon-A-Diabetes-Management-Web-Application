@@ -59,8 +59,8 @@ public class CarbRepository {
 
         Double carb = (Double) entityManager.createQuery(
                 "SELECT avg(c.gram) " +
-                        "FROM Carb c" +
-                        "WHERE c.date >= :startDate' AND c.date <= :endDate AND c.date is not null AND c.patient = :patient")
+                        "FROM Carb c " +
+                        "WHERE c.date >= :startDate AND c.date <= :endDate AND c.date is not null AND c.patient = :patient")
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
                 .setParameter("patient", patient)
