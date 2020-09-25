@@ -7,13 +7,7 @@ import com.pfizer.sacchon.representation.RepresentationResponse;
 import org.restlet.resource.*;
 
 public interface PatientResource {
-    @Get("json")
-    RepresentationResponse<PatientRepresentation> getPatient() throws NotFoundException;
 
-    //Removes completely the patient from the Database
-    @Delete
-    RepresentationResponse<Boolean>
-        removePatient() throws NotFoundException;
 
     //Update personal info
     @Put("json")
@@ -25,7 +19,7 @@ public interface PatientResource {
         addPatient(PatientRepresentation patientRepresentationIn) throws BadEntityException;
 
     //Sets the patient as inactive but details still remain in the Database
-    @Patch
-    RepresentationResponse<Boolean> deletePatient() throws NotFoundException;
+   @Delete
+   RepresentationResponse<Boolean> deletePatient() throws NotFoundException;
 
 }

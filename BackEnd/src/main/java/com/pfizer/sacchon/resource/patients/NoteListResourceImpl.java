@@ -3,8 +3,8 @@ package com.pfizer.sacchon.resource.patients;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Note;
 import com.pfizer.sacchon.model.Patient;
-import com.pfizer.sacchon.repository.NoteRepository;
 import com.pfizer.sacchon.repository.PatientRepository;
+import com.pfizer.sacchon.repository.RecordsRepository;
 import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.NoteRepresentation;
@@ -22,14 +22,14 @@ public class NoteListResourceImpl extends ServerResource implements NoteLIstReso
 
     public static final Logger LOGGER = Engine.getLogger(NoteListResourceImpl.class);
 
-    private NoteRepository noteRepository;
+    private RecordsRepository recordsRepository;
     private PatientRepository patientRepository;
 
     @Override
     protected void doInit() {
         LOGGER.info("Initialising note resource starts");
         try {
-            noteRepository = new NoteRepository(JpaUtil.getEntityManager());
+            recordsRepository = new RecordsRepository(JpaUtil.getEntityManager());
             patientRepository = new PatientRepository(JpaUtil.getEntityManager());
         } catch (Exception e) {
 
@@ -46,7 +46,7 @@ public class NoteListResourceImpl extends ServerResource implements NoteLIstReso
         String username = ResourceAuthorization.currentUserToUsername();
         try {
             Patient p = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(username), this, this.LOGGER);
-            List<Note> notes = noteRepository.findAllConsultations(p);
+            List<Note> notes = recordsRepository.findAllConsultations(p);
             List<NoteRepresentation> result = new ArrayList<>();
             notes.forEach(note -> result.add(new NoteRepresentation(note)));
             return result;

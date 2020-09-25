@@ -138,26 +138,6 @@ public class PatientRepository {
 
     }
 
-    /**
-     * Remove a patient account-Set it as Inactive
-     *
-     * @param id
-     * @return true if db has been updated
-     */
-    public boolean removeFromSystem(Long id) {
-        Optional<Patient> opatient = findById(id);
-        if (opatient.isPresent()) {
-            Patient p = opatient.get();
-             p.setActive(false);
-            try {
-                entityManager.getTransaction().begin();
-                entityManager.remove(p);
-                entityManager.getTransaction().commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return true;
-    }
+
 
 }

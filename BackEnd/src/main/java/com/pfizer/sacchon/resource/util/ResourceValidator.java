@@ -22,24 +22,24 @@ public class ResourceValidator {
         }
     }
 
-    public static void checkNotePatient(Note oldNote, Patient loggedInPatient) throws NotAuthorizedException{
-        if (!oldNote.getPatient().equals(loggedInPatient))
+    public static void checkNotePatient(Note oldNote, String usernameLoggedIn) throws NotAuthorizedException{
+        if (!oldNote.getPatient().getUsername().equals(usernameLoggedIn))
             throw new NotAuthorizedException("Not your note!");
     }
 
-    public static void checkNoteDoctor(Note oldNote, Doctor loggedInDoctor) throws NotAuthorizedException{
-        if (!oldNote.getDoctor().equals(loggedInDoctor))
+    public static void checkNoteDoctor(Note oldNote, String usernameLoggedIn) throws NotAuthorizedException{
+        if (!oldNote.getDoctor().getUsername().equals(usernameLoggedIn))
             throw new NotAuthorizedException("Not your note");
     }
 
 
-    public static void checkCarbIntegrity(Carb oldCarb, Carb carbIn) throws NotAuthorizedException {
-        if (!oldCarb.getDate().equals(carbIn.getDate()))
+    public static void checkCarbIntegrity(Carb oldCarb, String usernameLoggedIn) throws NotAuthorizedException {
+        if (!oldCarb.getPatient().getUsername().equals(usernameLoggedIn))
             throw new NotAuthorizedException("Can't change date");
     }
 
-    public static void checkGlucoseIntegrity(Glucose oldGlucose, Patient patient) throws NotAuthorizedException {
-        if (!oldGlucose.getPatient().equals(patient))
+    public static void checkGlucoseIntegrity(Glucose oldGlucose, String usernameLoggedIn) throws NotAuthorizedException {
+        if (!oldGlucose.getPatient().getUsername().equals(usernameLoggedIn))
             throw new NotAuthorizedException("Can't change date");
     }
 

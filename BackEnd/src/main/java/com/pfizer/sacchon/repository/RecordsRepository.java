@@ -3,6 +3,7 @@ package com.pfizer.sacchon.repository;
 import com.pfizer.sacchon.model.Carb;
 import com.pfizer.sacchon.model.Glucose;
 import com.pfizer.sacchon.model.Note;
+import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.representation.CarbRepresentation;
 import com.pfizer.sacchon.representation.GlucoseRepresentation;
 import com.pfizer.sacchon.representation.NoteRepresentation;
@@ -37,10 +38,8 @@ public class RecordsRepository {
     }
 
 
-
-
     /**
-     * Updates the seen property of a note
+     * Updates the seen property of a note to True
      *
      * @param note the updated note
      * @return True if updating has been completed, else false
@@ -94,34 +93,48 @@ public class RecordsRepository {
      * @return patient data and consultations
      */
     public List[] getPatientRecord(long patient_id) {
-        return new List[]{getPatientCarbs(patient_id), getPatientGlucoses(patient_id), getPatientNotes(patient_id)};
+        return new List[]{getPatientCarbs(patient_id), getPatientGlucose(patient_id), getPatientNotes(patient_id)};
     }
 
+    /**
+     * Returns a list of Carbs of a specific patient in CarbRepresentation form
+     *
+     * @param patient_id The patient_id of a specific patient
+     * @return A list of Carbs in CarbRepresentation form
+     */
     public List<CarbRepresentation> getPatientCarbs(long patient_id) {
         List<Carb> carb = entityManager.createQuery(
                 "from Carb where :id = patient_id")
                 .setParameter("id", patient_id).getResultList();
         List<CarbRepresentation> carbRepresentation = new ArrayList<>();
-
-        for (Carb c : carb) {
-            carbRepresentation.add(new CarbRepresentation(c));
-        }
+        carb.forEach(c -> carbRepresentation.add(new CarbRepresentation(c)));
         return carbRepresentation;
     }
 
-    public List<GlucoseRepresentation> getPatientGlucoses(long patient_id) {
+    /**
+     * Returns a list of Glucose of a specific patient in GlucoseRepresentation form
+     *
+     * @param patient_id The patient_id of a specific patient
+     * @return A list of Glucose in GlucoseRepresentation form
+     */
+    public List<GlucoseRepresentation> getPatientGlucose(long patient_id) {
         List<Glucose> glucose = entityManager.createQuery(
                 "from Glucose where :id = patient_id")
                 .setParameter("id", patient_id).getResultList();
 
         List<GlucoseRepresentation> glucoseRepresentation = new ArrayList<>();
-        for (Glucose g : glucose) {
-            glucoseRepresentation.add(new GlucoseRepresentation(g));
-        }
+        glucose.forEach(g -> glucoseRepresentation.add(new GlucoseRepresentation(g)));
+
         return glucoseRepresentation;
 
     }
 
+    /**
+     * Returns a list of Notes of a specific patient in NoteRepresentation form
+     *
+     * @param patient_id The patient_id of a specific patient
+     * @return A list of Notes in NoteRepresentation form
+     */
     public List<NoteRepresentation> getPatientNotes(long patient_id) {
 
         List<Note> note = entityManager.createQuery(
@@ -129,10 +142,19 @@ public class RecordsRepository {
                 .setParameter("id", patient_id).getResultList();
 
         List<NoteRepresentation> noteRepresentation = new ArrayList<>();
-        for (Note n : note) {
-            noteRepresentation.add(new NoteRepresentation(n));
-        }
+        note.forEach(n -> noteRepresentation.add(new NoteRepresentation(n)));
+
         return noteRepresentation;
+    }
+
+    /**
+     * The patient can view the current and past consultations from doctors
+     *
+     * @return List of all notes entries
+     */
+    public List<Note> findAllConsultations(Patient patient) {
+        return entityManager.createQuery("from Note where patient = :patient ")
+                .setParameter("patient", patient).getResultList();
     }
 
 

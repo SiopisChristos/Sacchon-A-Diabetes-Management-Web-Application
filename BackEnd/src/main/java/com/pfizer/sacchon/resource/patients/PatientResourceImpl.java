@@ -47,40 +47,7 @@ public class PatientResourceImpl extends ServerResource
         LOGGER.info("Initialising patient resource ends");
     }
 
-    /**
-     * Search for a patient and return it as PatientRepresentation(json)
-     *
-     * @return patient
-     * @throws NotFoundException
-     */
-    @Override
-    public RepresentationResponse<PatientRepresentation> getPatient()
-            throws NotFoundException {
-        LOGGER.info("Retrieve a patient");
-        id = Long.parseLong(getAttribute("id"));
-        // Check authorization
-        ResourceUtils.checkRole(this, Shield.ROLE_PATIENT);
-        // Initialize the persistence layer.
-        try {
-            Optional<Patient> oPatient = patientRepository.findById(id);
-            setExisting(oPatient.isPresent());
-            if (!isExisting()) {
-                LOGGER.config("Patient id does not exist:" + id);
-                return new RepresentationResponse<>(404,
-                        "Not Found", null);
-            } else {
-                LOGGER.finer("User allowed to retrieve a patient");
-                PatientRepresentation result =
-                        new PatientRepresentation(oPatient.get());
-                LOGGER.finer("Patient successfully retrieved");
 
-                return new RepresentationResponse<>(200,
-                        "OK", result);
-            }
-        } catch (Exception ex) {
-            throw new NotFoundException("Not found");
-        }
-    }
 
     /**
      * Set a patient as inActive
@@ -182,26 +149,5 @@ public class PatientResourceImpl extends ServerResource
     }
 
 
-    /**
-     * Delete a patient from system
-     *
-     * @return
-     * @throws NotFoundException
-     */
-    @Override
-    public RepresentationResponse<Boolean> removePatient() throws NotFoundException {
-        try {
-            id = Long.parseLong(getAttribute("id"));
-            if (patientRepository.findById(id).isPresent()) {
-                boolean p = patientRepository.removeFromSystem(id);
-                return new RepresentationResponse<>(200,"OK",p);
-            }
-        } catch (Exception ex1) {
-            {
-                return new RepresentationResponse<Boolean>(400,"Bad Request",false);
-            }
-        }
-        return new RepresentationResponse<Boolean>(400,"Bad Request",false);
-    }
 
 }
