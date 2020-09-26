@@ -1,0 +1,34 @@
+<nav>
+    <ul class="nav nav-pills">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="patient/" role="button" aria-haspopup="true" aria-expanded="false">Patient</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="patient/">Something about the patient</a>
+          <a class="dropdown-item" href="patient/">Something more about the patient</a>
+          <a class="dropdown-item" href="patient/">Something even more about the patient</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="patient/carb/" role="button" aria-haspopup="true" aria-expanded="false">Carb</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="patient/carb/carb-entry/" [routerLink]="['insertCarbEntry']">Insert carb entry</a>
+          <a class="dropdown-item" href="patient/carb/carb-list/" [routerLink]="['viewAverageCarbIntake']">Carb fluctuation chart</a>
+          <a class="dropdown-item" href="patient/carb/carb-update/" [routerLink]="['updateCarbEntry']">Update carb entry</a>
+          <a class="dropdown-item" href="patient/carb/carb-delete/" [routerLink]="['deleteCarbEntry']">Delete carb entry</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="patient/glucose/" role="button" aria-haspopup="true" aria-expanded="false">Glucose</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="patient/glucose/glucose-entry/" [routerLink]="['insertGlucoseEntry']">Insert glucose entry</a>
+          <a class="dropdown-item" href="patient/glucose/glucose-list/" [routerLink]="['viewAverageGlucoseIntake']">Glucose fluctuation chart</a>
+          <a class="dropdown-item" href="patient/glucose/glucose-update" [routerLink]="['updateGlucoseEntry']">Update glucose entry</a>
+          <a class="dropdown-item" href="patient/glucose/glucose-delete" [routerLink]="['deleteGlucoseEntry']">Delete glucose entry</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
