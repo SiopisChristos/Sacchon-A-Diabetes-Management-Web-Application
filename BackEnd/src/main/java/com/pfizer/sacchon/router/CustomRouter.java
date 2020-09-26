@@ -53,7 +53,7 @@ public class CustomRouter {
 
         //User section
         router.attach("/patient/record/{id}", DoctorResourceImpl.class); //{POST} notification's user for a Note
-        router.attach("/login", LoginImpl.class); //{POST} notification's user for a Note
+
 
         //Chief Section
         // Get Doctors with no activity over a time range
@@ -71,7 +71,7 @@ public class CustomRouter {
 
     public Router publicResources() {
         Router router = new Router();
-        router.attach("/ping", PingServerResource.class);
+        router.attach("/login", LoginImpl.class); //{POST} notification's user for a Note
         return router;
     }
 }

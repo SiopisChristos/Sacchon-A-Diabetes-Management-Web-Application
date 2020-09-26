@@ -52,9 +52,9 @@ public class LoginImpl extends ServerResource {
             UserTable userToLogin = loginRepresentation.createUser();
 
             //Throws NotFoundException
-            boolean result = userTableRepository.matchUsernameAndPassword(userToLogin.getUsername(), userToLogin.getPassword());
+            String resultRole = userTableRepository.matchUsernameAndPassword(userToLogin.getUsername(), userToLogin.getPassword());
 
-            return new RepresentationResponse(200, Constants.CODE_200, result);
+            return new RepresentationResponse(200, Constants.CODE_200, resultRole);
         } catch (NotFoundException e) {
             e.printStackTrace();
             return new RepresentationResponse(400, Constants.CODE_400, false);
