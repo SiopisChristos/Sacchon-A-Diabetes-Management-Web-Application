@@ -1,0 +1,32 @@
+<form [formGroup]="formNoteEntry">
+  
+    <!-- Notes entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Notes</label>
+      <input type="text" 
+             class="form-control" 
+             id="note" 
+             placeholder="Enter consultation" 
+             formControlName = "note">
+      <div *ngIf="formNoteEntry.get('note').errors?.required && formNoteEntry.get('note').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>  
+    <!-- /Note entry -->
+  
+    <!-- Date entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Date</label>
+      <input type="date" 
+            class="form-control" 
+            id="date" 
+            formControlName="date">
+      <div *ngIf="formNoteEntry.get('date').errors?.required && formNoteEntry.get('date').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <!-- /Date entry -->
+  
+    <button class="btn-primary" [disabled]="!formNoteEntry.valid" (click)="clickNoteEntrySubmit()">Submit</button>
+  
+  </form>

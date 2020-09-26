@@ -26,6 +26,13 @@
         <a class="dropdown-item" href="patient/glucose/glucose-delete" [routerLink]="['deleteGlucoseEntry']">Delete glucose entry</a>
       </div>
     </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="doctor/note/" role="button" aria-haspopup="true" aria-expanded="false">Note</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="doctor/note/note-entry/" [routerLink]="['insertNoteEntry']">Insert note entry</a>
+        <a class="dropdown-item" href="doctor/note/note-update/" [routerLink]="['updateNoteEntry']">Update note entry</a>
+      </div>
+    </li>
   </ul>
 </nav>
 

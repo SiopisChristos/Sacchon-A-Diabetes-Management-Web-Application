@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NoteEntryComponent } from './doctor/note/note-entry/note-entry.component';
+import { NoteUpdateComponent } from './doctor/note/note-update/note-update.component';
 import { CarbDeleteComponent } from './patient/carb/carb-delete/carb-delete.component';
 import { CarbEntryComponent } from './patient/carb/carb-entry/carb-entry.component';
 import { CarbListComponent } from './patient/carb/carb-list/carb-list.component';
@@ -18,6 +20,8 @@ const routes: Routes = [
   {path: 'viewAverageGlucoseIntake',component: GlucoseListComponent},
   {path: 'updateGlucoseEntry',component: GlucoseUpdateComponent},
   {path: 'deleteGlucoseEntry',  component: GlucoseDeleteComponent},
+  {path: 'updateNoteEntry', component: NoteUpdateComponent},
+  {path: 'insertNoteEntry', component: NoteEntryComponent}
 ];
 
 @NgModule({
