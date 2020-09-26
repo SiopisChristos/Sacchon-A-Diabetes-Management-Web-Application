@@ -106,9 +106,13 @@ public class ChiefRepository {
         return lastNoteDate;
     }
 
-
+    /**
+     * Finding the Patients that wait for a consultation and their waiting time
+     * @return a List with with 2 List inside it. The List structure is: {Patients, countDaysOfPatient}
+     * The countDaysOfPatient is a List of Long data
+     */
     public List[] calculatePatientsDatesWithoutDoctor() {
-        List<Long> countDates = new ArrayList<>();
+        List<Long> countDaysOfPatient = new ArrayList<>();
         long countDays;
         List<Patient> patients = entityManager.createQuery(
                 "select p from Patient p where isActive = 1 and p.doctor is null")
@@ -137,9 +141,8 @@ public class ChiefRepository {
                         .toLocalDate();
 
             countDays = DAYS.between(dateTimeStart, dateTimeEnd);
-            countDates.add(countDays);
-            return new List[]{patients, countDates};
-
+            countDaysOfPatient.add(countDays);
+            return new List[]{patients, countDaysOfPatient};
         }
         return null;
     }
