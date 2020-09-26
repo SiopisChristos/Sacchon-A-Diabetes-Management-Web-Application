@@ -3,12 +3,25 @@ import { CommonModule } from '@angular/common';
 import { PatientComponent } from './patient/patient.component';
 import { PatientRegisterComponent } from './patient/patient-register/patient-register.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Routes } from '@angular/router';
+import { CarbEntryComponent } from './carb/carb-entry/carb-entry.component';
+import { CarbModule } from './carb/carb.module';
+import { GlucoseModule } from './glucose/glucose.module';
+
+const routes: Routes = [
+];
 
 @NgModule({
   declarations: [PatientComponent, PatientRegisterComponent],
   imports: [
-    CommonModule,ReactiveFormsModule
+    CommonModule,
+    ReactiveFormsModule,
+    CarbModule,
+    GlucoseModule
   ],
-  exports:[PatientRegisterComponent]
+  exports:[
+    PatientRegisterComponent,
+    PatientComponent
+  ]
 })
 export class PatientModule { }
