@@ -8,6 +8,7 @@ import { GlucoseDeleteComponent } from './patient/glucose/glucose-delete/glucose
 import { GlucoseEntryComponent } from './patient/glucose/glucose-entry/glucose-entry.component';
 import { GlucoseListComponent } from './patient/glucose/glucose-list/glucose-list.component';
 import { GlucoseUpdateComponent } from './patient/glucose/glucose-update/glucose-update.component';
+import { PatientRegisterComponent } from './patient/patient/patient-register/patient-register.component';
 
 const routes: Routes = [
   {path: 'insertCarbEntry',component: CarbEntryComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'viewAverageGlucoseIntake',component: GlucoseListComponent},
   {path: 'updateGlucoseEntry',component: GlucoseUpdateComponent},
   {path: 'deleteGlucoseEntry',  component: GlucoseDeleteComponent},
+  {path: 'registerPatient', component: PatientRegisterComponent}
 ];
 
 @NgModule({
