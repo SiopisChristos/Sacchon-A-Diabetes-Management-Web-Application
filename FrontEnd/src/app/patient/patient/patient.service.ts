@@ -15,7 +15,7 @@ export class PatientService {
 
   registerPatient(values):Observable<any>{
     return this.http.post(
-      this.baseUrl+'/',{
+      this.baseUrl,{
         'username':values.get('username').value,
         'lastName':values.get('lastName').value,
         'firstName':values.get('firstName').value,

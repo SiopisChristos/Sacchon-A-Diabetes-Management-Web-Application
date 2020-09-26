@@ -20,6 +20,9 @@ export class PatientRegisterComponent implements OnInit {
       firstName:new FormControl(null, Validators.required),
       lastName:new FormControl(null, Validators.required),
       dateOfBirth:new FormControl(Validators.required),
+      city:new FormControl(null,Validators.required),
+      phoneNumber:new FormControl(null,Validators.required),
+      address:new FormControl(null,Validators.required)
     })
   }
 

@@ -52,6 +52,45 @@
         </div>
       </div>
       <!-- /DateOfBirth entry -->
+      
+<!-- Address entry -->
+    <div class="form-group">
+        <label for="formGroupExampleInput2">address</label>
+        <input type="text" 
+               class="form-control" 
+               id="address" 
+               formControlName="address">
+        <div *ngIf="formPatientRegister.get('address').errors?.required && formPatientRegister.get('address').dirty" class="text-danger">
+          Field is required
+        </div>
+      </div>
+      <!-- /Address entry -->
+
+      <!-- Phonenumber entry -->
+    <div class="form-group">
+        <label for="formGroupExampleInput2">PhoneNumber</label>
+        <input type="text" 
+               class="form-control" 
+               id="phoneNumber" 
+               formControlName="phoneNumber">
+        <div *ngIf="formPatientRegister.get('phoneNumber').errors?.required && formPatientRegister.get('phoneNumber').dirty" class="text-danger">
+          Field is required
+        </div>
+      </div>
+      <!-- /phoneNumber entry -->
+
+            <!-- City entry -->
+    <div class="form-group">
+        <label for="formGroupExampleInput2">City</label>
+        <input type="text" 
+               class="form-control" 
+               id="city" 
+               formControlName="city">
+        <div *ngIf="formPatientRegister.get('city').errors?.required && formPatientRegister.get('city').dirty" class="text-danger">
+          Field is required
+        </div>
+      </div>
+      <!-- /City entry -->
 
     <button class="btn-primary" [disabled]="!formPatientRegister.valid" (click)="clickRegisterPatient()">Submit</button>
   </form>
