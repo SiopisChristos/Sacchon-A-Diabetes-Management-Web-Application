@@ -11,6 +11,12 @@ public class LoginRepresentation {
     private String password;
     private String role;
 
+
+    public LoginRepresentation(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
     public LoginRepresentation(UserTable userTable){
         if (userTable != null){
             username = userTable.getUsername();

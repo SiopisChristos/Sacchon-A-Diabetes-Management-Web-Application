@@ -25,6 +25,8 @@ public class LoginImpl extends ServerResource {
     public static final Logger LOGGER = Engine.getLogger(LoginImpl.class);
     private UserTableRepository userTableRepository;
     private EntityManager entityManager;
+    private String username;
+    private String password;
 
 
     @Override
@@ -38,7 +40,8 @@ public class LoginImpl extends ServerResource {
         try {
             entityManager = JpaUtil.getEntityManager();
             userTableRepository = new UserTableRepository(entityManager);
-
+            username = getQueryValue("username");
+            password = getQueryValue("password");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,9 +49,11 @@ public class LoginImpl extends ServerResource {
     }
 
     @Get("Json")
-    public RepresentationResponse<Boolean> loginActivity(LoginRepresentation loginRepresentation) {
+    public RepresentationResponse<Boolean> loginActivity() {
         LOGGER.info("Starting Get - Login Request");
         try {
+            LoginRepresentation loginRepresentation = new LoginRepresentation(username,password);
+            System.out.println("login starts with:" + loginRepresentation);
             UserTable userToLogin = loginRepresentation.createUser();
 
             //Throws NotFoundException
