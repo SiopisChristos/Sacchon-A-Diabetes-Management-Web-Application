@@ -27,44 +27,46 @@ export class LoginFormComponent implements OnInit {
     //here you will subscribe to authorization when created as http get in the login.service
     //IMPORTANT*********
     
-    // this.loginService.authorization(this.formLogin).subscribe(data => {
-    //   if (data) { //here you check the text you return from the api
-    //     this.username = this.formLogin.get('username').value;
-    //     this.password = this.formLogin.get('password').value;
-    //     sessionStorage.setItem("credentials", this.username + ":" + this.password)
-    //     location.reload();
-    //     this.router.navigate(['insertCarbEntry'])
-    //   }
-    //   else {
-    //     alert("Wrong login or password");
-    //   }
-    // });
+    this.loginService.authorization(this.formLogin).subscribe(data => {
+      console.log(data);
+      
+      if (data.data == "admin" || data.data == "patient" || data.data == "doctor") { //here you check the text you return from the api
+        this.username = this.formLogin.get('username').value;
+        this.password = this.formLogin.get('password').value;
+        sessionStorage.setItem("credentials", this.username + ":" + this.password)
+        location.reload();
+        this.router.navigate(['insertCarbEntry'])
+      }
+      else {
+        alert("Wrong login or password");
+      }
+    });
     
-    var responseString = this.loginService.authorization(this.formLogin);
-    if (responseString == "patient") {
-      this.username = this.formLogin.get('username').value;
-      this.password = this.formLogin.get('password').value;
-      sessionStorage.setItem("credentials", this.username + ":" + this.password)
-      location.reload();
-      this.router.navigate(['patient'])
-    }
-    else if (responseString == "doctor") {
-      this.username = this.formLogin.get('username').value;
-      this.password = this.formLogin.get('password').value;
-      sessionStorage.setItem("credentials", this.username + ":" + this.password)
-      location.reload();
-      this.router.navigate(['patient'])//when doctor.component is ready, add it here
-    }
-    else if (responseString == "admin") {
-      this.username = this.formLogin.get('username').value;
-      this.password = this.formLogin.get('password').value;
-      sessionStorage.setItem("credentials", this.username + ":" + this.password)
-      location.reload();
-      this.router.navigate(['patient']) //when amdin.component is ready, add it here
-    }
-    else {
-      alert("Wrong login or password");
-    }
+    // var responseString = this.loginService.authorization(this.formLogin);
+    // if (responseString == "patient") {
+    //   this.username = this.formLogin.get('username').value;
+    //   this.password = this.formLogin.get('password').value;
+    //   sessionStorage.setItem("credentials", this.username + ":" + this.password)
+    //   location.reload();
+    //   this.router.navigate(['patient'])
+    // }
+    // else if (responseString == "doctor") {
+    //   this.username = this.formLogin.get('username').value;
+    //   this.password = this.formLogin.get('password').value;
+    //   sessionStorage.setItem("credentials", this.username + ":" + this.password)
+    //   location.reload();
+    //   this.router.navigate(['patient'])//when doctor.component is ready, add it here
+    // }
+    // else if (responseString == "admin") {
+    //   this.username = this.formLogin.get('username').value;
+    //   this.password = this.formLogin.get('password').value;
+    //   sessionStorage.setItem("credentials", this.username + ":" + this.password)
+    //   location.reload();
+    //   this.router.navigate(['patient']) //when amdin.component is ready, add it here
+    // }
+    // else {
+    //   alert("Wrong login or password");
+    // }
   }
 
 }
