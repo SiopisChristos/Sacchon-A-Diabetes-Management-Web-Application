@@ -1,12 +1,9 @@
 package com.pfizer.sacchon.router;
 import com.pfizer.sacchon.resource.LoginImpl;
+import com.pfizer.sacchon.resource.chiefDoctors.*;
 import com.pfizer.sacchon.resource.patients.*;
 import com.pfizer.sacchon.resource.PingServerResource;
 
-import com.pfizer.sacchon.resource.chiefDoctors.DoctorSubmissionsImpl;
-import com.pfizer.sacchon.resource.chiefDoctors.DoctorsNoActivityImpl;
-import com.pfizer.sacchon.resource.chiefDoctors.PatientSubmissionsImpl;
-import com.pfizer.sacchon.resource.chiefDoctors.PatientsNoActivityImpl;
 import com.pfizer.sacchon.resource.doctors.DoctorRecordsImpl;
 import com.pfizer.sacchon.resource.doctors.DoctorResourceImpl;
 import com.pfizer.sacchon.resource.doctors.DoctorUtilitiesImpl;
@@ -53,7 +50,7 @@ public class CustomRouter {
 
         //User section
         router.attach("/patient/record/{id}", DoctorResourceImpl.class); //{POST} notification's user for a Note
-        router.attach("/login", LoginImpl.class); //{POST} notification's user for a Note
+
 
         //Chief Section
         // Get Doctors with no activity over a time range
@@ -65,13 +62,14 @@ public class CustomRouter {
         router.attach("/patientsInactive", PatientsNoActivityImpl.class);
         router.attach("/doctorNotes/{id}", DoctorSubmissionsImpl.class);
         router.attach("/patientData/{id}", PatientSubmissionsImpl.class);
+        router.attach("/patientsInactiveAndTime", WaitingConsultationAndTimeImpl.class);
         return router;
     }
 
 
     public Router publicResources() {
         Router router = new Router();
-        router.attach("/ping", PingServerResource.class);
+        router.attach("/login", LoginImpl.class); //{POST} notification's user for a Note
         return router;
     }
 }

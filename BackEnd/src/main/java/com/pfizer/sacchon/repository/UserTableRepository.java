@@ -26,11 +26,11 @@ public class UserTableRepository {
         throw new NotFoundException("There is not a user");
     }
 
-    public boolean matchUsernameAndPassword(String username, String password) throws NotFoundException{
+    public String matchUsernameAndPassword(String username, String password) throws NotFoundException{
         UserTable user = findAccountById(username);
         if (user.getPassword().equals(password))
-            return true;
-        return false;
+            return user.getRole();
+        throw new NotFoundException("There is not a user");
     }
 
     /**

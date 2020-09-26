@@ -1,12 +1,16 @@
 package com.pfizer.sacchon.repository;
 
 import com.pfizer.sacchon.model.*;
+import com.pfizer.sacchon.repository.util.DateConverter;
 
 import javax.persistence.EntityManager;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class ChiefRepository {
 
@@ -33,9 +37,9 @@ public class ChiefRepository {
         return new HashSet<Doctor>(doctorWithActivity);
     }
 
-    public Set<Doctor> findDoctorsWithNoActivity(Date from, Date to){
+    public Set<Doctor> findDoctorsWithNoActivity(Date from, Date to) {
         Set doctorsActive = findDoctors_active(to);
-        Set doctorsWithActivity = findDoctorsWithActivity(from,to);
+        Set doctorsWithActivity = findDoctorsWithActivity(from, to);
         doctorsActive.removeAll(doctorsWithActivity);
         return doctorsActive;
     }
@@ -48,7 +52,7 @@ public class ChiefRepository {
         return new HashSet<Patient>(patients);
     }
 
-    public Set<Patient> findPatientsWithActivity(Date from, Date to){
+    public Set<Patient> findPatientsWithActivity(Date from, Date to) {
         List<Patient> patientsWithActivity = entityManager.createQuery(
                 "select DISTINCT p from Patient as p, Carb as c, Glucose as g where " +
                         "(p.id = g.patient and :from <= g.dateTime AND :to >= g.dateTime)" +
@@ -57,42 +61,90 @@ public class ChiefRepository {
                 .setParameter("to", to)
                 .getResultList();
 
-        return new HashSet<Patient>(patientsWithActivity);
+        return new HashSet<>(patientsWithActivity);
     }
 
-    public Set<Patient> findPatientsWithNoActivity(Date from, Date to){
+    public Set<Patient> findPatientsWithNoActivity(Date from, Date to) {
         Set patientsActive = findPatients_active(to);
-        Set patientsWithActivity = findPatientsWithActivity(from,to);
+        Set patientsWithActivity = findPatientsWithActivity(from, to);
         patientsActive.removeAll(patientsWithActivity);
         return patientsActive;
     }
 
 
-    public List<Note> findDoctorNotes(Long doctor_id, Date startDate, Date endDate){
+    public List<Note> findDoctorNotes(Long doctor_id, Date startDate, Date endDate) {
         List<Note> notes = entityManager.createQuery("select n from Note as n, Doctor d where d.isActive = 1 and d n.doctor = :id and :startDate <= n.date AND :endDate >= n.date")
-                .setParameter("id",doctor_id)
-                .setParameter("startDate",startDate)
-                .setParameter("endDate",endDate)
+                .setParameter("id", doctor_id)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
                 .getResultList();
         return notes;
     }
 
-    public List<Carb> findCarbs(long patient_id,Date startDate, Date endDate) {
+    public List<Carb> findCarbs(long patient_id, Date startDate, Date endDate) {
         List<Carb> carb = entityManager.createQuery("select c from Carb as c, Patient p where p.isActive = 1 and c.patient = :id and :startDate <= c.date AND :endDate >= c.date")
-                .setParameter("id",patient_id)
-                .setParameter("startDate",startDate)
-                .setParameter("endDate",endDate)
+                .setParameter("id", patient_id)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
                 .getResultList();
         return carb;
     }
 
     public List<Glucose> findGlucose(long patient_id, Date startDate, Date endDate) {
         List<Glucose> glucose = entityManager.createQuery("select g from Glucose as g, Patient as p where p.isActive = 1 and g.patient = :id and :startDate <= g.dateTime AND :endDate >= g.dateTime")
-                .setParameter("id",patient_id)
-                .setParameter("startDate",startDate)
-                .setParameter("endDate",endDate)
+                .setParameter("id", patient_id)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
                 .getResultList();
         return glucose;
+    }
+
+    public Date findLastNoteDate(Patient patient) {
+        Date lastNoteDate = (Date) entityManager.createQuery("select MAX(date) from Note n where n.patient = :patient")
+                .setParameter("patient", patient)
+                .getSingleResult();
+        return lastNoteDate;
+    }
+
+    /**
+     * Finding the Patients that wait for a consultation and their waiting time
+     * @return a List with with 2 List inside it. The List structure is: {Patients, countDaysOfPatient}
+     * The countDaysOfPatient is a List of Long data
+     */
+    public List[] calculatePatientsDatesWithoutDoctor() {
+        List<Long> countDaysOfPatient = new ArrayList<>();
+        long countDays;
+        List<Patient> patients = entityManager.createQuery(
+                "select p from Patient p where isActive = 1 and p.doctor is null")
+                .getResultList();
+
+        for (Patient p : patients) {
+            Date today = new Date();
+            LocalDate dateTimeStart;
+            LocalDate dateTimeEnd = today.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            ;
+            Date patientCanHaveDoctor = DateConverter.nextMonthDate(p.getCreationDate());
+            if (patientCanHaveDoctor.after(today)) {
+                patients.remove(p);
+                continue;
+            }
+            Date lastNoteDate = findLastNoteDate(p);
+            if (lastNoteDate == null)
+                dateTimeStart = patientCanHaveDoctor.toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+            else
+                dateTimeStart = lastNoteDate.toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+
+            countDays = DAYS.between(dateTimeStart, dateTimeEnd);
+            countDaysOfPatient.add(countDays);
+            return new List[]{patients, countDaysOfPatient};
+        }
+        return null;
     }
 
 
