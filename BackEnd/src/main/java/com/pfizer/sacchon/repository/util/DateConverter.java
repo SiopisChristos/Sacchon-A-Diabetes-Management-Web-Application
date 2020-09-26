@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,20 @@ public class DateConverter {
         dates.add(java.sql.Timestamp.valueOf(endOfDay));
 
         return dates;
+    }
+
+
+    public static Date nextMonthDate(Date date){
+        Date today = date;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(today);
+
+        calendar.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.DATE, -1);
+
+        Date newDate = calendar.getTime();
+        return newDate;
     }
 
 }
