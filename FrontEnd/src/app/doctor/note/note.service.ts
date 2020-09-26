@@ -28,11 +28,11 @@ export class NoteService {
   }
 
   updateNoteEntry(values):Observable<any>{
+    
     return this.http.put(
       this.updateUrl+'/'+values.get('id').value,
     {
-        'note':values.get('message').value,
-        'date':values.get('date').value
+        'message':values.get('message').value
     },
     {
       headers:new HttpHeaders({'Authorization': 'Basic ' + btoa(this.username + ':' + this.password)})}

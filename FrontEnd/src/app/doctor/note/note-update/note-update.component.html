@@ -21,8 +21,8 @@
              class="form-control" 
              id="note" 
              placeholder="Enter consultation" 
-             formControlName = "note">
-      <div *ngIf="formNoteUpdate.get('note').errors?.required && formNoteUpdate.get('note').dirty" class="text-danger">
+             formControlName = "message">
+      <div *ngIf="formNoteUpdate.get('message').errors?.required && formNoteUpdate.get('message').dirty" class="text-danger">
         Field is required
       </div>
     </div>  

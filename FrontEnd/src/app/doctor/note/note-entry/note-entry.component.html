@@ -7,8 +7,8 @@
              class="form-control" 
              id="note" 
              placeholder="Enter consultation" 
-             formControlName = "note">
-      <div *ngIf="formNoteEntry.get('note').errors?.required && formNoteEntry.get('note').dirty" class="text-danger">
+             formControlName = "message">
+      <div *ngIf="formNoteEntry.get('message').errors?.required && formNoteEntry.get('message').dirty" class="text-danger">
         Field is required
       </div>
     </div>  
