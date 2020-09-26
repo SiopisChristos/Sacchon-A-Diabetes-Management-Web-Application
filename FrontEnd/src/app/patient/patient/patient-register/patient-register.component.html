@@ -1,0 +1,57 @@
+<p>patient-register works!</p>
+<form [formGroup]="formPatientRegister">
+  
+      <!-- Username entry -->
+      <div class="form-group">
+        <label for="formGroupExampleInput2">username</label>
+        <input type="text" 
+               class="form-control" 
+               id="username" 
+               placeholder="Insert a username"
+               formControlName="username">
+        <div *ngIf="formPatientRegister.get('username').errors?.required && formPatientRegister.get('username').dirty" class="text-danger">
+          Field is required
+        </div>
+      </div>
+      <!-- /Username entry -->
+
+    <!-- Firstname entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput2">firstName</label>
+      <input type="text" 
+             class="form-control" 
+             id="firstName" 
+             formControlName="firstName">
+      <div *ngIf="formPatientRegister.get('firstName').errors?.required && formPatientRegister.get('firstName').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <!-- /Firstname entry -->
+        <!-- Lastname entry -->
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Lastname</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="lastName" 
+                   formControlName="lastName">
+            <div *ngIf="formPatientRegister.get('lastName').errors?.required && formPatientRegister.get('lastName').dirty" class="text-danger">
+              Field is required
+            </div>
+          </div>
+          <!-- /LastName entry -->
+
+<!-- DateOfBirth entry -->
+    <div class="form-group">
+        <label for="formGroupExampleInput2">Date Of Birth</label>
+        <input type="date" 
+               class="form-control" 
+               id="dateOfBirth" 
+               formControlName="dateOfBirth">
+        <div *ngIf="formPatientRegister.get('dateOfBirth').errors?.required && formPatientRegister.get('dateOfBirth').dirty" class="text-danger">
+          Field is required
+        </div>
+      </div>
+      <!-- /DateOfBirth entry -->
+
+    <button class="btn-primary" [disabled]="!formPatientRegister.valid" (click)="clickRegisterPatient()">Submit</button>
+  </form>
