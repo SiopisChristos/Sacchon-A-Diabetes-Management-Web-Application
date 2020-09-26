@@ -5,6 +5,7 @@ import com.pfizer.sacchon.exception.NotAuthorizedException;
 import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.model.UserTable;
+import com.pfizer.sacchon.repository.util.DateConverter;
 
 
 import javax.persistence.EntityManager;
@@ -178,8 +179,10 @@ public class DoctorRepository {
         return Optional.empty();
     }
 
-    public boolean updatePatientDoctor(Doctor doctor, Patient patient) {
+    public boolean updatePatientDoctor(Doctor doctor, Patient patient) throws NotAuthorizedException{
         Patient p = entityManager.find(Patient.class, patient.getId());
+        if (! DateConverter.nextMonthDate(p.getCreationDate()).before(new Date()))
+            throw new NotAuthorizedException("The patient needs more time");
         p.setDoctor(doctor);
         try {
             entityManager.getTransaction().begin();

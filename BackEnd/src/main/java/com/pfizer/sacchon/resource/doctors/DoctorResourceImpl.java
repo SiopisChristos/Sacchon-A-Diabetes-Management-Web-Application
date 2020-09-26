@@ -175,7 +175,7 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
             return new RepresentationResponse(400, CODE_400, RESPONSE_400);
         } catch (NotAuthorizedException e) {
             e.printStackTrace();
-            return new RepresentationResponse(403, Constants.CODE_403, Constants.RESPONSE_403);
+            return new RepresentationResponse(403, Constants.CODE_403, e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return new RepresentationResponse(500, CODE_500, RESPONSE_500);
