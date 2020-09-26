@@ -9,16 +9,17 @@ export class NoteService {
 
   
   constructor(private http: HttpClient) { }
-  readonly baseUrl = 'http://localhost:9000/v1/postNote';
+  readonly postUrl = 'http://localhost:9000/v1/postNote';
+  readonly updateUrl = 'http://localhost:9000/v1/record';
 
   username = 'gpapado';
   password = 'gpapado';
 
   addNoteEntry(values):Observable<any>{
     return this.http.post(
-      this.baseUrl+'/',
+      this.postUrl,
     {
-        'gram':values.get('message').value,
+        'note':values.get('message').value,
         'date':values.get('date').value
     },
     {
@@ -28,9 +29,9 @@ export class NoteService {
 
   updateNoteEntry(values):Observable<any>{
     return this.http.put(
-      this.baseUrl+'/'+values.get('id').value,
+      this.updateUrl+'/'+values.get('id').value,
     {
-        'gram':values.get('message').value,
+        'note':values.get('message').value,
         'date':values.get('date').value
     },
     {
