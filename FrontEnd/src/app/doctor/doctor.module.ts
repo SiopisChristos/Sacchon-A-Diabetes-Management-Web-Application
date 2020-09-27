@@ -8,11 +8,12 @@ import { NoteModule } from './note/note.module';
 import { Route } from '@angular/compiler/src/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DoctorRegisterComponent } from './doctor-register/doctor-register.component';
+import { DoctorDeleteComponent } from './doctor-delete/doctor-delete.component';
 
 
 const routes: Routes = [
-  {path: 'insertNote',component: NoteEntryComponent},
-  {path: 'updateNote',component: NoteUpdateComponent}
+  { path: 'insertNote', component: NoteEntryComponent },
+  { path: 'updateNote', component: NoteUpdateComponent }
   // {path: 'updateCarbEntry',component: },
   // {path: 'deleteCarbEntry',  component: CarbDeleteComponent},
 ];
@@ -20,8 +21,8 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [DoctorComponent, DoctorRegisterComponent, ],
-  imports: [CommonModule, ReactiveFormsModule, NoteModule,RouterModule.forRoot(routes)],
-  exports: [DoctorComponent,DoctorRegisterComponent]
+  declarations: [DoctorComponent, DoctorRegisterComponent, DoctorDeleteComponent,],
+  imports: [CommonModule, ReactiveFormsModule, NoteModule, RouterModule.forRoot(routes)],
+  exports: [DoctorComponent, DoctorRegisterComponent, DoctorDeleteComponent],
 })
-export class DoctorModule {}
+export class DoctorModule { }
