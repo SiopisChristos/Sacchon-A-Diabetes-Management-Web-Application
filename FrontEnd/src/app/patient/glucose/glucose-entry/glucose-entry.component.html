@@ -1,4 +1,5 @@
-<form [formGroup]="formGlucoseEntry">
+<div class="container">
+  <form [formGroup]="formGlucoseEntry">
   
     <!-- Glucose entry -->
     <div class="form-group">
@@ -28,4 +29,4 @@
     <!-- /Date entry -->
 
     <button class="btn-primary" [disabled]="!formGlucoseEntry.valid" (click)="clickGlucoseEntrySubmit()">Submit</button>
-  </form>
+  </form></div>
