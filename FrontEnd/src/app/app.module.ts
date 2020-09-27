@@ -11,6 +11,7 @@ import { LoginModule } from './login/login.module';
 import { MainComponent } from './main/main.component';
 import { DoctorModule } from './doctor/doctor.module';
 import { NoteModule } from './doctor/note/note.module';
+import { ChiefModule } from './chief/chief.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NoteModule } from './doctor/note/note.module';
     AppRoutingModule,
     PatientModule,
     DoctorModule,
+    // ChiefModule,
     CarbModule,
     NoteModule,
     GlucoseModule,

@@ -53,7 +53,6 @@ public class LoginImpl extends ServerResource {
         LOGGER.info("Starting Get - Login Request");
         try {
             LoginRepresentation loginRepresentation = new LoginRepresentation(username,password);
-            System.out.println("login starts with:" + loginRepresentation);
             UserTable userToLogin = loginRepresentation.createUser();
 
             //Throws NotFoundException

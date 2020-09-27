@@ -43,4 +43,50 @@
   </ul>
 </nav>
 
+
+
+<nav *ngIf="isLogged && role==='doctor'"  class="navbar navbar-expand-lg bg-light">
+  <ul class="nav nav-pills" id="menu">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['doctor']">Welcome Dr. {{username}}</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="doctor/" role="button" aria-haspopup="true" aria-expanded="false">Patient</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="doctor/">My patients</a>
+        <a class="dropdown-item" href="doctor/">Free patients</a>
+        <a class="dropdown-item" href="doctor/">Something even more about the patient</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="doctor/notes" role="button" aria-haspopup="true" aria-expanded="false">Consultations</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="insertNote/" [routerLink]="['insertNote']">Insert Note</a>
+        <a class="dropdown-item" href="updateNote/" [routerLink]="['updateNote']">Update Note</a>
+ 
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="patient/glucose/" role="button" aria-haspopup="true" aria-expanded="false">Glucose</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="patient/glucose/glucose-entry/" [routerLink]="['insertGlucoseEntry']">Insert glucose entry</a>
+        <a class="dropdown-item" href="patient/glucose/glucose-list/" [routerLink]="['viewAverageGlucoseIntake']">Glucose fluctuation chart</a>
+        <a class="dropdown-item" href="patient/glucose/glucose-update" [routerLink]="['updateGlucoseEntry']">Update glucose entry</a>
+        <a class="dropdown-item" href="patient/glucose/glucose-delete" [routerLink]="['deleteGlucoseEntry']">Delete glucose entry</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle notification" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Notes <span *ngIf="notification" class="badge">3</span></a>
+      
+      <div class="dropdown-menu">
+        <a class="dropdown-item">New Notes</a>
+        <a class="dropdown-item" >Old Notes</a>
+      </div>
+    </li>
+    <li>
+        <button id="logoutBtn" class="btn btn-outline-danger my-2 my-sm-0" (click)="logOut()">LOG OUT</button>
+    </li>
+  </ul>
+</nav>
+
 <router-outlet></router-outlet>

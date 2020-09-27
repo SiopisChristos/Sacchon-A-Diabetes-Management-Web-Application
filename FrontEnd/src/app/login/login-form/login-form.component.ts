@@ -13,6 +13,7 @@ export class LoginFormComponent implements OnInit {
   formLogin: FormGroup
   username: string
   password: string
+  role: string
 
   constructor(private router: Router, private loginService: LoginService) { }
 
@@ -38,12 +39,14 @@ export class LoginFormComponent implements OnInit {
       
       if (data.data == "admin" || data.data == "patient" || data.data == "doctor") { //here you check the text you return from the api
         this.username = this.formLogin.get('username').value;
+
         this.password = this.formLogin.get('password').value;
+        this.role = data.data;
         sessionStorage.setItem("username", this.username);
         sessionStorage.setItem("password", this.password)
         sessionStorage.setItem("role", data.data);
         location.reload();
-        this.router.navigate(['patient'])
+        this.router.navigate([this.role])
       }
       else {
         alert("Wrong login or password");

@@ -12,7 +12,7 @@ export class ChiefService {
   readonly getInactivePatientsUrl: "http://localhost:9000/v1/patientsInactive";
   readonly getDoctorNotesUrl: "http://localhost:9000/v1/doctorNotes";
   readonly getPatientDataUrl: "http://localhost:9000/v1//patientData";
-  readonly getFreePatientsUrl: "http://localhost:9000/v1/";
+  readonly getFreePatientsUrl: "http://localhost:9000/v1/patientsInactiveAndTime";
 
   username = 'admin';
   password = 'admin';
@@ -51,7 +51,7 @@ export class ChiefService {
 
   getFreePatients(values):Observable<any>{
     return this.http.get(
-      this.getFreePatientsUrl+'?from='+values.get('from').value+'&to='+values.get('to').value,
+      this.getFreePatientsUrl,
         {
           headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
         );

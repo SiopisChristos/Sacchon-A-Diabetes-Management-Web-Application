@@ -6,14 +6,13 @@ import { NoteUpdateComponent } from './doctor/note/note-update/note-update.compo
 import { CarbDeleteComponent } from './patient/carb/carb-delete/carb-delete.component';
 import { CarbEntryComponent } from './patient/carb/carb-entry/carb-entry.component';
 import { PatientComponent } from './patient/patient/patient.component';
+import { DoctorComponent } from './doctor/doctor/doctor.component';
 
 const routes: Routes = [
   {path:'', redirectTo: 'login', pathMatch:'full'},
   {path:'login',component: LoginFormComponent},
   {path:'patient',component: PatientComponent},
-  // {path:'doctor',component: DoctorComponent},
-  {path: 'updateNoteEntry', component: NoteUpdateComponent},
-  {path: 'insertNoteEntry', component: NoteEntryComponent}
+  {path:'doctor',component: DoctorComponent}
 ];
 
 @NgModule({
