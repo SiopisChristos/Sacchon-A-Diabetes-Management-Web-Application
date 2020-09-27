@@ -9,15 +9,19 @@ import { Route } from '@angular/compiler/src/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DoctorRegisterComponent } from './doctor-register/doctor-register.component';
 import { DoctorDeleteComponent } from './doctor-delete/doctor-delete.component';
+import { PatientRegisterComponent } from '../patient/patient/patient-register/patient-register.component';
 
 
 const routes: Routes = [
   { path: 'insertNote', component: NoteEntryComponent },
-  { path: 'updateNote', component: NoteUpdateComponent }
+  { path: 'updateNote', component: NoteUpdateComponent },
   // {path: 'updateCarbEntry',component: },
   // {path: 'deleteCarbEntry',  component: CarbDeleteComponent},
-];
-
+  { path: 'registerPatient', component: PatientRegisterComponent },
+  { path: 'registerDoctor', component: DoctorRegisterComponent },
+  //{path: 'seeFreePatients',component:SeeFreePatientsComponent},
+  { path: 'deleteDoctor', component: DoctorDeleteComponent },
+]
 
 
 @NgModule({

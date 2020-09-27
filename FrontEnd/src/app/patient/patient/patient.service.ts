@@ -10,22 +10,49 @@ export class PatientService {
   constructor(private http: HttpClient) { }
   readonly baseUrl = 'http://localhost:9000/v1/patient';
 
-  username='ekelid';
-  password='ekelid';
+  username = 'ekelid';
+  password = 'ekelid';
 
-  registerPatient(values):Observable<any>{
+  registerPatient(values): Observable<any> {
     return this.http.post(
-      this.baseUrl,{
-        'username':values.get('username').value,
-        'lastName':values.get('lastName').value,
-        'firstName':values.get('firstName').value,
-        'dateOfBirth':values.get('dateOfBirth').value,
+      this.baseUrl, {
+      'username': values.get('username').value,
+      'lastName': values.get('lastName').value,
+      'firstName': values.get('firstName').value,
+      'dateOfBirth': values.get('dateOfBirth').value,
 
+    },
+      {
+        headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+      }
+    );
+
+  }
+  patientDelete(): Observable<any> {
+    return this.http.delete(this.baseUrl,
+
+      {
+        headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+
+      });
+  }
+
+  patientUpdate(values): Observable<any> {
+    return this.http.put(
+      this.baseUrl + '/update/' + values.get('id').value,
+      {
+        'lastName': values.get('lastName').value,
+        'firstName': values.get('firstName').value,
+        'dateOfBirth': values.get('dateOfBirth').value,
+        'address': values.get('address').value,
+        'phoneNumber': values.get('phoneNumber').value,
+        'city': values.get('city').value,
       },
       {
-        headers:new HttpHeaders({'Authorization': 'Basic ' + btoa(this.username + ':' + this.password)})}
-      );
-    
+        headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+      }
+    );
+
   }
 
 }

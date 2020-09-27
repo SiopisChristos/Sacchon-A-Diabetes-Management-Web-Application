@@ -11,6 +11,8 @@ import { PatientDeleteComponent } from './patient-delete/patient-delete.componen
 import { PatientUpdateComponent } from './patient-update/patient-update.component';
 
 const routes: Routes = [
+  { path: 'deletePatient', component: PatientDeleteComponent },
+  { path: 'updatePatient', component: PatientUpdateComponent }
 ];
 
 @NgModule({
