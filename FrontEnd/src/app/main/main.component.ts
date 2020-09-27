@@ -9,12 +9,14 @@ import { Router } from '@angular/router';
 export class MainComponent implements OnInit {
 
   isLogged:boolean;
+  role:String;
 
   constructor(private router:Router) { }
 
   ngOnInit(): void {
+    this.role = sessionStorage.getItem("role")
     console.log(sessionStorage.getItem("credentials")+" app component")
-    if(sessionStorage.getItem("credentials") === null){
+    if(this.role === null){
       this.isLogged = false
       console.log("inside iff app component")
       this.router.navigate(['login'])
@@ -22,12 +24,14 @@ export class MainComponent implements OnInit {
     else{
       this.isLogged = true
       console.log("inside else app component")
-      this.router.navigate(['patient'])
+      
     }
   }
 
   logOut(){
-    sessionStorage.removeItem("credentials")
+    sessionStorage.removeItem("username")
+    sessionStorage.removeItem("password")
+    sessionStorage.removeItem("role")
     this.isLogged = false
     this.router.navigate(['login']) 
   }

@@ -1,4 +1,4 @@
-<nav *ngIf="isLogged" >
+<nav *ngIf="isLogged && role==='patient'" id="menu">
   <ul class="nav nav-pills">
     <li class="nav-item">
       <a class="nav-link" href="patient/" [routerLink]="['patient']">Welcome</a>
@@ -30,7 +30,7 @@
       </div>
     </li>
     <li>
-        <button class="btn btn-outline-danger my-2 my-sm-0" (click)="logOut()">LOG OUT</button>
+        <button id="logoutBtn" class="btn btn-outline-danger my-2 my-sm-0" (click)="logOut()">LOG OUT</button>
     </li>
   </ul>
 </nav>
