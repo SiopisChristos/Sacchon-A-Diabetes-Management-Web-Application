@@ -10,12 +10,14 @@ export class MainComponent implements OnInit {
 
   isLogged:boolean;
   role:String;
+  username: String;
+  notification:boolean = true;
+  
 
   constructor(private router:Router) { }
 
   ngOnInit(): void {
     this.role = sessionStorage.getItem("role")
-    console.log(sessionStorage.getItem("credentials")+" app component")
     if(this.role === null){
       this.isLogged = false
       console.log("inside iff app component")
@@ -23,6 +25,7 @@ export class MainComponent implements OnInit {
     }
     else{
       this.isLogged = true
+      this.username = sessionStorage.getItem("username")
       console.log("inside else app component")
       
     }
