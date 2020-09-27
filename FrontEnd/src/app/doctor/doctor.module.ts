@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NoteModule } from './note/note.module';
 import { Route } from '@angular/compiler/src/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DoctorRegisterComponent } from './doctor-register/doctor-register.component';
 
 
 const routes: Routes = [
@@ -19,8 +20,8 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [DoctorComponent],
+  declarations: [DoctorComponent, DoctorRegisterComponent, ],
   imports: [CommonModule, ReactiveFormsModule, NoteModule,RouterModule.forRoot(routes)],
-  exports: [DoctorComponent]
+  exports: [DoctorComponent,DoctorRegisterComponent]
 })
 export class DoctorModule {}
