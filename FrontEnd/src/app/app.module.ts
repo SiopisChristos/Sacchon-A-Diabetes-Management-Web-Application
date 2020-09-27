@@ -24,7 +24,7 @@ import { ChiefModule } from './chief/chief.module';
     AppRoutingModule,
     PatientModule,
     DoctorModule,
-    // ChiefModule,
+     ChiefModule,
     CarbModule,
     NoteModule,
     GlucoseModule,

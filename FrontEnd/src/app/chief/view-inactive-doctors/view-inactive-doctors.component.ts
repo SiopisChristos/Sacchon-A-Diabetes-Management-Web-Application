@@ -19,7 +19,7 @@ export class ViewInactiveDoctorsComponent implements OnInit {
     })
   }
  
-  clickViewFreePatients(){
+  clickViewInactiveDoctors(){
     this.chiefService.getInactiveDoctor(this.formViewInactiveDoctors).subscribe(viewInactiveDoctors => {
       alert(JSON.stringify(viewInactiveDoctors));
       this.ngOnInit;
