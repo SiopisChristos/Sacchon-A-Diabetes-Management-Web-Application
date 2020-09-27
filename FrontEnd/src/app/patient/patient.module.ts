@@ -8,12 +8,13 @@ import { CarbEntryComponent } from './carb/carb-entry/carb-entry.component';
 import { CarbModule } from './carb/carb.module';
 import { GlucoseModule } from './glucose/glucose.module';
 import { PatientDeleteComponent } from './patient-delete/patient-delete.component';
+import { PatientUpdateComponent } from './patient-update/patient-update.component';
 
 const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [PatientComponent, PatientRegisterComponent, PatientDeleteComponent],
+  declarations: [PatientComponent, PatientRegisterComponent, PatientDeleteComponent, PatientUpdateComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -22,7 +23,7 @@ const routes: Routes = [
   ],
   exports: [
     PatientRegisterComponent,
-    PatientComponent, PatientDeleteComponent
+    PatientComponent, PatientDeleteComponent, PatientUpdateComponent
   ]
 })
 export class PatientModule { }

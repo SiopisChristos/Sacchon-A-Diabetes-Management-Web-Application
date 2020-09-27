@@ -1,0 +1,64 @@
+<p>patient-update works!</p>
+<p>patient-update works!</p>
+<form [formGroup]="formPatientUpdate">
+  <!-- Id entry -->
+  <div class="form-group">
+    <label for="formGroupExampleInput2">Id</label>
+    <input type="number" class="form-control" id="id" placeholder="Insert an id" formControlName="id">
+    <div *ngIf="formPatientUpdate.get('id').errors?.required && formPatientUpdate.get('id').dirty" class="text-danger">
+      Field is required
+    </div>
+  </div>
+  <!-- /Id entry -->
+
+
+
+  <!-- Firstname entry -->
+  <div class="form-group">
+    <label for="formGroupExampleInput2">firstName</label>
+    <input type="text" class="form-control" id="firstName" formControlName="firstName">
+
+  </div>
+  <!-- /Firstname entry -->
+  <!-- Lastname entry -->
+  <div class="form-group">
+    <label for="formGroupExampleInput2">Lastname</label>
+    <input type="text" class="form-control" id="lastName" formControlName="lastName">
+
+  </div>
+  <!-- /LastName entry -->
+
+  <!-- DateOfBirth entry -->
+  <div class="form-group">
+    <label for="formGroupExampleInput2">Date Of Birth</label>
+    <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
+
+  </div>
+  <!-- /DateOfBirth entry -->
+
+  <!-- Address entry -->
+  <div class="form-group">
+    <label for="formGroupExampleInput2">address</label>
+    <input type="text" class="form-control" id="address" formControlName="address">
+
+  </div>
+  <!-- /Address entry -->
+
+  <!-- Phonenumber entry -->
+  <div class="form-group">
+    <label for="formGroupExampleInput2">PhoneNumber</label>
+    <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+
+  </div>
+  <!-- /phoneNumber entry -->
+
+  <!-- City entry -->
+  <div class="form-group">
+    <label for="formGroupExampleInput2">City</label>
+    <input type="text" class="form-control" id="city" formControlName="city">
+
+  </div>
+  <!-- /City entry -->
+
+  <button class="btn-primary" [disabled]="!formPatientUpdate.valid" (click)="clickPatientUpdateSubmit()">Submit</button>
+</form>
