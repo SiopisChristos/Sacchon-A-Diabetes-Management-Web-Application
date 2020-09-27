@@ -1,0 +1,34 @@
+<form [formGroup]="formNoteUpdate">
+  
+    <!-- Id's entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">id</label>
+      <input type="text" 
+             class="form-control" 
+             id="id" 
+             placeholder="Enter note's id to update" 
+             formControlName = "id">
+      <div *ngIf="formNoteUpdate.get('id').errors?.required && formNoteUpdate.get('id').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>  
+    <!-- /Id's entry -->
+
+    <!-- Notes entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Notes</label>
+      <input type="text" 
+             class="form-control" 
+             id="note" 
+             placeholder="Enter consultation" 
+             formControlName = "message">
+      <div *ngIf="formNoteUpdate.get('message').errors?.required && formNoteUpdate.get('message').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>  
+    <!-- /Notes entry -->
+  
+  
+    <button class="btn-primary" [disabled]="!formNoteUpdate.valid" (click)="clickNoteUpdateSubmit()">Update</button>
+  
+  </form>

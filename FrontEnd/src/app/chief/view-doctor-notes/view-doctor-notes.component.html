@@ -1,0 +1,32 @@
+<form [formGroup]="formViewDoctorNotes">
+  
+    <!-- From date entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Date from</label>
+      <input type="date" 
+             class="form-control" 
+             id="from" 
+             placeholder="Enter from date" 
+             formControlName = "from">
+      <div *ngIf="formViewDoctorNotes.get('from').errors?.required && formViewDoctorNotes.get('from').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>  
+    <!-- /From date entry -->
+  
+    <!-- To date entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput">Date to</label>
+      <input type="date" 
+            class="form-control" 
+            id="to" 
+            formControlName="to">
+      <div *ngIf="formViewDoctorNotes.get('to').errors?.required && formViewDoctorNotes.get('to').dirty" class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <!-- /To date entry -->
+  
+    <button class="btn-primary" [disabled]="!formViewDoctorNotes.valid" (click)="clickViewDoctorNotes()">Choose</button>
+  
+  </form>

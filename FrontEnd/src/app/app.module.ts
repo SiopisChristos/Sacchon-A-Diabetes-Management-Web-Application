@@ -9,6 +9,8 @@ import { CarbModule } from './patient/carb/carb.module';
 import { GlucoseModule } from './patient/glucose/glucose.module';
 import { LoginModule } from './login/login.module';
 import { MainComponent } from './main/main.component';
+import { DoctorModule } from './doctor/doctor.module';
+import { NoteModule } from './doctor/note/note.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { MainComponent } from './main/main.component';
     BrowserModule,
     AppRoutingModule,
     PatientModule,
+    DoctorModule,
     CarbModule,
+    NoteModule,
     GlucoseModule,
     LoginModule,
     RouterModule.forRoot([])

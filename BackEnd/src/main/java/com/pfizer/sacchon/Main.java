@@ -43,8 +43,7 @@ public class Main extends Application {
 
         getRoles().add(new Role(this, Shield.ROLE_ADMIN));
         getRoles().add(new Role(this, Shield.ROLE_DOCTOR));
-        getRoles().add(new Role(this, Shield.ROLE_PATIENT
-        ));
+        getRoles().add(new Role(this, Shield.ROLE_PATIENT));
 
     }
 
