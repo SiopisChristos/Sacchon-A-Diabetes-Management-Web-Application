@@ -1,0 +1,6 @@
+<p>patient-delete works!</p>
+<form [formGroup]="formPatientDelete">
+
+
+    <button class="btn-primary" [disabled]="!formPatientDelete.valid" (click)="clickDeletePatient()">Delete</button>
+</form>

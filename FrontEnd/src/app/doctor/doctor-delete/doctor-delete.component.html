@@ -1,0 +1,5 @@
+<p>doctor-delete works!</p>
+<form [formGroup]="formDoctorDelete">
+
+    <button class="btn-primary" [disabled]="!formDoctorDelete.valid" (click)="clickDeleteDoctor()">Delete</button>
+</form>
