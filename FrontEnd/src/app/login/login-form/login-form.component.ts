@@ -17,10 +17,16 @@ export class LoginFormComponent implements OnInit {
   constructor(private router: Router, private loginService: LoginService) { }
 
   ngOnInit(): void {
+    const role = sessionStorage.getItem("role")
+    
+    if( role != null || role != undefined)
+      this.router.navigate([role])
+    
     this.formLogin = new FormGroup({
       username: new FormControl(),
       password: new FormControl()
     })
+
   }
 
   logIn() {
@@ -33,9 +39,11 @@ export class LoginFormComponent implements OnInit {
       if (data.data == "admin" || data.data == "patient" || data.data == "doctor") { //here you check the text you return from the api
         this.username = this.formLogin.get('username').value;
         this.password = this.formLogin.get('password').value;
-        sessionStorage.setItem("credentials", this.username + ":" + this.password)
+        sessionStorage.setItem("username", this.username);
+        sessionStorage.setItem("password", this.password)
+        sessionStorage.setItem("role", data.data);
         location.reload();
-        this.router.navigate(['insertCarbEntry'])
+        this.router.navigate(['patient'])
       }
       else {
         alert("Wrong login or password");
