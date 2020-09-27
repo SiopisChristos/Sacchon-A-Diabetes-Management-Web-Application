@@ -12,13 +12,12 @@ import { MainComponent } from './main/main.component';
 import { DoctorModule } from './doctor/doctor.module';
 import { NoteModule } from './doctor/note/note.module';
 import { ChiefModule } from './chief/chief.module';
-import { PatientDeleteComponent } from './patient-delete/patient-delete.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    PatientDeleteComponent
+    
     ],
   imports: [
     HttpClientModule,
