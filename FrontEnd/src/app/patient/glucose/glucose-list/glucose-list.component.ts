@@ -26,8 +26,17 @@ export class GlucoseListComponent implements OnInit {
 
   // Define chart options
   lineChartOptions: ChartOptions = {
-    responsive: true
+    responsive: true,
+    scales: {
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'mg/dL'
+        }
+      }]
+    }     
   };
+ 
 
   // Define colors of chart segments
   lineChartColors: Color[] = [

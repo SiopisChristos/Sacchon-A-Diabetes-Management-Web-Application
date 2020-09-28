@@ -1,54 +1,61 @@
 <div class="container">
   <div class="row mt-5">
+    <div class="col-12"><h4>My average daily blood glucose level over a specified period</h4></div>
     <div class="col">
-      <h4>My average daily blood glucose level over a specified period</h4>
+      
       <form [formGroup]="formGlucoseEntry">
-        <!-- From date entry -->
-        <div class="form-group">
-          <label for="formGroupExampleInput">From: </label>
-          <input
-            type="date"
-            class="form-control"
-            id="from"
-            placeholder="Enter from date"
-            formControlName="from"
-          />
-          <div
-            *ngIf="
-              formGlucoseEntry.get('from').errors?.required &&
-              formGlucoseEntry.get('from').dirty
-            "
-            class="text-danger"
-          >
-            Field is required
+        <div class="inline">
+          <!-- From date entry -->
+          <div class="form-group">
+            <label for="formGroupExampleInput">From: </label>
+            <input
+              type="date"
+              class="form-control"
+              id="from"
+              placeholder="Enter from date"
+              formControlName="from"
+              
+            />
+            <div
+              *ngIf="
+                formGlucoseEntry.get('from').errors?.required &&
+                formGlucoseEntry.get('from').dirty
+              "
+              class="text-danger"
+            >
+              Field is required
+            </div>
           </div>
-        </div>
-        <!-- /From date entry -->
+          <!-- /From date entry -->
 
-        <!-- To date entry -->
-        <div class="form-group">
-          <label for="formGroupExampleInput">To:</label>
-          <input
-            type="date"
-            class="form-control"
-            id="to"
-            formControlName="to"
-          />
-          <div
-            *ngIf="
-              formGlucoseEntry.get('to').errors?.required &&
-              formGlucoseEntry.get('to').dirty
-            "
-            class="text-danger"
-          >
-            Field is required
+          <!-- To date entry -->
+          <div class="form-group ml-5">
+            <label for="formGroupExampleInput">To:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="to"
+              formControlName="to"
+              
+            />
+            <div
+              *ngIf="
+                formGlucoseEntry.get('to').errors?.required &&
+                formGlucoseEntry.get('to').dirty
+              "
+              class="text-danger"
+            >
+              Field is required
+            </div>
           </div>
+          <!-- /To date entry -->
+          
         </div>
-        <!-- /To date entry -->
-
+        <div>
         <button class="btn btn-primary" (click)="clickGlucoseSubmit()">
           Choose
         </button>
+      </div>
       </form>
     </div>
   </div>
@@ -59,17 +66,19 @@
         type="Line"
         [data]="myData"
       ></google-chart> -->
-      <div class="chartjs-container">
-        <canvas baseChart 
-            [datasets]="lineChartData" 
-            [labels]="lineChartLabels" 
-            [options]="lineChartOptions"
-            [colors]="lineChartColors" 
-            [legend]="lineChartLegend" 
-            [chartType]="lineChartType" 
-            [plugins]="lineChartPlugins"
-          > </canvas>
-    </div>
+      <div id="chartJS" class="chartjs-container">
+        <canvas
+          baseChart
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [plugins]="lineChartPlugins"
+        >
+        </canvas>
+      </div>
     </div>
   </div>
 </div>
