@@ -28,22 +28,11 @@ export class PatientRegisterComponent implements OnInit {
     })
   }
 
-  clickRegisterPatient() {
-    this.RegisterPatient();
-    this.RegisterUser();
-    this.ngOnInit;
-  }
-  RegisterPatient() {
-    this.patientService.registerPatient(this.formPatientRegister).subscribe(registerData => {
-      alert(JSON.stringify(registerData));
 
-
-
-    })
-  }
   RegisterUser() {
     this.patientService.UserRegistration(this.formPatientRegister).subscribe(registerUserData => {
       alert(JSON.stringify(registerUserData));
+      this.ngOnInit;
 
     })
   }
