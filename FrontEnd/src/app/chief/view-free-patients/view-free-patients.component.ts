@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Patient } from 'src/app/patient/patient/patient';
 import { ChiefService } from '../chief.service';
 
 @Component({
@@ -10,20 +11,21 @@ import { ChiefService } from '../chief.service';
 export class ViewFreePatientsComponent implements OnInit {
 
 
-  constructor(private chiefService: ChiefService ) { }
-
+  constructor(private chiefService: ChiefService ) {
+   }
+  listOfPatients: Patient[];
+  days: number[];
   formViewFreePatients: FormGroup;
 
   ngOnInit(): void {
     this.formViewFreePatients = new FormGroup({
-      from: new FormControl(null, Validators.required),
-      to: new FormControl(null, Validators.required)
     })
   }
  
   clickViewFreePatients(){
     this.chiefService.getFreePatients(this.formViewFreePatients).subscribe(viewFreePatients => {
-      alert(JSON.stringify(viewFreePatients));
+      this.listOfPatients = viewFreePatients.data[0];
+      this.days = viewFreePatients.data[1];
       this.ngOnInit;
   })
 }
