@@ -14,7 +14,6 @@ export class PatientService {
   password = sessionStorage.getItem("password");
 
   registerPatient(values): Observable<any> {
-
     return this.http.post(
       this.baseUrl, {
       'username': values.get('username').value,
@@ -25,14 +24,13 @@ export class PatientService {
       'phoneNumber': values.get('phoneNumber').value,
       'city': values.get('city').value,
       'zipCode': values.get('zipCode').value
-
     },
       {
         headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
       }
     );
-
   }
+
 
   UserRegistration(values): Observable<any> {
     return this.http.post('http://localhost:9000/v1/login', {
@@ -51,13 +49,15 @@ export class PatientService {
     }
     )
   }
+
+
   patientDelete(): Observable<any> {
     return this.http.delete(this.baseUrl,
       {
         headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
-
       });
   }
+
 
   patientUpdate(values): Observable<any> {
     return this.http.put(
@@ -75,7 +75,13 @@ export class PatientService {
         headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
       }
     );
+  }
 
+  patientGetMyData(): Observable<any> {
+    return this.http.get(this.baseUrl,
+      {
+        headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+      });
   }
 
 }

@@ -9,7 +9,7 @@
       <div class="dropdown-menu">
         <a class="dropdown-item" href="patient/patient-update/" [routerLink]="['updatePatient']">Edit your Profile</a>
         <a class="dropdown-item" href="patient/" [routerLink]="['deletePatient']">Delete your Profile</a>
-        <a class="dropdown-item" href="patient/">Something even more about the patient</a>
+        <a class="dropdown-item" href="patient/" [routerLink]="['seeMydata']">View my data</a>
       </div>
     </li>
     <li class="nav-item dropdown">
@@ -110,13 +110,14 @@
 </nav>
 
 
-<nav *ngIf="isLogged && role==='admin'"  class="navbar navbar-expand-lg bg-light">
+<nav *ngIf="isLogged && role==='admin'" class="navbar navbar-expand-lg bg-light">
   <ul class="nav nav-pills" id="menu">
     <li class="nav-item">
       <a class="nav-link" [routerLink]="['doctor']">Welcome Chief Dr.{{username}}</a>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="admin/" role="button" aria-haspopup="true" aria-expanded="false">Patients</a>
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="admin/" role="button" aria-haspopup="true"
+        aria-expanded="false">Patients</a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="admin/">All Patients</a>
         <a class="dropdown-item" href="admin/">Patients Inactive</a>
@@ -125,16 +126,17 @@
       </div>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="admin/" role="button" aria-haspopup="true" aria-expanded="false">Doctors</a>
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="admin/" role="button" aria-haspopup="true"
+        aria-expanded="false">Doctors</a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="admin/" >All Doctors</a>
+        <a class="dropdown-item" href="admin/">All Doctors</a>
         <a class="dropdown-item" href="admin/">Doctors Inactive</a>
-        <a class="dropdown-item" href="admin/" >Doctors Consultations</a>
+        <a class="dropdown-item" href="admin/">Doctors Consultations</a>
       </div>
     </li>
-    
+
     <li>
-        <button id="logoutBtn" class="btn btn-outline-danger my-2 my-sm-0" (click)="logOut()">LOG OUT</button>
+      <button id="logoutBtn" class="btn btn-outline-danger my-2 my-sm-0" (click)="logOut()">LOG OUT</button>
     </li>
   </ul>
 </nav>
