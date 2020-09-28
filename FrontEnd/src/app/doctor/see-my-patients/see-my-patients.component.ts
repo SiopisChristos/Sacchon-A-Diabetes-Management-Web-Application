@@ -14,8 +14,9 @@ export class SeeMyPatientsComponent implements OnInit {
 
   ngOnInit(): void {
     this.doctorService.getMyPatients().subscribe(
-      listOfMyPatients => {this.listOfMyPatients = listOfMyPatients;
-  })
-}
+      listMypatient => { this.listOfMyPatients = listMypatient.data; }
+    )
+    this.ngOnInit;
+  }
 
 }

@@ -12,6 +12,7 @@ import { DoctorDeleteComponent } from './doctor-delete/doctor-delete.component';
 import { PatientRegisterComponent } from '../patient/patient/patient-register/patient-register.component';
 import { ViewFreePatientsComponent } from './view-free-patients/view-free-patients.component';
 import { SeeMyPatientsComponent } from './see-my-patients/see-my-patients.component';
+import { SeePatientsDataComponent } from './see-patients-data/see-patients-data.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'seeFreePatients',component: ViewFreePatientsComponent},
   { path: 'seeMyPatients',component: SeeMyPatientsComponent},
   { path: 'deleteDoctor', component: DoctorDeleteComponent },
+  { path: 'seePatientsData', component: SeePatientsDataComponent },
 ]
 
 
@@ -31,7 +33,8 @@ const routes: Routes = [
     DoctorRegisterComponent, 
     DoctorDeleteComponent, 
     ViewFreePatientsComponent, 
-    SeeMyPatientsComponent,
+    SeeMyPatientsComponent, 
+    SeePatientsDataComponent,
   ],
   imports: [
     CommonModule, 
@@ -45,6 +48,7 @@ const routes: Routes = [
     DoctorDeleteComponent, 
     ViewFreePatientsComponent,
     SeeMyPatientsComponent,
+    SeePatientsDataComponent
   ],
 })
 export class DoctorModule { }

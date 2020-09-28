@@ -1,0 +1,25 @@
+<div class="container">
+<h1 >Patient's Data Records</h1>
+
+
+<div class="card" style="width: 18rem;" *ngFor="let c of listOfData1">
+    <div class="card-header">
+        Carb
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{c.gram}}</li>
+        <li class="list-group-item">{{c.date | date: 'dd MMM yyyy'}}</li><br>
+    </ul>
+</div>
+
+
+<div class="card" style="width: 18rem;" *ngFor="let g of listOfData2">
+    <div class="card-header">
+        Glucose
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{g.measurement}}</li>
+        <li class="list-group-item">{{g.dateTime | date: 'dd MMM yyyy'}}</li><br>
+    </ul>
+</div>
+</div>

@@ -10,6 +10,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class PatientRepresentation {
+    private long patient_id;
     private String firstName;
     private String lastName;
     private String address;
@@ -32,7 +33,7 @@ public class PatientRepresentation {
             phoneNumber = patient.getPhoneNumber();
             username = patient.getUsername();
             dateOfBirth = patient.getDateOfBirth();
-            //       id=patient.getId();
+            patient_id = patient.getId();
             if (patient.getDoctor() != null)
                 doctor_id = patient.getDoctor().getId();
             else

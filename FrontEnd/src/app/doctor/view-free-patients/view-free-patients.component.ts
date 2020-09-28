@@ -16,10 +16,7 @@ export class ViewFreePatientsComponent implements OnInit {
   ngOnInit(): void {
     this.doctorService.getFreePatients().subscribe(
       listFreePatients => {this.listOfFreePatients = listFreePatients.data;
-  })
-  if (this.listOfFreePatients == null)
-    alert("einai null");
-    this.ngOnInit;
-}
+    })
+  }
 
 }
