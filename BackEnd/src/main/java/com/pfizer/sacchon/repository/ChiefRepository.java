@@ -81,18 +81,18 @@ public class ChiefRepository {
         return notes;
     }
 
-    public List<Carb> findCarbs(long patient_id, Date startDate, Date endDate) {
+    public List<Carb> findCarbs(Patient patient, Date startDate, Date endDate) {
         List<Carb> carb = entityManager.createQuery("select c from Carb as c, Patient p where p.isActive = 1 and c.patient = :id and :startDate <= c.date AND :endDate >= c.date")
-                .setParameter("id", patient_id)
+                .setParameter("id", patient)
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
                 .getResultList();
         return carb;
     }
 
-    public List<Glucose> findGlucose(long patient_id, Date startDate, Date endDate) {
+    public List<Glucose> findGlucose(Patient patient, Date startDate, Date endDate) {
         List<Glucose> glucose = entityManager.createQuery("select g from Glucose as g, Patient as p where p.isActive = 1 and g.patient = :id and :startDate <= g.dateTime AND :endDate >= g.dateTime")
-                .setParameter("id", patient_id)
+                .setParameter("id", patient)
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
                 .getResultList();
@@ -117,6 +117,7 @@ public class ChiefRepository {
         List<Patient> patients = entityManager.createQuery(
                 "select p from Patient p where isActive = 1 and p.doctor is null")
                 .getResultList();
+        List<Patient> patientsInactive = new ArrayList<>();
 
         for (Patient p : patients) {
             Date today = new Date();
@@ -127,24 +128,26 @@ public class ChiefRepository {
             ;
             Date patientCanHaveDoctor = DateConverter.nextMonthDate(p.getCreationDate());
             if (patientCanHaveDoctor.after(today)) {
-                patients.remove(p);
-                continue;
+                //NOT ADD THE PATIENT
             }
-            Date lastNoteDate = findLastNoteDate(p);
-            if (lastNoteDate == null)
-                dateTimeStart = patientCanHaveDoctor.toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate();
-            else
-                dateTimeStart = lastNoteDate.toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate();
+            else {
+                patientsInactive.add(p);
+                Date lastNoteDate = findLastNoteDate(p);
+                if (lastNoteDate == null)
+                    dateTimeStart = patientCanHaveDoctor.toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate();
+                else
+                    dateTimeStart = lastNoteDate.toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate();
 
-            countDays = DAYS.between(dateTimeStart, dateTimeEnd);
-            countDaysOfPatient.add(countDays);
-            return new List[]{patients, countDaysOfPatient};
+                countDays = DAYS.between(dateTimeStart, dateTimeEnd);
+                countDaysOfPatient.add(countDays);
+            }
+
         }
-        return null;
+        return new List[]{patientsInactive, countDaysOfPatient};
     }
 
 

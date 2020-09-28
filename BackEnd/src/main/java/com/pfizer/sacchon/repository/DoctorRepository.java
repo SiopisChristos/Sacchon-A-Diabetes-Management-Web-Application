@@ -79,25 +79,28 @@ public class DoctorRepository {
         }
     }
 
-    public void freePatients(long doctor_id) {
-        List<Patient> myPatients = findMyPatients(doctor_id);
-        myPatients.forEach(x -> x.setDoctor(null));
-        entityManager.getTransaction().begin();
-        for (Patient p : myPatients) {
-            entityManager.persist(p);
-        }
-        entityManager.getTransaction().commit();
-    }
+//    public void freePatients(long doctor_id) {
+//        List<Patient> myPatients = findMyPatients(doctor_id);
+//        myPatients.forEach(x -> x.setDoctor(null));
+//        entityManager.getTransaction().begin();
+//        for (Patient p : myPatients) {
+//            entityManager.persist(p);
+//        }
+//        entityManager.getTransaction().commit();
+//    }
 
     public boolean removeDoctor(long id) {
         Doctor in = entityManager.find(Doctor.class, id);
-
+        List<Patient> myPatients = findMyPatients(id);
+        myPatients.forEach(x -> x.setDoctor(null));
         in.setActive(false);
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(in);
+            for (Patient p : myPatients) {
+                entityManager.persist(p);
+            }
             entityManager.getTransaction().commit();
-            freePatients(id);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

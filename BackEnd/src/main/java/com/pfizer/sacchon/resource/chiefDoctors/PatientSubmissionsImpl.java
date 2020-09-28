@@ -4,9 +4,13 @@ import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.model.Carb;
 
 import com.pfizer.sacchon.model.Glucose;
+import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.ChiefRepository;
+import com.pfizer.sacchon.repository.PatientRepository;
+import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.CarbRepresentation;
+import com.pfizer.sacchon.representation.GlucoseRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
 import com.pfizer.sacchon.representation.RepresentationResponse;
 import com.pfizer.sacchon.resource.constant.Constants;
@@ -27,6 +31,7 @@ public class PatientSubmissionsImpl extends ServerResource implements PatientSub
 
     public static final Logger LOGGER = Engine.getLogger(PatientSubmissionsImpl.class);
     private ChiefRepository chiefRepository;
+    private PatientRepository patientRepository;
     private EntityManager entityManager;
     private Date startDate;
     private Date endDate;
@@ -43,7 +48,8 @@ public class PatientSubmissionsImpl extends ServerResource implements PatientSub
         try {
             entityManager = JpaUtil.getEntityManager();
             chiefRepository = new ChiefRepository(entityManager);
-            id =  id = Long.parseLong(getAttribute("id"));
+            patientRepository = new PatientRepository(entityManager);
+            id =  Long.parseLong(getAttribute("id"));
             try {
                 String startDateString = getQueryValue("from");
                 String endDateString = getQueryValue("to");
@@ -76,15 +82,16 @@ public class PatientSubmissionsImpl extends ServerResource implements PatientSub
             if (startDate == null || endDate == null)
                 throw new BadEntityException("The input dates are not valid");
 
+            Patient patient = EntityUtil.getFromOptionalEntity(patientRepository.findById(id),this,LOGGER);
 
-            List<Carb> carbList = chiefRepository.findCarbs(id, startDate, endDate);
+            List<Carb> carbList = chiefRepository.findCarbs(patient, startDate, endDate);
             List<CarbRepresentation> carbRepresentation = new ArrayList<>();
             carbList.forEach(x -> carbRepresentation.add(new CarbRepresentation(x)));
 
 
-            List<Glucose> glucoseList = chiefRepository.findGlucose(id, startDate, endDate);
-            List<CarbRepresentation> glucoseRepresentation = new ArrayList<>();
-            carbList.forEach(x -> glucoseRepresentation.add(new CarbRepresentation(x)));
+            List<Glucose> glucoseList = chiefRepository.findGlucose(patient, startDate, endDate);
+            List<GlucoseRepresentation> glucoseRepresentation = new ArrayList<>();
+            glucoseList.forEach(x -> glucoseRepresentation.add(new GlucoseRepresentation(x)));
 
 
             List[] patientData = {carbRepresentation, glucoseRepresentation};

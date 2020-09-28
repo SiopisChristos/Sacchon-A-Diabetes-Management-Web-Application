@@ -6,6 +6,7 @@ import com.pfizer.sacchon.model.*;
 import com.pfizer.sacchon.representation.CarbRepresentation;
 import com.pfizer.sacchon.representation.DoctorRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
+import com.pfizer.sacchon.representation.UserRegistrationRepr;
 
 import java.lang.reflect.Parameter;
 
@@ -105,6 +106,13 @@ public class ResourceValidator {
                     "date of birth city cannot be null");
         }
 
+    }
+
+    public static void validateUserRegister(UserRegistrationRepr userRegistrationRepr) throws BadEntityException{
+        if (userRegistrationRepr.getUsername() != null)
+            throw new BadEntityException("Username cannot be null");
+        if (userRegistrationRepr.getPassword() != null)
+            throw new BadEntityException("Password cannot br null");
     }
 
 }
