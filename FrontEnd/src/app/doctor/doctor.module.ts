@@ -10,23 +10,41 @@ import { RouterModule, Routes } from '@angular/router';
 import { DoctorRegisterComponent } from './doctor-register/doctor-register.component';
 import { DoctorDeleteComponent } from './doctor-delete/doctor-delete.component';
 import { PatientRegisterComponent } from '../patient/patient/patient-register/patient-register.component';
+import { ViewFreePatientsComponent } from './view-free-patients/view-free-patients.component';
+import { SeeMyPatientsComponent } from './see-my-patients/see-my-patients.component';
 
 
 const routes: Routes = [
   { path: 'insertNote', component: NoteEntryComponent },
   { path: 'updateNote', component: NoteUpdateComponent },
-  // {path: 'updateCarbEntry',component: },
-  // {path: 'deleteCarbEntry',  component: CarbDeleteComponent},
   { path: 'registerPatient', component: PatientRegisterComponent },
   { path: 'registerDoctor', component: DoctorRegisterComponent },
-  //{path: 'seeFreePatients',component:SeeFreePatientsComponent},
+  { path: 'seeFreePatients',component: ViewFreePatientsComponent},
+  { path: 'seeMyPatients',component: SeeMyPatientsComponent},
   { path: 'deleteDoctor', component: DoctorDeleteComponent },
 ]
 
 
 @NgModule({
-  declarations: [DoctorComponent, DoctorRegisterComponent, DoctorDeleteComponent,],
-  imports: [CommonModule, ReactiveFormsModule, NoteModule, RouterModule.forRoot(routes)],
-  exports: [DoctorComponent, DoctorRegisterComponent, DoctorDeleteComponent],
+  declarations: [
+    DoctorComponent, 
+    DoctorRegisterComponent, 
+    DoctorDeleteComponent, 
+    ViewFreePatientsComponent, 
+    SeeMyPatientsComponent,
+  ],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule, 
+    NoteModule, 
+    RouterModule.forRoot(routes)
+  ],
+  exports: [
+    DoctorComponent, 
+    DoctorRegisterComponent, 
+    DoctorDeleteComponent, 
+    ViewFreePatientsComponent,
+    SeeMyPatientsComponent,
+  ],
 })
 export class DoctorModule { }

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Patient } from '../patient/patient/patient';
 
 @Injectable({
   providedIn: 'root'
@@ -51,4 +52,22 @@ export class DoctorService {
       }
     );
   }
+
+  getFreePatients():Observable<any>{
+    return this.http.get(
+      this.baseUrl+'/see/freePatients',
+        {
+          headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
+        );
+  }
+
+  getMyPatients():Observable<any>{
+    return this.http.get(
+      this.baseUrl+'/see/myPatients',
+        {
+          headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
+        );
+  }
+
+
 }
