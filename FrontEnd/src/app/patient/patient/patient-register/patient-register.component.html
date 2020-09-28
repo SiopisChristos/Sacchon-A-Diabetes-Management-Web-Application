@@ -13,6 +13,21 @@
     </div>
     <!-- /Username entry -->
 
+    <!-- Password entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput2">Password</label>
+      <input type="password" class="form-control" id="password" placeholder="Insert a password"
+        formControlName="password">
+      <div *ngIf="formPatientRegister.get('password').errors?.required && formPatientRegister.get('password').dirty"
+        class="text-danger">
+        Field is required
+      </div>
+      <div *ngIf="formPatientRegister.get('password').errors?.minlength">
+        Password must containt 5 characters at least
+      </div>
+    </div>
+    <!-- /Password entry -->
+
     <!-- Firstname entry -->
     <div class="form-group">
       <label for="formGroupExampleInput2">Firstname</label>
@@ -78,7 +93,7 @@
     <!-- City entry -->
     <div class="form-group">
       <label for="formGroupExampleInput2">City</label>
-      <input type="text" class="form-control" id="city" formControlName="city">
+      <input type="text" class="form-control" id="city" formControlName="city" placeholder="Insert your city">
       <div *ngIf="formPatientRegister.get('city').errors?.required && formPatientRegister.get('city').dirty"
         class="text-danger">
         Field is required
@@ -98,7 +113,7 @@
     <!-- /City entry -->
 
 
-    <button class="btn-primary" [disabled]="!formPatientRegister.valid"
-      (click)="clickRegisterPatient()">Register</button>
+    <button class="btn-primary" [disabled]="!formPatientRegister.valid" [routerLink]="['/login']"
+      (click)="RegisterUser(); ">Register</button>
   </form>
 </div>

@@ -23,14 +23,17 @@ export class PatientRegisterComponent implements OnInit {
       city: new FormControl(null, Validators.required),
       phoneNumber: new FormControl(null, [Validators.required, Validators.minLength(10)]),
       address: new FormControl(null, Validators.required),
-      zipCode: new FormControl(null, Validators.required)
+      zipCode: new FormControl(null, Validators.required),
+      password: new FormControl(null, [Validators.required, Validators.minLength(5)])
     })
   }
 
-  clickRegisterPatient() {
-    this.patientService.registerPatient(this.formPatientRegister).subscribe(registerData => {
-      alert(JSON.stringify(registerData));
+
+  RegisterUser() {
+    this.patientService.UserRegistration(this.formPatientRegister).subscribe(registerUserData => {
+      alert(JSON.stringify(registerUserData));
       this.ngOnInit;
+
     })
   }
 }

@@ -28,6 +28,21 @@ export class DoctorService {
       }
     );
   }
+  UserRegistration(values): Observable<any> {
+    return this.http.post('http://localhost:9000/v1/login', {
+      'username': values.get('username').value,
+      'password': values.get('password').value,
+      'lastName': values.get('lastName').value,
+      'firstName': values.get('firstName').value,
+      'dateOfBirth': values.get('dateOfBirth').value,
+      'phoneNumber': values.get('phoneNumber').value,
+      'specialty': values.get('specialty').value,
+      'role': "doctor"
+    }, {
+      headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+    }
+    );
+  }
   deleteDoctor(): Observable<any> {
     return this.http.delete(
       this.baseUrl + '/account'
