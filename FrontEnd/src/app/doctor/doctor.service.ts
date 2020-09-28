@@ -53,12 +53,13 @@ export class DoctorService {
     );
   }
 
-  getFreePatients():Observable<any>{
+  getFreePatients(): Observable<any> {
     return this.http.get(
-      this.baseUrl+'/see/freePatients',
-        {
-          headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
-        );
+      this.baseUrl + '/see/freePatients',
+      {
+        headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+      }
+    );
   }
 
   getPatientsData():Observable<any>{
@@ -68,12 +69,13 @@ export class DoctorService {
         );
   }
 
-  getMyPatients():Observable<any>{
+  getMyPatients(): Observable<any> {
     return this.http.get(
-      this.baseUrl+'/see/myPatients',
-        {
-          headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
-        );
+      this.baseUrl + '/see/myPatients',
+      {
+        headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+      }
+    );
   }
 
 
