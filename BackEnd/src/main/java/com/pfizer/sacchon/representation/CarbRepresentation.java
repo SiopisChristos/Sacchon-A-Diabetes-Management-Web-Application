@@ -9,6 +9,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class CarbRepresentation {
+    private long id;
     private double gram;
     private Date date;
     private long patient_id;
@@ -16,6 +17,7 @@ public class CarbRepresentation {
 
     public CarbRepresentation(Carb carb) {
         if (carb != null) {
+            id = carb.getId();
             gram = carb.getGram();
             date = carb.getDate();
             patient_id = carb.getPatient().getId();

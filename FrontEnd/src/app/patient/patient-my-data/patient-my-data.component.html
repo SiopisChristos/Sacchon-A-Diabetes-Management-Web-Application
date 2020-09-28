@@ -1,22 +1,40 @@
+<div class="container">
 <h1>View my data</h1>
-
-<div class="card" style="width: 18rem;" *ngFor="let c of listOfData1">
+<div class="btn-group" role="group">
+<button class="btn btn-light" (click)="view('all')">All</button>
+<button class="btn btn-light" (click)="view('carbs')">Carbs</button>
+<button class="btn btn-light" (click)="view('')">Glucose</button>
+</div>
+<div id="wrapper">
+<div class="card cards-margin" style="width: 18rem;" *ngFor="let c of listOfData1" [hidden]="!viewAll && !viewCarbs" >
     <div class="card-header">
-        Carb
+        Carb #{{c.id}}
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">{{c.gram}}</li>
-        <li class="list-group-item">{{c.date | date: 'dd MMM yyyy'}}</li><br>
+        <li class="list-group-item">{{c.gram}} Grams</li>
+        <li class="list-group-item">{{c.date | date: 'dd MMM yyyy'}}</li>
+        
     </ul>
+    
+    <div class="btn-group" role="group">
+    <button type="button" class="btn btn-light">Update</button>
+    <button type="button" class="btn btn-danger" (click)="deleteCarb(c.id)">Delete</button>
+    </div>
 </div>
 
 
-<div class="card" style="width: 18rem;" *ngFor="let g of listOfData2">
+<div class="card cards-margin" style="width: 18rem;" *ngFor="let g of listOfData2" [hidden]="!viewAll && viewCarbs">
     <div class="card-header">
-        Glucose
+        Glucose #{{g.id}}
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">{{g.measurement}}</li>
-        <li class="list-group-item">{{g.dateTime | date: 'dd MMM yyyy'}}</li><br>
+        <li class="list-group-item">{{g.measurement}} mg/dL</li>
+        <li class="list-group-item">{{g.dateTime | date: 'dd MMM yyyy'}}</li>
     </ul>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-light">Update</button>
+        <button type="button" class="btn btn-danger" (click)="deleteGlucose(g.id)">Delete</button>
+        </div>
+</div>
+</div>
 </div>

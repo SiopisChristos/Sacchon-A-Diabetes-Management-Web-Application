@@ -10,6 +10,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class GlucoseRepresentation {
+    private long id;
     private Date dateTime;
     private double measurement;
     private long patient_id;
@@ -17,6 +18,7 @@ public class GlucoseRepresentation {
 
     public GlucoseRepresentation(Glucose glucose) {
         if (glucose != null) {
+            id = glucose.getId();
             dateTime = glucose.getDateTime();
             measurement = glucose.getMeasurement();
             patient_id = glucose.getPatient().getId();
