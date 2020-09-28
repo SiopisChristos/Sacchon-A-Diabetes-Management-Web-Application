@@ -1,1 +1,75 @@
-<div class="container"><p>Imagine a google chart!! :D</p></div>
+<div class="container">
+  <div class="row mt-5">
+    <div class="col">
+      <h4>My average daily blood glucose level over a specified period</h4>
+      <form [formGroup]="formGlucoseEntry">
+        <!-- From date entry -->
+        <div class="form-group">
+          <label for="formGroupExampleInput">From: </label>
+          <input
+            type="date"
+            class="form-control"
+            id="from"
+            placeholder="Enter from date"
+            formControlName="from"
+          />
+          <div
+            *ngIf="
+              formGlucoseEntry.get('from').errors?.required &&
+              formGlucoseEntry.get('from').dirty
+            "
+            class="text-danger"
+          >
+            Field is required
+          </div>
+        </div>
+        <!-- /From date entry -->
+
+        <!-- To date entry -->
+        <div class="form-group">
+          <label for="formGroupExampleInput">To:</label>
+          <input
+            type="date"
+            class="form-control"
+            id="to"
+            formControlName="to"
+          />
+          <div
+            *ngIf="
+              formGlucoseEntry.get('to').errors?.required &&
+              formGlucoseEntry.get('to').dirty
+            "
+            class="text-danger"
+          >
+            Field is required
+          </div>
+        </div>
+        <!-- /To date entry -->
+
+        <button class="btn btn-primary" (click)="clickGlucoseSubmit()">
+          Choose
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col" id="chart">
+      <!-- <google-chart
+        [columns]="chartColumns"
+        type="Line"
+        [data]="myData"
+      ></google-chart> -->
+      <div class="chartjs-container">
+        <canvas baseChart 
+            [datasets]="lineChartData" 
+            [labels]="lineChartLabels" 
+            [options]="lineChartOptions"
+            [colors]="lineChartColors" 
+            [legend]="lineChartLegend" 
+            [chartType]="lineChartType" 
+            [plugins]="lineChartPlugins"
+          > </canvas>
+    </div>
+    </div>
+  </div>
+</div>
