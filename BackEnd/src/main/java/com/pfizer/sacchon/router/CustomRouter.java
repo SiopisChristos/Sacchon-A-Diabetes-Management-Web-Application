@@ -24,7 +24,7 @@ public class CustomRouter {
         Router router = new Router(application.getContext());
 
         router.attach("/patient/update/{id}", PatientResourceImpl.class); //{Put -> Update Patient}
-        router.attach("/patient", PatientResourceImpl.class); //{Post -> Add Patient, "Delete" Patient}
+        router.attach("/patient", PatientResourceImpl.class); //{Post -> Add Patient, "Delete" Patient} Get->{myData}
 
         router.attach("/patient/carb/{id}", CarbResourceImpl.class);
         router.attach("/patient/carb", CarbListResourceImpl.class);
