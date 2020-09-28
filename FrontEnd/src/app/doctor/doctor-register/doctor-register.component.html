@@ -1,5 +1,4 @@
-<p>doctor-register works!</p>
-<p>doctor-register works!</p>
+<h3>Register a doctor account</h3>>
 <form [formGroup]="formDoctorRegister">
     <!-- Username entry -->
     <div class="form-group">
@@ -44,17 +43,6 @@
         </div>
     </div>
     <!-- /DateOfBirth entry -->
-
-    <!-- creationDate entry -->
-    <div class="form-group">
-        <label for="formGroupExampleInput2">creationDate</label>
-        <input type="date" class="form-control" id="creationDate" formControlName="creationDate">
-        <div *ngIf="formDoctorRegister.get('creationDate').errors?.required && formDoctorRegister.get('creationDate').dirty"
-            class="text-danger">
-            Field is required
-        </div>
-    </div>
-    <!-- /creationDate entry -->
 
     <!-- Phonenumber entry -->
     <div class="form-group">

@@ -18,7 +18,6 @@ export class DoctorRegisterComponent implements OnInit {
       firstName:new FormControl(null, Validators.required),
       lastName:new FormControl(null, Validators.required),
       dateOfBirth:new FormControl(null, Validators.required),
-      creationDate:new FormControl(null, Validators.required),
       phoneNumber:new FormControl(null, Validators.required),      
       specialty:new FormControl(null, Validators.required),
     })
