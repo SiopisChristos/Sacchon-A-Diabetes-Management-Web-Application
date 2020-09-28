@@ -1,70 +1,78 @@
-<h3>Register a doctor account</h3>>
-<form [formGroup]="formDoctorRegister">
-    <!-- Username entry -->
-    <div class="form-group">
-        <label for="formGroupExampleInput2">username</label>
-        <input type="text" class="form-control" id="username" placeholder="Insert a username"
-            formControlName="username">
-        <div *ngIf="formDoctorRegister.get('username').errors?.required && formDoctorRegister.get('username').dirty"
-            class="text-danger">
-            Field is required
+<div class="container">
+    <h3>Register a doctor account</h3>
+    <form [formGroup]="formDoctorRegister">
+        <!-- Username entry -->
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Insert a username"
+                formControlName="username">
+            <div *ngIf="formDoctorRegister.get('username').errors?.required && formDoctorRegister.get('username').dirty"
+                class="text-danger">
+                Field is required
+            </div>
         </div>
-    </div>
-    <!-- /Username entry -->
+        <!-- /Username entry -->
 
-    <!-- Firstname entry -->
-    <div class="form-group">
-        <label for="formGroupExampleInput2">firstName</label>
-        <input type="text" class="form-control" id="firstName" formControlName="firstName">
-        <div *ngIf="formDoctorRegister.get('firstName').errors?.required && formDoctorRegister.get('firstName').dirty"
-            class="text-danger">
-            Field is required
+        <!-- Firstname entry -->
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Firstname</label>
+            <input type="text" class="form-control" id="firstName" formControlName="firstName"
+                placeholder="Insert your firstname">
+            <div *ngIf="formDoctorRegister.get('firstName').errors?.required && formDoctorRegister.get('firstName').dirty"
+                class="text-danger">
+                Field is required
+            </div>
         </div>
-    </div>
-    <!-- /Firstname entry -->
-    <!-- Lastname entry -->
-    <div class="form-group">
-        <label for="formGroupExampleInput2">Lastname</label>
-        <input type="text" class="form-control" id="lastName" formControlName="lastName">
-        <div *ngIf="formDoctorRegister.get('lastName').errors?.required && formDoctorRegister.get('lastName').dirty"
-            class="text-danger">
-            Field is required
+        <!-- /Firstname entry -->
+        <!-- Lastname entry -->
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Lastname</label>
+            <input type="text" class="form-control" id="lastName" formControlName="lastName"
+                placeholder="Insert your lastname">
+            <div *ngIf="formDoctorRegister.get('lastName').errors?.required && formDoctorRegister.get('lastName').dirty"
+                class="text-danger">
+                Field is required
+            </div>
         </div>
-    </div>
-    <!-- /LastName entry -->
+        <!-- /LastName entry -->
 
-    <!-- DateOfBirth entry -->
-    <div class="form-group">
-        <label for="formGroupExampleInput2">Date Of Birth</label>
-        <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
-        <div *ngIf="formDoctorRegister.get('dateOfBirth').errors?.required && formDoctorRegister.get('dateOfBirth').dirty"
-            class="text-danger">
-            Field is required
+        <!-- DateOfBirth entry -->
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Date Of Birth</label>
+            <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth"
+                placeholder="Insert the date of your birth">
+            <div *ngIf="formDoctorRegister.get('dateOfBirth').errors?.required && formDoctorRegister.get('dateOfBirth').dirty"
+                class="text-danger">
+                Field is required
+            </div>
         </div>
-    </div>
-    <!-- /DateOfBirth entry -->
+        <!-- /DateOfBirth entry -->
 
-    <!-- Phonenumber entry -->
-    <div class="form-group">
-        <label for="formGroupExampleInput2">PhoneNumber</label>
-        <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber">
-        <div *ngIf="formDoctorRegister.get('phoneNumber').errors?.required && formDoctorRegister.get('phoneNumber').dirty"
-            class="text-danger">
-            Field is required
+        <!-- Phonenumber entry -->
+        <div class="form-group">
+            <label for="formGroupExampleInput2">PhoneNumber</label>
+            <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber"
+                placeholder="Insert your phonenumber">
+            <div *ngIf="formDoctorRegister.get('phoneNumber').errors?.required && formDoctorRegister.get('phoneNumber').dirty"
+                class="text-danger">
+                Field is required
+            </div>
         </div>
-    </div>
-    <!-- /phoneNumber entry -->
+        <!-- /Phonenumber entry -->
 
-    <!-- specialty entry -->
-    <div class="form-group">
-        <label for="formGroupExampleInput2">specialty</label>
-        <input type="text" class="form-control" id="specialty" formControlName="specialty">
-        <div *ngIf="formDoctorRegister.get('specialty').errors?.required && formDoctorRegister.get('specialty').dirty"
-            class="text-danger">
-            Field is required
+        <!-- specialty entry -->
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Specialty</label>
+            <input type="text" class="form-control" id="specialty" formControlName="specialty"
+                placeholder="Insert your specialty">
+            <div *ngIf="formDoctorRegister.get('specialty').errors?.required && formDoctorRegister.get('specialty').dirty"
+                class="text-danger">
+                Field is required
+            </div>
         </div>
-    </div>
-    <!-- /specialty entry -->
+        <!-- /specialty entry -->
 
-    <button class="btn-primary" [disabled]="!formDoctorRegister.valid" (click)="clickRegisterDoctor()">Submit</button>
-</form>
+        <button class="btn-primary" [disabled]="!formDoctorRegister.valid"
+            (click)="clickRegisterDoctor()">Register</button>
+    </form>
+</div>
