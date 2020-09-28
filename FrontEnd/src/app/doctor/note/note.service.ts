@@ -12,8 +12,8 @@ export class NoteService {
   readonly postUrl = 'http://localhost:9000/v1/postNote';
   readonly updateUrl = 'http://localhost:9000/v1/record';
 
-  username = 'gpapado';
-  password = 'gpapado';
+  username = sessionStorage.getItem("username");
+  password = sessionStorage.getItem("passsword");
 
   addNoteEntry(values):Observable<any>{
     return this.http.post(

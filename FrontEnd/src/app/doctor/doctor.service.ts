@@ -9,8 +9,8 @@ export class DoctorService {
   constructor(private http: HttpClient) { }
   readonly baseUrl = 'http://localhost:9000/v1/doctor';
 
-  username = 'egiannako';
-  password = 'egiannako';
+  username = sessionStorage.getItem("username");
+  password = sessionStorage.getItem("password");
 
   registerDoctor(values): Observable<any> {
     return this.http.post(

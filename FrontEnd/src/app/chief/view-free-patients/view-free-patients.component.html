@@ -1,32 +1,9 @@
+<div class="container">
 <form [formGroup]="formViewFreePatients">
   
-    <!-- From date entry -->
-    <div class="form-group">
-      <label for="formGroupExampleInput">Date from</label>
-      <input type="date" 
-             class="form-control" 
-             id="from" 
-             placeholder="Enter from date" 
-             formControlName = "from">
-      <div *ngIf="formViewFreePatients.get('from').errors?.required && formViewFreePatients.get('from').dirty" class="text-danger">
-        Field is required
-      </div>
-    </div>  
-    <!-- /From date entry -->
+   
   
-    <!-- To date entry -->
-    <div class="form-group">
-      <label for="formGroupExampleInput">Date to</label>
-      <input type="date" 
-            class="form-control" 
-            id="to" 
-            formControlName="to">
-      <div *ngIf="formViewFreePatients.get('to').errors?.required && formViewFreePatients.get('to').dirty" class="text-danger">
-        Field is required
-      </div>
-    </div>
-    <!-- /To date entry -->
-  
-    <button class="btn-primary" [disabled]="!formViewFreePatients.valid" (click)="clickViewFreePatients()">Choose</button>
+    <button class="btn-primary" (click)="clickViewFreePatients()">Choose</button>
   
   </form>
+</div>
