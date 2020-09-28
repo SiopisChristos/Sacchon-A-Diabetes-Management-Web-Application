@@ -25,7 +25,7 @@ export class ViewInactivePatientsComponent implements OnInit {
  
   clickViewInactivePatients(){
     this.chiefService.getInactivePatients(this.formViewInactivePatients).subscribe(viewInactivePatients => {
-      this.listOfPatients = viewInactivePatients.data[0];
+      this.listOfPatients = viewInactivePatients.data;
       this.ngOnInit;
   })
 }

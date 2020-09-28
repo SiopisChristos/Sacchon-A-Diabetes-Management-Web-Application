@@ -1,7 +1,13 @@
 <div class="container">
   <form [formGroup]="formViewInactiveDoctors">
  
-   
+    Click to see doctors with no activity over a time range:
+    <button class="btn btn-primary" (click)="clickViewInactiveDoctors()">
+      Choose
+    </button>
+    
+ 
+
  <!-- From date entry -->
  <div class="form-group">
   <label for="formGroupExampleInput">Date from</label>
@@ -47,10 +53,6 @@
       </div>
   </div>
 
-  Click to see doctors with no activity over a time range:
-  <button class="btn btn-primary" (click)="clickViewInactiveDoctors()">
-    Choose
-  </button>
-  </form>
+</form>
 
 </div>

@@ -23,7 +23,7 @@ export class ViewInactiveDoctorsComponent implements OnInit {
  
   clickViewInactiveDoctors(){
     this.chiefService.getInactiveDoctor(this.formViewInactiveDoctors).subscribe(viewInactiveDoctors => {
-      this.listOfDoctors = viewInactiveDoctors.data[0];
+      this.listOfDoctors = viewInactiveDoctors.data;
       this.ngOnInit;
   })
 }
