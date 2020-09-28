@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PatientService } from '../patient/patient.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class PatientUpdateComponent implements OnInit {
       lastName: new FormControl(null),
       dateOfBirth: new FormControl(null),
       city: new FormControl(null),
-      phoneNumber: new FormControl(null),
+      phoneNumber: new FormControl(null,[Validators.minLength(10),Validators.maxLength(9)]),
       address: new FormControl(null)
     })
   }

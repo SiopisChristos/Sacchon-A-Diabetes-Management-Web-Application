@@ -7,12 +7,13 @@ import { CarbDeleteComponent } from './patient/carb/carb-delete/carb-delete.comp
 import { CarbEntryComponent } from './patient/carb/carb-entry/carb-entry.component';
 import { PatientComponent } from './patient/patient/patient.component';
 import { DoctorComponent } from './doctor/doctor/doctor.component';
+import { PatientUpdateComponent } from './patient/patient-update/patient-update.component';
 
 const routes: Routes = [
   {path:'', redirectTo: 'login', pathMatch:'full'},
   {path:'login',component: LoginFormComponent},
   {path:'patient',component: PatientComponent},
-  {path:'doctor',component: DoctorComponent}
+  {path:'doctor',component: DoctorComponent},
 ];
 
 @NgModule({

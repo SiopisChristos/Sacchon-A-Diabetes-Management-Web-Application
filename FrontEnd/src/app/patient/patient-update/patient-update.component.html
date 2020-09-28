@@ -1,6 +1,7 @@
-<p>patient-update works!</p>
-<p>patient-update works!</p>
+<h4>Edit your profile</h4>
+
 <form [formGroup]="formPatientUpdate">
+
   <!-- Id entry -->
   <div class="form-group">
     <label for="formGroupExampleInput2">Id</label>
@@ -11,19 +12,19 @@
   </div>
   <!-- /Id entry -->
 
-
-
   <!-- Firstname entry -->
   <div class="form-group">
-    <label for="formGroupExampleInput2">firstName</label>
-    <input type="text" class="form-control" id="firstName" formControlName="firstName">
+    <label for="formGroupExampleInput2">Firstname</label>
+    <input type="text" class="form-control" id="firstName" formControlName="firstName"
+      placeholder="Update your firstname">
 
   </div>
   <!-- /Firstname entry -->
+
   <!-- Lastname entry -->
   <div class="form-group">
     <label for="formGroupExampleInput2">Lastname</label>
-    <input type="text" class="form-control" id="lastName" formControlName="lastName">
+    <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Update your lastname">
 
   </div>
   <!-- /LastName entry -->
@@ -31,15 +32,15 @@
   <!-- DateOfBirth entry -->
   <div class="form-group">
     <label for="formGroupExampleInput2">Date Of Birth</label>
-    <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
-
+    <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth"
+      placeholder="Update the date of your birthday">
   </div>
   <!-- /DateOfBirth entry -->
 
   <!-- Address entry -->
   <div class="form-group">
-    <label for="formGroupExampleInput2">address</label>
-    <input type="text" class="form-control" id="address" formControlName="address">
+    <label for="formGroupExampleInput2">Address</label>
+    <input type="text" class="form-control" id="address" formControlName="address" placeholder="Update your address">
 
   </div>
   <!-- /Address entry -->
@@ -47,18 +48,20 @@
   <!-- Phonenumber entry -->
   <div class="form-group">
     <label for="formGroupExampleInput2">PhoneNumber</label>
-    <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber">
-
+    <input minlength="10" maxlength="10" type="text" class="form-control" id="phoneNumber" placeholder="Update your phonenumber"
+      formControlName="phoneNumber">
+    <div *ngIf="formPatientUpdate.get('phoneNumber').errors?.minlength">
+      Phone number must contains 10 digits
+    </div>
   </div>
   <!-- /phoneNumber entry -->
 
   <!-- City entry -->
   <div class="form-group">
     <label for="formGroupExampleInput2">City</label>
-    <input type="text" class="form-control" id="city" formControlName="city">
-
+    <input type="text" class="form-control" id="city" formControlName="city" placeholder="Update your city">
   </div>
   <!-- /City entry -->
 
-  <button class="btn-primary" [disabled]="!formPatientUpdate.valid" (click)="clickPatientUpdateSubmit()">Submit</button>
+  <button class="btn-primary" [disabled]="!formPatientUpdate.valid" (click)="clickPatientUpdateSubmit()">Submit the update data</button>
 </form>
