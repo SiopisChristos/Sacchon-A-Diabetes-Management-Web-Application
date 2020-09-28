@@ -19,7 +19,7 @@ export class PatientUpdateComponent implements OnInit {
       lastName: new FormControl(null),
       dateOfBirth: new FormControl(null),
       city: new FormControl(null),
-      phoneNumber: new FormControl(null,[Validators.minLength(10),Validators.maxLength(9)]),
+      phoneNumber: new FormControl(null, [Validators.minLength(10), Validators.maxLength(9)]),
       address: new FormControl(null)
     })
   }

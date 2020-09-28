@@ -48,8 +48,8 @@
   <!-- Phonenumber entry -->
   <div class="form-group">
     <label for="formGroupExampleInput2">PhoneNumber</label>
-    <input minlength="10" maxlength="10" type="text" class="form-control" id="phoneNumber" placeholder="Update your phonenumber"
-      formControlName="phoneNumber">
+    <input minlength="10" maxlength="10" type="text" class="form-control" id="phoneNumber"
+      placeholder="Update your phonenumber" formControlName="phoneNumber">
     <div *ngIf="formPatientUpdate.get('phoneNumber').errors?.minlength">
       Phone number must contains 10 digits
     </div>
@@ -63,5 +63,6 @@
   </div>
   <!-- /City entry -->
 
-  <button class="btn-primary" [disabled]="!formPatientUpdate.valid" (click)="clickPatientUpdateSubmit()">Submit the update data</button>
+  <button class="btn-primary" [disabled]="!formPatientUpdate.valid" (click)="clickPatientUpdateSubmit()">Submit the
+    update data</button>
 </form>
