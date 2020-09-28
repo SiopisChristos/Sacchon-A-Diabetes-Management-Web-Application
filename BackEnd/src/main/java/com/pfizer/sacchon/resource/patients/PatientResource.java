@@ -6,8 +6,12 @@ import com.pfizer.sacchon.representation.PatientRepresentation;
 import com.pfizer.sacchon.representation.RepresentationResponse;
 import org.restlet.resource.*;
 
+import java.util.List;
+
 public interface PatientResource {
 
+    @Get
+    RepresentationResponse<List[]> getMyData() throws BadEntityException;
 
     //Update personal info
     @Put("json")

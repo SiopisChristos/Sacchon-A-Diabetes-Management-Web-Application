@@ -4,8 +4,11 @@ import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.exception.NotFoundException;
 import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.PatientRepository;
+import com.pfizer.sacchon.repository.RecordsRepository;
 import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
+import com.pfizer.sacchon.representation.CarbRepresentation;
+import com.pfizer.sacchon.representation.GlucoseRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
 import com.pfizer.sacchon.representation.RepresentationResponse;
 import com.pfizer.sacchon.resource.constant.Constants;
@@ -19,6 +22,7 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +32,7 @@ public class    PatientResourceImpl extends ServerResource
     public static final Logger LOGGER = Engine.getLogger(PatientResourceImpl.class);
     private long id;
     private PatientRepository patientRepository;
+    private RecordsRepository recordsRepository;
     private EntityManager em;
 
     @Override
@@ -42,6 +47,7 @@ public class    PatientResourceImpl extends ServerResource
             em = JpaUtil.getEntityManager();
             patientRepository =
                     new PatientRepository(em);
+            recordsRepository = new RecordsRepository(em);
 
         } catch (Exception ex) {
             throw new ResourceException(ex);
@@ -73,6 +79,21 @@ public class    PatientResourceImpl extends ServerResource
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error when removing a patient", ex);
             throw new ResourceException(ex);
+        }
+    }
+
+    @Override
+    public RepresentationResponse<List[]> getMyData() throws BadEntityException {
+        LOGGER.finer("Get my Data");
+        String usernameLoggedIn = ResourceAuthorization.currentUserToUsername();
+        try{
+            Patient patient = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(usernameLoggedIn), this, LOGGER);
+            List<CarbRepresentation> carbs = recordsRepository.getPatientCarbs(patient.getId());
+            List<GlucoseRepresentation> glucose = recordsRepository.getPatientGlucose(patient.getId());
+            return new RepresentationResponse(200,Constants.CODE_200,new List[]{carbs,glucose});
+        }catch (Exception e){
+            e.printStackTrace();
+            return new RepresentationResponse(500,Constants.CODE_500,false);
         }
     }
 

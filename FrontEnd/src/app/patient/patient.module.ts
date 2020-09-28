@@ -9,15 +9,17 @@ import { CarbModule } from './carb/carb.module';
 import { GlucoseModule } from './glucose/glucose.module';
 import { PatientUpdateComponent } from './patient-update/patient-update.component';
 import { PatientDeleteComponent } from './patient-delete/patient-delete.component';
+import { PatientMyDataComponent } from './patient-my-data/patient-my-data.component';
 
 const routes: Routes = [
   { path: 'deletePatient', component: PatientDeleteComponent },
   { path: 'updatePatient', component: PatientUpdateComponent },
-  {path: 'registerPatient', component:PatientRegisterComponent}
+  {path: 'registerPatient', component:PatientRegisterComponent},
+  {path: 'seeMydata',component:PatientMyDataComponent}
 ];
 
 @NgModule({
-  declarations: [PatientComponent, PatientRegisterComponent, PatientDeleteComponent, PatientUpdateComponent],
+  declarations: [PatientComponent, PatientRegisterComponent, PatientDeleteComponent, PatientUpdateComponent, PatientMyDataComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -27,7 +29,7 @@ const routes: Routes = [
   ],
   exports: [
     PatientRegisterComponent,
-    PatientComponent, PatientDeleteComponent, PatientUpdateComponent
+    PatientComponent, PatientDeleteComponent, PatientUpdateComponent,PatientMyDataComponent
   ]
 })
 export class PatientModule { }
