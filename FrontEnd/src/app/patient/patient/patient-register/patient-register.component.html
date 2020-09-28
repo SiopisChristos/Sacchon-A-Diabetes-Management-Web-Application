@@ -13,6 +13,20 @@
     </div>
     <!-- /Username entry -->
 
+    <!-- Password entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput2">Password</label>
+      <input type="password" class="form-control" id="password" placeholder="Insert a password" formControlName="password">
+      <div *ngIf="formPatientRegister.get('password').errors?.required && formPatientRegister.get('password').dirty"
+        class="text-danger">
+        Field is required
+      </div>
+      <div *ngIf="formPatientRegister.get('password').errors?.minlength">
+        Password must containt 5 characters at least
+      </div>
+    </div>
+    <!-- /Username entry -->
+
     <!-- Firstname entry -->
     <div class="form-group">
       <label for="formGroupExampleInput2">Firstname</label>
@@ -99,6 +113,6 @@
 
 
     <button class="btn-primary" [disabled]="!formPatientRegister.valid"
-      (click)="clickRegisterPatient()">Register</button>
+      (click)="RegisterUser(); ">Register</button>
   </form>
 </div>
