@@ -12,23 +12,25 @@ export class PatientRegisterComponent implements OnInit {
 
   formPatientRegister: FormGroup
 
-  constructor(private patientService:PatientService) { }
+  constructor(private patientService: PatientService) { }
 
   ngOnInit(): void {
-    this.formPatientRegister=new FormGroup({
-      username:new FormControl('null', Validators.required),
-      firstName:new FormControl(null, Validators.required),
-      lastName:new FormControl(null, Validators.required),
-      dateOfBirth:new FormControl(Validators.required),
-      city:new FormControl(null,Validators.required),
-      phoneNumber:new FormControl(null,Validators.required),
-      address:new FormControl(null,Validators.required)
+    this.formPatientRegister = new FormGroup({
+      username: new FormControl(null, Validators.required),
+      firstName: new FormControl(null, Validators.required),
+      lastName: new FormControl(null, Validators.required),
+      dateOfBirth: new FormControl(Validators.required),
+      city: new FormControl(null, Validators.required),
+      phoneNumber: new FormControl(null, [Validators.required, Validators.minLength(10)]),
+      address: new FormControl(null, Validators.required),
+      zipCode: new FormControl(null, Validators.required)
     })
   }
 
-  clickRegisterPatient(){
-    this.patientService.registerPatient(this.formPatientRegister).subscribe(registerData=>{
+  clickRegisterPatient() {
+    this.patientService.registerPatient(this.formPatientRegister).subscribe(registerData => {
       alert(JSON.stringify(registerData));
-      this.ngOnInit;  
-  })
-}}
+      this.ngOnInit;
+    })
+  }
+}

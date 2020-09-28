@@ -1,97 +1,103 @@
 <div class="container">
-<p>patient-register works!</p>
-<form [formGroup]="formPatientRegister">
-  
-      <!-- Username entry -->
-      <div class="form-group">
-        <label for="formGroupExampleInput2">username</label>
-        <input type="text" 
-               class="form-control" 
-               id="username" 
-               placeholder="Insert a username"
-               formControlName="username">
-        <div *ngIf="formPatientRegister.get('username').errors?.required && formPatientRegister.get('username').dirty" class="text-danger">
-          Field is required
-        </div>
+  <h3>Register a patient account</h3>
+  <form [formGroup]="formPatientRegister">
+
+    <!-- Username entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput2">Username</label>
+      <input type="text" class="form-control" id="username" placeholder="Insert a username" formControlName="username">
+      <div *ngIf="formPatientRegister.get('username').errors?.required && formPatientRegister.get('username').dirty"
+        class="text-danger">
+        Field is required
       </div>
-      <!-- /Username entry -->
+    </div>
+    <!-- /Username entry -->
 
     <!-- Firstname entry -->
     <div class="form-group">
-      <label for="formGroupExampleInput2">firstName</label>
-      <input type="text" 
-             class="form-control" 
-             id="firstName" 
-             formControlName="firstName">
-      <div *ngIf="formPatientRegister.get('firstName').errors?.required && formPatientRegister.get('firstName').dirty" class="text-danger">
+      <label for="formGroupExampleInput2">Firstname</label>
+      <input type="text" class="form-control" id="firstName" formControlName="firstName"
+        placeholder="Inser your firstname">
+      <div *ngIf="formPatientRegister.get('firstName').errors?.required && formPatientRegister.get('firstName').dirty"
+        class="text-danger">
         Field is required
       </div>
     </div>
     <!-- /Firstname entry -->
-        <!-- Lastname entry -->
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Lastname</label>
-            <input type="text" 
-                   class="form-control" 
-                   id="lastName" 
-                   formControlName="lastName">
-            <div *ngIf="formPatientRegister.get('lastName').errors?.required && formPatientRegister.get('lastName').dirty" class="text-danger">
-              Field is required
-            </div>
-          </div>
-          <!-- /LastName entry -->
+    <!-- Lastname entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput2">Lastname</label>
+      <input type="text" class="form-control" id="lastName" formControlName="lastName"
+        placeholder="Insert your lastname">
+      <div *ngIf="formPatientRegister.get('lastName').errors?.required && formPatientRegister.get('lastName').dirty"
+        class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <!-- /LastName entry -->
 
-<!-- DateOfBirth entry -->
+    <!-- DateOfBirth entry -->
     <div class="form-group">
-        <label for="formGroupExampleInput2">Date Of Birth</label>
-        <input type="date" 
-               class="form-control" 
-               id="dateOfBirth" 
-               formControlName="dateOfBirth">
-        <div *ngIf="formPatientRegister.get('dateOfBirth').errors?.required && formPatientRegister.get('dateOfBirth').dirty" class="text-danger">
-          Field is required
-        </div>
+      <label for="formGroupExampleInput2">Date Of Birth</label>
+      <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
+      <div
+        *ngIf="formPatientRegister.get('dateOfBirth').errors?.required && formPatientRegister.get('dateOfBirth').dirty"
+        class="text-danger">
+        Field is required
       </div>
-      <!-- /DateOfBirth entry -->
-      
-<!-- Address entry -->
-    <div class="form-group">
-        <label for="formGroupExampleInput2">address</label>
-        <input type="text" 
-               class="form-control" 
-               id="address" 
-               formControlName="address">
-        <div *ngIf="formPatientRegister.get('address').errors?.required && formPatientRegister.get('address').dirty" class="text-danger">
-          Field is required
-        </div>
-      </div>
-      <!-- /Address entry -->
+    </div>
+    <!-- /DateOfBirth entry -->
 
-      <!-- Phonenumber entry -->
+    <!-- Address entry -->
     <div class="form-group">
-        <label for="formGroupExampleInput2">PhoneNumber</label>
-        <input type="text" 
-               class="form-control" 
-               id="phoneNumber" 
-               formControlName="phoneNumber">
-        <div *ngIf="formPatientRegister.get('phoneNumber').errors?.required && formPatientRegister.get('phoneNumber').dirty" class="text-danger">
-          Field is required
-        </div>
+      <label for="formGroupExampleInput2">Address</label>
+      <input type="text" class="form-control" id="address" formControlName="address" placeholder="Insert your address">
+      <div *ngIf="formPatientRegister.get('address').errors?.required && formPatientRegister.get('address').dirty"
+        class="text-danger">
+        Field is required
       </div>
-      <!-- /phoneNumber entry -->
+    </div>
+    <!-- /Address entry -->
 
-            <!-- City entry -->
+    <!-- Phonenumber entry -->
     <div class="form-group">
-        <label for="formGroupExampleInput2">City</label>
-        <input type="text" 
-               class="form-control" 
-               id="city" 
-               formControlName="city">
-        <div *ngIf="formPatientRegister.get('city').errors?.required && formPatientRegister.get('city').dirty" class="text-danger">
-          Field is required
-        </div>
+      <label for="formGroupExampleInput2">Phonenumber</label>
+      <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber"
+        placeholder="Insert your phonenumber" maxlength="10">
+      <div
+        *ngIf="formPatientRegister.get('phoneNumber').errors?.required && formPatientRegister.get('phoneNumber').dirty"
+        class="text-danger">
+        Field is required
       </div>
-      <!-- /City entry -->
+      <div *ngIf="formPatientRegister.get('phoneNumber').errors?.minlength">
+        Phone number must contains 10 digits
+      </div>
+    </div>
+    <!-- /phoneNumber entry -->
+
+    <!-- City entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput2">City</label>
+      <input type="text" class="form-control" id="city" formControlName="city">
+      <div *ngIf="formPatientRegister.get('city').errors?.required && formPatientRegister.get('city').dirty"
+        class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <!-- /City entry -->
+
+    <!-- ZipCode entry -->
+    <div class="form-group">
+      <label for="formGroupExampleInput2">Zipcode</label>
+      <input type="text" class="form-control" id="ZipCode" formControlName="zipCode" placeholder="Enter your zipcode">
+      <div *ngIf="formPatientRegister.get('zipCode').errors?.required && formPatientRegister.get('zipCode').dirty"
+        class="text-danger">
+        Field is required
+      </div>
+    </div>
+    <!-- /City entry -->
+
 
     <button class="btn-primary" [disabled]="!formPatientRegister.valid" (click)="clickRegisterPatient()">Submit</button>
-  </form></div>
+  </form>
+</div>

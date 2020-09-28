@@ -20,6 +20,10 @@ export class PatientService {
       'lastName': values.get('lastName').value,
       'firstName': values.get('firstName').value,
       'dateOfBirth': values.get('dateOfBirth').value,
+      'address': values.get('address').value,
+      'phoneNumber': values.get('phoneNumber').value,
+      'city': values.get('city').value,
+      'zipCode':values.get('zipCode').value
 
     },
       {
@@ -30,7 +34,6 @@ export class PatientService {
   }
   patientDelete(): Observable<any> {
     return this.http.delete(this.baseUrl,
-
       {
         headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
 
@@ -47,6 +50,7 @@ export class PatientService {
         'address': values.get('address').value,
         'phoneNumber': values.get('phoneNumber').value,
         'city': values.get('city').value,
+        
       },
       {
         headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })

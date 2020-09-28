@@ -50,6 +50,7 @@ public class PatientRepresentation {
         patient.setAddress(address);
         patient.setPhoneNumber(phoneNumber);
         patient.setCity(city);
+        patient.setZipCode(zipCode);
         patient.setActive(true);
         return patient;
     }
