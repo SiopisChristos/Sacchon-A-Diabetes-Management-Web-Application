@@ -69,7 +69,9 @@ public class CustomRouter {
 
     public Router publicResources() {
         Router router = new Router();
-        router.attach("/login", LoginImpl.class); //{POST} notification's user for a Note
+        //Get from login your Role
+        //Post your new Account (either Patient or Doctor)
+        router.attach("/login", LoginImpl.class);
         return router;
     }
 }

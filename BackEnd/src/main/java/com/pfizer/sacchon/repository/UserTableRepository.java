@@ -1,9 +1,13 @@
 package com.pfizer.sacchon.repository;
 
 import com.pfizer.sacchon.exception.NotFoundException;
+import com.pfizer.sacchon.model.Doctor;
+import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.model.UserTable;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
+import java.util.Optional;
 
 public class UserTableRepository {
 
@@ -11,6 +15,35 @@ public class UserTableRepository {
 
     public UserTableRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+
+    public boolean register(Doctor doctor,  UserTable userTable){
+        doctor.setCreationDate(new Date());
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(doctor);
+            entityManager.persist(userTable);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean register(Patient patient, UserTable userTable){
+        patient.setCreationDate(new Date());
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(patient);
+            entityManager.persist(userTable);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

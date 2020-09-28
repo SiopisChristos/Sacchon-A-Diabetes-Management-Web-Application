@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PatientResourceImpl extends ServerResource
+public class    PatientResourceImpl extends ServerResource
         implements PatientResource {
     public static final Logger LOGGER = Engine.getLogger(PatientResourceImpl.class);
     private long id;
