@@ -5,24 +5,32 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CarbEntryComponent } from '../patient/carb/carb-entry/carb-entry.component';
 import { PatientComponent } from '../patient/patient/patient.component';
+import { PatientModule } from '../patient/patient.module';
+import { TypeAccountComponent } from './type-account/type-account.component';
 
 const routes: Routes = [
   {path:'', redirectTo: 'login', pathMatch:'full'},
   {path:'login',component: LoginFormComponent},
   {path:'patient', component: PatientComponent},
+  {path:'type',component:TypeAccountComponent}
+
   // {path:'doctor', component: DoctorComponent},
+  
 ];
 
 @NgModule({
-  declarations: [LoginFormComponent],
+  declarations: [LoginFormComponent, TypeAccountComponent],
   imports: [
     RouterModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PatientModule
   ],
   exports: [
     LoginFormComponent,
-    RouterModule
+    RouterModule,
+    TypeAccountComponent
+    
   ]
 })
 export class LoginModule { }

@@ -8,12 +8,15 @@ import { CarbEntryComponent } from './patient/carb/carb-entry/carb-entry.compone
 import { PatientComponent } from './patient/patient/patient.component';
 import { DoctorComponent } from './doctor/doctor/doctor.component';
 import { PatientUpdateComponent } from './patient/patient-update/patient-update.component';
+import { TypeAccountComponent } from './login/type-account/type-account.component';
 
 const routes: Routes = [
   {path:'', redirectTo: 'login', pathMatch:'full'},
   {path:'login',component: LoginFormComponent},
   {path:'patient',component: PatientComponent},
   {path:'doctor',component: DoctorComponent},
+  {path:'type',component:TypeAccountComponent}
+
 ];
 
 @NgModule({
