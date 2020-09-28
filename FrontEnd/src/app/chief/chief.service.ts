@@ -35,7 +35,7 @@ export class ChiefService {
 
   getDoctorNotes(values):Observable<any>{
     return this.http.get(
-      this.getDoctorNotesUrl+'?from='+values.get('from').value+'&to='+values.get('to').value+values.get('id').value,
+      this.getDoctorNotesUrl+'/'+values.get('id').value+'?from='+values.get('from').value+'&to='+values.get('to').value,
         {
           headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
         );
@@ -43,7 +43,7 @@ export class ChiefService {
 
   getPatientData(values):Observable<any>{
     return this.http.get(
-      this.getPatientDataUrl+'?from='+values.get('from').value+'&to='+values.get('to').value+values.get('id').value,
+      this.getPatientDataUrl+'/'+values.get('id').value+'?from='+values.get('from').value+'&to='+values.get('to').value,
         {
           headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
         );
