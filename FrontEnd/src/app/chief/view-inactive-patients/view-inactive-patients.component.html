@@ -1,6 +1,6 @@
 <div class="container">
-<form [formGroup]="formViewInactivePatients">
-  
+  <form [formGroup]="formViewInactivePatients">
+ 
     <!-- From date entry -->
     <div class="form-group">
       <label for="formGroupExampleInput">Date from</label>
@@ -28,7 +28,28 @@
     </div>
     <!-- /To date entry -->
   
-    <button class="btn-primary" [disabled]="!formViewInactivePatients.valid" (click)="clickViewInactivePatients()">Choose</button>
+   
+    <div id="wrapper">
+      <div
+      class="card cards-margin"
+      style="width: 18rem"
+      *ngFor="let patient of listOfPatients; let id = index;">
+      <img src="/assets/img/user.png" class="card-img-top" alt="..."  width="128px" height="256px" />
+      <div class="card-body">
+        <h5 class="card-title">Patient: {{patient.username}}</h5>
+        <p *ngIf="!!patient.firstName" class="card-text">FirstName: {{ patient.firstName | titlecase }}</p>
+        <p  *ngIf="!!patient.lastName" class="card-text">LastName: {{ patient.lastName | titlecase }}</p>
+        <p *ngIf="!!patient.city" class="card-text">City: {{ patient.city | titlecase}}</p>
+          <hr/>
+        </div>
+      </div>
+  </div>
+
+  Click to see patients with no activity over a time range:
+  <button class="btn btn-primary" (click)="clickViewInactivePatients()">
+    Choose
+  </button>
+  
   
   </form>
 

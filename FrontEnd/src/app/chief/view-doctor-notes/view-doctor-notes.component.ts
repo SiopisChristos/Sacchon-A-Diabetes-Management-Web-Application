@@ -10,7 +10,6 @@ import { ChiefService } from '../chief.service';
 export class ViewDoctorNotesComponent implements OnInit {
 
   constructor(private chiefService: ChiefService ) { }
-
   formViewDoctorNotes: FormGroup;
 
   ngOnInit(): void {

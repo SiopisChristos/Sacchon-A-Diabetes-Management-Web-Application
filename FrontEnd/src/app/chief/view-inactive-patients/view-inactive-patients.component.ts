@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Patient } from 'src/app/patient/patient/patient';
 import { ChiefService } from '../chief.service';
 
 @Component({
@@ -11,6 +12,7 @@ export class ViewInactivePatientsComponent implements OnInit {
 
   constructor(private chiefService: ChiefService) { }
 
+  listOfPatients: Patient[];
   formViewInactivePatients: FormGroup;
 
   ngOnInit(): void {
@@ -23,7 +25,7 @@ export class ViewInactivePatientsComponent implements OnInit {
  
   clickViewInactivePatients(){
     this.chiefService.getInactivePatients(this.formViewInactivePatients).subscribe(viewInactivePatients => {
-      alert(JSON.stringify(viewInactivePatients));
+      this.listOfPatients = viewInactivePatients.data[0];
       this.ngOnInit;
   })
 }
