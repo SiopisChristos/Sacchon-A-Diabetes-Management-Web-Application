@@ -12,8 +12,8 @@ export class CarbService {
   constructor(private http: HttpClient) { }
   readonly baseUrl = 'http://localhost:9000/v1/patient/carb';
 
-  username = 'ekelid';
-  password = 'ekelid';
+  username = sessionStorage.getItem("username");
+  password = sessionStorage.getItem("password");
 
   getAverageCarbIntake(values):Observable<any>{
     return this.http.get(

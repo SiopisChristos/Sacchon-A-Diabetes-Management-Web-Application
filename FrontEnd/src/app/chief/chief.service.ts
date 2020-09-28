@@ -8,14 +8,14 @@ import { Observable } from 'rxjs';
 export class ChiefService {
 
   constructor(private http: HttpClient) { }
-  readonly getInactiveDoctorUrl: "http://localhost:9000/v1/doctorsInactive";
-  readonly getInactivePatientsUrl: "http://localhost:9000/v1/patientsInactive";
-  readonly getDoctorNotesUrl: "http://localhost:9000/v1/doctorNotes";
-  readonly getPatientDataUrl: "http://localhost:9000/v1//patientData";
-  readonly getFreePatientsUrl: "http://localhost:9000/v1/patientsInactiveAndTime";
+  readonly getInactiveDoctorUrl =  "http://localhost:9000/v1/doctorsInactive";
+  readonly getInactivePatientsUrl = "http://localhost:9000/v1/patientsInactive";
+  readonly getDoctorNotesUrl = "http://localhost:9000/v1/doctorNotes";
+  readonly getPatientDataUrl = "http://localhost:9000/v1//patientData";
+  readonly getFreePatientsUrl = "http://localhost:9000/v1/patientsInactiveAndTime";
 
-  username = 'admin';
-  password = 'admin';
+  username = sessionStorage.getItem("username");
+  password = sessionStorage.getItem("password");
 
   getInactiveDoctor(values):Observable<any>{
     return this.http.get(

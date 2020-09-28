@@ -10,8 +10,8 @@ export class GlucoseService {
   constructor(private http: HttpClient) { }
   readonly baseUrl = 'http://localhost:9000/v1/patient/glucose';
 
-  username = 'ekelid';
-  password = 'ekelid';
+  username = sessionStorage.getItem("username");
+  password = sessionStorage.getItem("password");
 
   getAverageGlucoseIntake(values):Observable<any>{
     return this.http.get(
