@@ -15,6 +15,7 @@ export class ViewPatientDataComponent implements OnInit {
 
 
     this.formViewPatientData = new FormGroup({
+      id: new FormControl(null, Validators.required),
       from: new FormControl(null, Validators.required),
       to: new FormControl(null, Validators.required)
     })

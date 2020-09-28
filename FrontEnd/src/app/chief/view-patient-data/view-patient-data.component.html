@@ -1,5 +1,25 @@
 <div class="container">
-<form [formGroup]="formViewPatientData">
+  <form [formGroup]="formViewPatientData">
+ 
+    Click to see all consulatations of a specific doctor over a time range:
+    <button class="btn btn-primary" (click)="clickViewPatientData()">
+      Choose
+    </button>
+    
+  
+        <!-- Id's entry -->
+        <div class="form-group">
+          <label for="formGroupExampleInput">id</label>
+          <input type="text" 
+                 class="form-control" 
+                 id="id" 
+                 placeholder="Enter patient's id" 
+                 formControlName = "id">
+          <div *ngIf="formViewPatientData.get('id').errors?.required && formViewPatientData.get('id').dirty" class="text-danger">
+            Field is required
+          </div>
+        </div>  
+        <!-- /Id's entry -->
   
     <!-- From date entry -->
     <div class="form-group">
@@ -28,7 +48,6 @@
     </div>
     <!-- /To date entry -->
   
-    <button class="btn-primary" [disabled]="!formViewPatientData.valid" (click)="clickViewPatientData()">Choose</button>
-  
+    
   </form>
 </div>
