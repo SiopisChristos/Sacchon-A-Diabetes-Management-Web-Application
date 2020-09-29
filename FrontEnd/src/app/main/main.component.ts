@@ -26,8 +26,10 @@ export class MainComponent implements OnInit {
     else{
       this.isLogged = true
       this.username = sessionStorage.getItem("username")
-      console.log("inside else app component")
-      
+      console.log("inside else app component")      
+    }
+    if (this.role === 'patient') {
+      //subscribe to event for notifications
     }
   }
 
@@ -38,4 +40,6 @@ export class MainComponent implements OnInit {
     this.isLogged = false
     this.router.navigate(['login']) 
   }
+
+  
 }
