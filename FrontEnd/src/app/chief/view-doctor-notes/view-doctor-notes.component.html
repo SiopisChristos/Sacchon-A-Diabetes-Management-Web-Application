@@ -2,24 +2,7 @@
   <form [formGroup]="formViewDoctorNotes">
  
     <h3>Click to see all consulatations of a specific doctor over a time range:</h3>
-    <button class="btn btn-primary" (click)="clickViewDoctorNotes()">
-      Choose
-    </button>
     
-  
-        <!-- Id's entry -->
-        <div class="form-group">
-          <label for="formGroupExampleInput">id</label>
-          <input type="text" 
-                 class="form-control" 
-                 id="id" 
-                 placeholder="Enter doctor's id" 
-                 formControlName = "id">
-          <div *ngIf="formViewDoctorNotes.get('id').errors?.required && formViewDoctorNotes.get('id').dirty" class="text-danger">
-            Field is required
-          </div>
-        </div>  
-        <!-- /Id's entry -->
 
     <!-- From date entry -->
     <div class="form-group">
@@ -48,20 +31,24 @@
     </div>
     <!-- /To date entry -->
   
-    <div id="wrapper">
-      <div
-        class="card cards-margin"
-        style="width: 18rem"
-        *ngFor="let note of listOfNotes; let id = index;">
-        <img src="/assets/img/user.png" class="card-img-top" alt="..."  width="128px" height="256px" />
-        <div class="card-body">
-          <h5 class="card-title">Note: {{note.id}}</h5>
-          <p *ngIf="!!note.message" class="card-text">note: {{ note.note | titlecase }}</p>
-          <p  *ngIf="!!note.date" class="card-text">date: {{ note.date | titlecase }}</p>
-          <hr/>
-        </div>
+    <button class="btn btn-primary" (click)="clickViewDoctorNotes()">
+      Choose
+    </button>
+  </form>
+  <div id="wrapper">
+    <div
+      class="card cards-margin"
+      style="width: 18rem"
+      *ngFor="let note of listOfNotes;">
+      <div class="card-body">
+        <h5 class="card-title">Note #{{note.id}}</h5>
+        <p *ngIf="!!note.message" class="card-text">{{ note.message | titlecase}}</p>
+        <p  *ngIf="!!note.date" class="card-text">Date: {{ note.date | date }}</p>
+        <p *ngIf="!!note.doctorLastname" class="card-text">Doctor's last name: {{ note.doctorLastname}}</p> 
       </div>
+    </div>
   </div>
 
-  </form>
+
+ 
 </div>
