@@ -151,7 +151,7 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
     }
 
     @Override
-    public RepresentationResponse<Boolean> choosePatient() {
+    public RepresentationResponse<Boolean> choosePatient(PatientRepresentation patientRepresentation) {
 
         try {
             String username = ResourceAuthorization.currentUserToUsername();

@@ -19,7 +19,7 @@ public interface DoctorResource {
     RepresentationResponse <Boolean> notificationSeen() ;
 
     @Put("json")
-    RepresentationResponse <Boolean> choosePatient();
+    RepresentationResponse <Boolean> choosePatient(PatientRepresentation patientRepresentation);
 
     @Delete("json")
     RepresentationResponse<Boolean>
@@ -27,15 +27,3 @@ public interface DoctorResource {
 
 
 }
-//    @Get("json")
-//    List<PatientRepresentation> findMyPatients(DoctorRepresentation doctorReprIn) throws NotFoundException;
-//
-//    @Get("json")
-//    List patientRecord(PatientRepresentation patientReprIn) throws NotFoundException;
-//
-//    @Post("json")
-//    boolean postNote(NoteRepresentation noteReprIn) throws NotFoundException;
-//
-//    @Put("json")
-//    boolean updateNote(NoteRepresentation noteReprIn) throws NotFoundException;
-//}

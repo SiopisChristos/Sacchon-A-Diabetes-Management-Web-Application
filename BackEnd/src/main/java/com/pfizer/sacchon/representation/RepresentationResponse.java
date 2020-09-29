@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class RepresentationResponse<T> {
     private int status;
-    private String description;
+    private String description;x
     private T data;
 }
