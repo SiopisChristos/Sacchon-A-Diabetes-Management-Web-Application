@@ -51,7 +51,7 @@ export class GlucoseListComponent implements OnInit {
   lineChartLegend = true;
 
   // Define type of chart
-  lineChartType = 'bar';
+  lineChartType = 'line';
 
   lineChartPlugins = [];
 
