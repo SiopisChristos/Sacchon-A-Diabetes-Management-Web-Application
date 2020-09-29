@@ -13,6 +13,7 @@
         <p *ngIf="!!patient.city" class="card-text">City: {{ patient.city | titlecase}}</p>
         <a class="card-link" [routerLink]="['/seePatientsData']" (click)="getPatientsData(patient.patient_id)">See patients data</a>
         <hr/>
+        <button class="btn btn-primary" (click)="selectPatient(patient.patient_id)">Manage the Patient</button>
       </div>
     </div>
   </div>

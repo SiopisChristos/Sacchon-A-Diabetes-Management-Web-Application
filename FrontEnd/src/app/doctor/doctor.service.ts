@@ -78,5 +78,13 @@ export class DoctorService {
     );
   }
 
+  choosePatient(id): Observable<any> {
+    return this.http.put(
+      this.baseUrl + '/account/' + id,
+      {
+        headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+      }
+    );
+  }
 
 }
