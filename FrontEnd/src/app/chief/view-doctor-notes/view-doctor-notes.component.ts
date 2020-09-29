@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Doctor } from 'src/app/doctor/doctor';
 import { Note } from 'src/app/doctor/note/note';
 import { ChiefService } from '../chief.service';
@@ -11,13 +12,19 @@ import { ChiefService } from '../chief.service';
 })
 export class ViewDoctorNotesComponent implements OnInit {
 
-  constructor(private chiefService: ChiefService ) { }
-  formViewDoctorNotes: FormGroup;
+  id:number;
   listOfNotes: Note[];
+  constructor(private chiefService: ChiefService, private route: ActivatedRoute) { }
+  formViewDoctorNotes: FormGroup;
 
   ngOnInit(): void {
+
+    
+    this.route.params.subscribe(params => {
+      this.id = params.id;   
+  });
+
     this.formViewDoctorNotes = new FormGroup({
-      id: new FormControl(null, Validators.required),
       from: new FormControl(null, Validators.required),
       to: new FormControl(null, Validators.required)
     })
@@ -25,7 +32,7 @@ export class ViewDoctorNotesComponent implements OnInit {
  
   
   clickViewDoctorNotes(){
-    this.chiefService.getDoctorNotes(this.formViewDoctorNotes).subscribe(viewDoctorNotesData => {
+    this.chiefService.getDoctorNotes(this.formViewDoctorNotes,this.id).subscribe(viewDoctorNotesData => {
       this.listOfNotes = viewDoctorNotesData.data;
       this.ngOnInit;
   })

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Doctor } from 'src/app/doctor/doctor';
 import { Patient } from 'src/app/patient/patient/patient';
 import { ChiefService } from '../chief.service';
 
@@ -9,6 +10,7 @@ import { ChiefService } from '../chief.service';
 })
 export class ChiefComponent implements OnInit {
   patients: Patient[];
+ doctors: Doctor[];
 
   constructor(private chiefService: ChiefService) {
     
@@ -19,6 +21,14 @@ export class ChiefComponent implements OnInit {
       this.patients = result.data;
       this.ngOnInit;
   })
+
+    this.chiefService.getAllActiveDoctors().subscribe(result => {
+      this.doctors = result.data;
+      this.ngOnInit;
+  })
+  
   }
+
+
 
 }

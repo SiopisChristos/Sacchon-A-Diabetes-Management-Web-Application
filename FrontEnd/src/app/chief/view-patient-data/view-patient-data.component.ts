@@ -34,10 +34,6 @@ export class ViewPatientDataComponent implements OnInit {
 
       this.listOfCarbs = viewPatientData.data[0];
       this.listOfGlucose = viewPatientData.data[1];
-      console.log(this.listOfCarbs);
-      console.log(this.listOfGlucose);
-          
-      // alert(JSON.stringify(viewPatientData));
       this.ngOnInit;
   })
 }

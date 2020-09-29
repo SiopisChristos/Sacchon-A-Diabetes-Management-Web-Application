@@ -11,6 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class DoctorRepresentation {
+    private long id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -20,6 +21,7 @@ public class DoctorRepresentation {
     private String specialty;
 
     public DoctorRepresentation(Doctor doctor) {
+        id = doctor.getId();
         firstName = doctor.getFirstName();
         lastName = doctor.getLastName();
         phoneNumber = doctor.getPhoneNumber();
