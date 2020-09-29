@@ -11,7 +11,9 @@ import { Glucose } from 'src/app/patient/glucose/glucose';
   styleUrls: ['./view-free-patients.component.scss'],
 })
 export class ViewFreePatientsComponent implements OnInit {
+  
   constructor(private doctorService: DoctorService) {}
+
   listOfFreePatients: Patient[];
   listOfData1: Carb[];
   listOfData2: Glucose[];
@@ -31,7 +33,6 @@ export class ViewFreePatientsComponent implements OnInit {
   }
 
   selectPatient(patient_id) {
-    alert(patient_id);
     if (confirm('Are you sure?')) {
       this.doctorService.choosePatient(patient_id).subscribe((result) => {
         console.log(result);
