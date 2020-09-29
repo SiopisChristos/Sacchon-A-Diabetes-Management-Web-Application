@@ -11,6 +11,7 @@ import { ChiefService } from '../chief.service';
 export class ChiefComponent implements OnInit {
   patients: Patient[];
  doctors: Doctor[];
+viewpatient: boolean=true;
 
   constructor(private chiefService: ChiefService) {
     
@@ -29,6 +30,11 @@ export class ChiefComponent implements OnInit {
   
   }
 
+  viewEntity(value) {
+  console.log(this.viewpatient);
+  
+  this.viewpatient=value;
+  }
 
 
 }

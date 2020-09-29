@@ -32,8 +32,8 @@ export class ViewDoctorNotesComponent implements OnInit {
  
   
   clickViewDoctorNotes(){
-    this.chiefService.getDoctorNotes(this.formViewDoctorNotes,this.id).subscribe(viewDoctorNotesData => {
-      this.listOfNotes = viewDoctorNotesData.data;
+    this.chiefService.getDoctorNotes(this.formViewDoctorNotes,this.id).subscribe(result => {
+      this.listOfNotes = result.data;
       this.ngOnInit;
   })
 }

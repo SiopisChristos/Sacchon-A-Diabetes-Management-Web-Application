@@ -1,24 +1,49 @@
 <div class="container">
 
+  <div class="btn-group">
+    <button class="btn btn-light" (click)="viewEntity(true)">
+      View all patients
+    </button>
 
-  
-    <div id="wrapper">
-        <div
-        class="card cards-margin"
-        style="width: 18rem"
-        *ngFor="let patient of patients;">
-        <img src="/assets/img/user.png" class="card-img-top" alt="..."  width="128px" height="256px" />
+    <button class="btn btn-light" (click)="viewEntity(false)">
+      View all doctors
+    </button>
+  </div>
+
+  <div id="wrapper">
+    
+      <div class="card cards-margin" style="width: 18rem" *ngFor="let patient of patients;" [hidden]="!viewpatient">
+        <img src="/assets/img/user.png" class="card-img-top" alt="..." width="128px" height="256px" />
         <div class="card-body">
           <h5 class="card-title">Patient: {{patient.username}}</h5>
           <p *ngIf="!!patient.firstName" class="card-text">FirstName: {{ patient.firstName | titlecase }}</p>
-          <p  *ngIf="!!patient.lastName" class="card-text">LastName: {{ patient.lastName | titlecase }}</p>
+          <p *ngIf="!!patient.lastName" class="card-text">LastName: {{ patient.lastName | titlecase }}</p>
           <p *ngIf="!!patient.city" class="card-text">City: {{ patient.city | titlecase}}</p>
-        
-       
-            <hr/>
-            <a href="patientData/" [routerLink]="['patientData', patient.patient_id]">Patient Data</a>
-            
-          </div>
+
+
+          <hr />
+          <a href="patientData/" [routerLink]="['patientData', patient.patient_id]">Patient Data</a>
+
         </div>
+      
     </div>
+
+
+    
+      <div class="card cards-margin" style="width: 18rem" *ngFor="let doctor of doctors;" [hidden]="viewpatient">
+        <img src="/assets/img/user.png" class="card-img-top" alt="..." width="128px" height="256px" />
+        <div class="card-body">
+          <h5 class="card-title">Doctor: {{doctor.username}}</h5>
+          <p *ngIf="!!doctor.firstName" class="card-text">FirstName: {{ doctor.firstName | titlecase }}</p>
+          <p *ngIf="!!doctor.lastName" class="card-text">LastName: {{ doctor.lastName | titlecase }}</p>
+          <p *ngIf="!!doctor.specialty" class="card-text">Specialty: {{ doctor.specialty | titlecase}}</p>
+
+
+          <hr />
+          <a href="doctorNotes/" [routerLink]="['doctorNotes', doctor.id]">Doctor Notes</a>
+
+        </div>
+      
+    </div>
+  </div>
 </div>

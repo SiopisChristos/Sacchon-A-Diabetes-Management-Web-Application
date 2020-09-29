@@ -10,7 +10,7 @@ import { ChiefComponent } from './chief/chief.component';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: 'doctorNotes/:id', component: ViewDoctorNotesComponent },
+  { path: 'admin/doctorNotes/:id', component: ViewDoctorNotesComponent },
   { path: 'admin/patientData/:id', component: ViewPatientDataComponent },
   { path: 'waitingPatients', component: ViewFreePatientsComponent },
   {path: 'viewInactivePatients',component: ViewInactivePatientsComponent},
