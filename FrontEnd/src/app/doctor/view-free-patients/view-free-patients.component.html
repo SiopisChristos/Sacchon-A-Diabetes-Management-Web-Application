@@ -18,9 +18,52 @@
         <p *ngIf="!!patient.firstName" class="card-text">FirstName: {{ patient.firstName | titlecase }}</p>
         <p *ngIf="!!patient.lastName" class="card-text">LastName: {{ patient.lastName | titlecase }}</p>
         <p *ngIf="!!patient.city" class="card-text">City: {{ patient.city | titlecase}}</p>
-        <a class="card-link" [routerLink]="['/seePatientsData']" (click)="getPatientsData(patient.patient_id)">See patients data</a>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" (click)="clickGetPatientsData(patient.patient_id)">
+          See patient records
+        </button>
         <hr/>
-        <button class="btn btn-primary" (click)="selectPatient(patient.patient_id)">Manage the Patient</button>
+        <button class="btn btn-primary" (click)="selectPatient(patient.patient_id)">Manage this patient</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Patient records</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="card" style="width: 18rem;" *ngFor="let c of listOfData1">
+          <div class="card-header">
+              Carb
+          </div>
+          <ul class="list-group list-group-flush">
+              <li class="list-group-item">{{c.gram}}</li>
+              <li class="list-group-item">{{c.date | date: 'dd MMM yyyy'}}</li><br>
+          </ul>
+        </div>
+      
+        <div class="card" style="width: 18rem;" *ngFor="let g of listOfData2">
+          <div class="card-header">
+              Glucose
+          </div>
+          <ul class="list-group list-group-flush">
+              <li class="list-group-item">{{g.measurement}}</li>
+              <li class="list-group-item">{{g.dateTime | date: 'dd MMM yyyy'}}</li><br>
+          </ul>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

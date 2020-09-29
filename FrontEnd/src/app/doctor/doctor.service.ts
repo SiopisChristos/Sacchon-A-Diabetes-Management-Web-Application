@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Patient } from '../patient/patient/patient';
+import { PatientComponent } from '../patient/patient/patient.component';
 
 @Injectable({
   providedIn: 'root'
@@ -62,8 +63,8 @@ export class DoctorService {
     );
   }
 
-  getPatientsData():Observable<any>{
-    return this.http.get('http://localhost:9000/v1/record/1',//+patient_id.get('patient_id').value,
+  getPatientsData(patient_id):Observable<any>{
+    return this.http.get('http://localhost:9000/v1/record/' + patient_id,
         {
           headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
         );

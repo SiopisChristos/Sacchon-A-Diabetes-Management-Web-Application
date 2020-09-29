@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Carb } from 'src/app/patient/carb/carb';
 import { Glucose } from 'src/app/patient/glucose/glucose';
@@ -14,16 +14,14 @@ import { DoctorService } from '../doctor.service';
 export class SeePatientsDataComponent implements OnInit {
 
   constructor(private doctorService: DoctorService) { }
-  // patient: Patient[];
   listOfData1: Carb[];
   listOfData2: Glucose[];
 
   ngOnInit(): void {
-    this.doctorService.getPatientsData().subscribe(viewData => {
-      this.listOfData1 = viewData.data[0];
-      this.listOfData2 = viewData.data[1];
-      this.ngOnInit;
-    })
+    // this.doctorService.getPatientsData(this.patient_id).subscribe(viewData => {
+    //   this.listOfData1 = viewData.data[0];
+    //   this.listOfData2 = viewData.data[1];
+    //   this.ngOnInit;
+    // })
   }
-
 }

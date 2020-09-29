@@ -19,12 +19,12 @@ export class SeeMyPatientsComponent implements OnInit {
     this.doctorService.getMyPatients().subscribe(
       listMypatient => { this.listOfMyPatients = listMypatient.data; }
     )
-    this.seedata();
+    // this.seedata();
 
     this.ngOnInit;
   }
-  seedata() {
-    this.doctorService.getPatientsData().subscribe(lis => {
+  seedata(patient_id) {
+    this.doctorService.getPatientsData(patient_id).subscribe(lis => {
       this.data1 = lis.data[0];
       this.data2 = lis.data[1];
     });
