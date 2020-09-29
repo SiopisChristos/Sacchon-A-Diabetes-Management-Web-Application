@@ -1,0 +1,27 @@
+<div class="container">
+   
+   
+      <h3>My Consultations</h3>
+     
+<hr/>
+  
+
+  
+      <div id="wrapper">
+        <div
+          class="card cards-margin"
+          style="width: 18rem"
+          *ngFor="let note of listOfNotes; let id = index;">
+          <div class="card-body">
+            <h5 class="card-title">Note: {{note.message}}</h5>
+            <p *ngIf="!!note.message" class="card-text">Message: {{ note.message | titlecase }}</p>
+            <p  *ngIf="!!note.date" class="card-text">Date: {{ note.date | date }}</p>
+            <p *ngIf="!!note.doctorLastname" class="card-text">Doctor's last name: {{ note.doctorLastname}}</p>
+            <hr/>
+          </div>
+        </div>
+    </div>
+  
+
+  
+  </div>

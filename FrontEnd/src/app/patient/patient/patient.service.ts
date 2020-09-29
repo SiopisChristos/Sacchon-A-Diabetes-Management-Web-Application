@@ -103,4 +103,12 @@ export class PatientService {
   );
   }
 
+getMyNotes(): Observable<any> {
+  return this.http.get(
+    this.baseUrl + '/note/',
+    {
+      headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+    }
+  );
+}
 }
