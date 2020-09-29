@@ -2,10 +2,11 @@
   <div class="card cards-margin" style="width: 18rem" *ngFor="let patient of listOfMyPatients; let id = index;">
     <img src="/assets/img/user.png" class="card-img-top" alt="..." width="128px" height="256px" />
     <div class="card-body">
-      <h5 class="card-title">Patient: {{patient.username}}</h5>
+      <h5 class="card-title">Patient: {{patient.username}} {{patient.patient_id}}</h5>
       <p *ngIf="!!patient.firstName" class="card-text">FirstName: {{ patient.firstName | titlecase }}</p>
       <p *ngIf="!!patient.lastName" class="card-text">LastName: {{ patient.lastName | titlecase }}</p>
       <p *ngIf="!!patient.city" class="card-text">City: {{ patient.city | titlecase}}</p>
+      <button [routerLink]="['/seePatientsData']">More details</button>
       <hr />
     </div>
   </div>

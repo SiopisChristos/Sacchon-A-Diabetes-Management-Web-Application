@@ -63,7 +63,7 @@ export class DoctorService {
   }
 
   getPatientsData():Observable<any>{
-    return this.http.get('http://localhost:9000/v1/record/8',//+patient_id.get('patient_id').value,
+    return this.http.get('http://localhost:9000/v1/record/1',//+patient_id.get('patient_id').value,
         {
           headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
         );
