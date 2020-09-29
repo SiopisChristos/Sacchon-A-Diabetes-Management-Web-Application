@@ -11,7 +11,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: 'doctorNotes', component: ViewDoctorNotesComponent },
-  { path: 'patientData', component: ViewPatientDataComponent },
+  { path: 'admin/patientData/:id', component: ViewPatientDataComponent },
   { path: 'waitingPatients', component: ViewFreePatientsComponent },
   {path: 'viewInactivePatients',component: ViewInactivePatientsComponent},
   { path: 'viewInactiveDoctors', component: ViewInactiveDoctorsComponent }
