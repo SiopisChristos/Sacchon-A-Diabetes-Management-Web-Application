@@ -87,6 +87,8 @@ public class ChiefRepository {
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
                 .getResultList();
+        Set<Carb> carbSet = new HashSet<>(carb);
+        carb = new ArrayList<Carb>(carbSet);
         return carb;
     }
 
@@ -96,6 +98,8 @@ public class ChiefRepository {
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
                 .getResultList();
+        Set<Glucose> glucoseSet = new HashSet<Glucose>(glucose);
+        glucose = new ArrayList<Glucose>(glucoseSet);
         return glucose;
     }
 
