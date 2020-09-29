@@ -23,12 +23,7 @@ export class DoctorRegisterComponent implements OnInit {
       specialty: new FormControl(null, Validators.required),
     })
   }
-  clickRegisterDoctor() {
-    this.doctorService.registerDoctor(this.formDoctorRegister).subscribe(registerData => {
-      alert(JSON.stringify(registerData));
-      this.ngOnInit;
-    })
-  }
+  
   RegisterUser() {
     this.doctorService.UserRegistration(this.formDoctorRegister).subscribe(registerUserData => {
       alert(JSON.stringify(registerUserData));
