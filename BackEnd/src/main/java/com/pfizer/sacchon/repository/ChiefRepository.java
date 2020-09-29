@@ -72,9 +72,9 @@ public class ChiefRepository {
     }
 
 
-    public List<Note> findDoctorNotes(Long doctor_id, Date startDate, Date endDate) {
-        List<Note> notes = entityManager.createQuery("select n from Note as n, Doctor d where d.isActive = 1 and d n.doctor = :id and :startDate <= n.date AND :endDate >= n.date")
-                .setParameter("id", doctor_id)
+    public List<Note> findDoctorNotes(Doctor doctor, Date startDate, Date endDate) {
+        List<Note> notes = entityManager.createQuery("select distinct n from Note as n, Doctor d where d.isActive = 1 and n.doctor = :id and :startDate <= n.date AND :endDate >= n.date")
+                .setParameter("id", doctor)
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
                 .getResultList();
@@ -82,24 +82,20 @@ public class ChiefRepository {
     }
 
     public List<Carb> findCarbs(Patient patient, Date startDate, Date endDate) {
-        List<Carb> carb = entityManager.createQuery("select c from Carb as c, Patient p where p.isActive = 1 and c.patient = :id and :startDate <= c.date AND :endDate >= c.date")
+        List<Carb> carb = entityManager.createQuery("select distinct c from Carb as c, Patient p where p.isActive = 1 and c.patient = :id and :startDate <= c.date AND :endDate >= c.date")
                 .setParameter("id", patient)
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
                 .getResultList();
-        Set<Carb> carbSet = new HashSet<>(carb);
-        carb = new ArrayList<Carb>(carbSet);
         return carb;
     }
 
     public List<Glucose> findGlucose(Patient patient, Date startDate, Date endDate) {
-        List<Glucose> glucose = entityManager.createQuery("select g from Glucose as g, Patient as p where p.isActive = 1 and g.patient = :id and :startDate <= g.dateTime AND :endDate >= g.dateTime")
+        List<Glucose> glucose = entityManager.createQuery("select distinct g from Glucose as g, Patient as p where p.isActive = 1 and g.patient = :id and :startDate <= g.dateTime AND :endDate >= g.dateTime")
                 .setParameter("id", patient)
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
                 .getResultList();
-        Set<Glucose> glucoseSet = new HashSet<Glucose>(glucose);
-        glucose = new ArrayList<Glucose>(glucoseSet);
         return glucose;
     }
 
