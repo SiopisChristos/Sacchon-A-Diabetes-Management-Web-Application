@@ -22,8 +22,11 @@ export class ViewFreePatientsComponent implements OnInit {
     console.log(id);
     if (confirm('Are you sure?')) {
       this.doctorService.choosePatient(id).subscribe((result) => {
-        if (result.data === true) 
-          location.reload;
+        console.log(result);
+        
+        if (result.data === true)          
+          location.reload();
+        
       });
     }
   }

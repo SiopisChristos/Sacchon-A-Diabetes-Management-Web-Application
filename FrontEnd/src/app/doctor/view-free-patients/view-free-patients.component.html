@@ -1,4 +1,11 @@
 <div class="container">
+
+  <h5 class="mt-2" style="text-align: center;">Available patients</h5>
+  <hr/>
+  <div *ngIf="!listOfFreePatients.length"><div class="alert alert-danger" style="text-align: center;" role="alert">
+    There are not Available Patients to manage
+  </div></div>
+
   <div id="wrapper">
     <div
       class="card cards-margin"
