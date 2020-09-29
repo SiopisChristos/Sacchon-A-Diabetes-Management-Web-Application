@@ -1,5 +1,6 @@
 <div class="container"><form [formGroup]="formGlucoseUpdate">
   
+  <h3>Update a glucose entry</h3>
     <!-- Ids entry -->
     <div class="form-group">
       <label for="formGroupExampleInput">id</label>
@@ -41,6 +42,6 @@
     </div>
     <!-- /Date entry -->
   
-    <button class="btn-primary" [disabled]="!formGlucoseUpdate.valid" (click)="clickGlucoseUpdateSubmit()">Update</button>
+    <button class="btn btn-primary" [disabled]="!formGlucoseUpdate.valid" (click)="clickGlucoseUpdateSubmit()">Update</button>
   
   </form></div>

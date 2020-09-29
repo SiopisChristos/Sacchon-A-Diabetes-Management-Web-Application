@@ -1,5 +1,6 @@
 <div class="container"><form [formGroup]="formGlucoseDelete">
   
+  <h3>Delete a glucose entry</h3>
     <!-- Id entry -->
     <div class="form-group">
       <label for="formGroupExampleInput">Glucose Id to delete</label>
@@ -13,6 +14,6 @@
     </div>
     <!-- /Id entry -->
   
-    <button class="btn-primary" [disabled]="!formGlucoseDelete.valid" (click)="clickGlucoseDeleteSubmit()">Submit</button>
+    <button class="btn btn-primary" [disabled]="!formGlucoseDelete.valid" (click)="clickGlucoseDeleteSubmit()">Submit</button>
   
 </form></div>

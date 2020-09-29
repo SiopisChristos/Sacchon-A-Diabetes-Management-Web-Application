@@ -1,6 +1,7 @@
 <div class="container">
 <form [formGroup]="formNoteEntry">
   
+  <h3>Insert consultation</h3>
     <!-- Notes entry -->
     <div class="form-group">
       <label for="formGroupExampleInput">Notes</label>
@@ -28,7 +29,7 @@
     </div>
     <!-- /Date entry -->
   
-    <button class="btn-primary" [disabled]="!formNoteEntry.valid" (click)="clickNoteEntrySubmit()">Submit</button>
+    <button class="btn btn-primary" [disabled]="!formNoteEntry.valid" (click)="clickNoteEntrySubmit()">Submit</button>
   
   </form>
 </div>
