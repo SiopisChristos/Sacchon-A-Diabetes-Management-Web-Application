@@ -1,25 +1,11 @@
 <div class="container">
   <form [formGroup]="formViewPatientData">
  
-    Click to see all data of a specific patient over a time range:
-    <button class="btn btn-primary" (click)="clickViewPatientData()">
-      Choose
-    </button>
+    <h3>Click to see all data of a specific patient over a time range:</h3>
+    
     
   
-        <!-- Id's entry -->
-        <div class="form-group">
-          <label for="formGroupExampleInput">id</label>
-          <input type="text" 
-                 class="form-control" 
-                 id="id" 
-                 placeholder="Enter patient's id" 
-                 formControlName = "id">
-          <div *ngIf="formViewPatientData.get('id').errors?.required && formViewPatientData.get('id').dirty" class="text-danger">
-            Field is required
-          </div>
-        </div>  
-        <!-- /Id's entry -->
+      
   
     <!-- From date entry -->
     <div class="form-group">
@@ -48,6 +34,24 @@
     </div>
     <!-- /To date entry -->
   
-    
+    <button class="btn btn-primary" (click)="clickViewPatientData()">
+      Choose
+    </button>
   </form>
+  <div id="wrapper">
+    <div
+      class="card cards-margin"
+      style="width: 18rem"
+      *ngFor="let carb of listOfCarbs;">
+      <div class="card-body">
+        <h5 class="card-title">Carb #{{carb.id}}</h5>
+        <p *ngIf="!!carb.gram" class="card-text">{{ carb.gram}} Grams</p>
+        <p  *ngIf="!!carb.date" class="card-text">Date: {{ carb.date | date }}</p>
+        <p *ngIf="!!carb.patient_id" class="card-text">PatientId: {{ carb.patient_id}}</p> 
+      </div>
+    </div>
+  </div>
+
+
+
 </div>

@@ -11,8 +11,9 @@ export class ChiefService {
   readonly getInactiveDoctorUrl =  "http://localhost:9000/v1/doctorsInactive";
   readonly getInactivePatientsUrl = "http://localhost:9000/v1/patientsInactive";
   readonly getDoctorNotesUrl = "http://localhost:9000/v1/doctorNotes";
-  readonly getPatientDataUrl = "http://localhost:9000/v1//patientData";
+  readonly getPatientDataUrl = "http://localhost:9000/v1/patientData";
   readonly getFreePatientsUrl = "http://localhost:9000/v1/patientsInactiveAndTime";
+  readonly getAllActivePatientsUrl = "http://localhost:9000/v1/getActivePatients"
 
   username = sessionStorage.getItem("username");
   password = sessionStorage.getItem("password");
@@ -41,9 +42,11 @@ export class ChiefService {
         );
   }
 
-  getPatientData(values):Observable<any>{
+  getPatientData(values,id):Observable<any>{
+    console.log(this.getPatientDataUrl+'/'+id+'?from='+values.get('from').value+'&to='+values.get('to').value);
+    
     return this.http.get(
-      this.getPatientDataUrl+'/'+values.get('id').value+'?from='+values.get('from').value+'&to='+values.get('to').value,
+      this.getPatientDataUrl+'/'+id+'?from='+values.get('from').value+'&to='+values.get('to').value,
         {
           headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
         );
@@ -55,6 +58,14 @@ export class ChiefService {
         {
           headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})}
         );
+  }
+
+  getAllActivePatients():Observable<any>{
+    return this.http.get(
+      this.getAllActivePatientsUrl,{
+        headers:new HttpHeaders({'Authorization': 'Basic ' + btoa( this.username+':'+this.password)})
+      }
+    );
   }
 
 }

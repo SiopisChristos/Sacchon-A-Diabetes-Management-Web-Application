@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChiefService } from '../chief.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Patient } from 'src/app/patient/patient/patient';
+import { Carb } from 'src/app/patient/carb/carb';
+import { Glucose } from 'src/app/patient/glucose/glucose';
 
 @Component({
   selector: 'app-view-patient-data',
@@ -8,22 +12,32 @@ import { ChiefService } from '../chief.service';
   styleUrls: ['./view-patient-data.component.scss']
 })
 export class ViewPatientDataComponent implements OnInit {
-
-  constructor(private chiefService: ChiefService) { }
+  id:number;
+  listOfCarbs: Carb[];
+  listOfGlucose: Glucose[];
+  constructor(private chiefService: ChiefService, private route: ActivatedRoute) { }
   formViewPatientData: FormGroup;
   ngOnInit(): void {
 
+    this.route.params.subscribe(params => {
+      this.id = params.id;   
+  });
 
     this.formViewPatientData = new FormGroup({
-      id: new FormControl(null, Validators.required),
       from: new FormControl(null, Validators.required),
       to: new FormControl(null, Validators.required)
     })
   }
  
   clickViewPatientData(){
-    this.chiefService.getPatientData(this.formViewPatientData).subscribe(viewPatientData => {
-      alert(JSON.stringify(viewPatientData));
+    this.chiefService.getPatientData(this.formViewPatientData,this.id).subscribe(viewPatientData => {
+
+      this.listOfCarbs = viewPatientData.data[0];
+      this.listOfGlucose = viewPatientData.data[1];
+      console.log(this.listOfCarbs);
+      console.log(this.listOfGlucose);
+          
+      // alert(JSON.stringify(viewPatientData));
       this.ngOnInit;
   })
 }

@@ -1,6 +1,7 @@
 <div class="container">
 <form [formGroup]="formCarbUpdate">
   
+  <h3>Update a carb entry</h3>
     <!-- Ids entry -->
     <div class="form-group">
       <label for="formGroupExampleInput">id</label>
@@ -42,6 +43,6 @@
     </div>
     <!-- /Date entry -->
   
-    <button class="btn-primary" [disabled]="!formCarbUpdate.valid" (click)="clickCarbUpdateSubmit()">Update</button>
+    <button class="btn btn-primary" [disabled]="!formCarbUpdate.valid" (click)="clickCarbUpdateSubmit()">Update</button>
   
   </form></div>

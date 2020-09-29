@@ -1,6 +1,7 @@
 
 <form [formGroup]="formNoteUpdate">
   
+  <h3>Update consultation</h3>
     <!-- Id's entry -->
     <div class="form-group">
       <label for="formGroupExampleInput">id</label>
@@ -30,6 +31,6 @@
     <!-- /Notes entry -->
   
   
-    <button class="btn-primary" [disabled]="!formNoteUpdate.valid" (click)="clickNoteUpdateSubmit()">Update</button>
+    <button class="btn btn-primary" [disabled]="!formNoteUpdate.valid" (click)="clickNoteUpdateSubmit()">Update</button>
   
   </form>

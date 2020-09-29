@@ -41,8 +41,8 @@
       </div>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link notification" data-toggle="dropdown" href="#" role="button"
-        aria-haspopup="true" aria-expanded="false">Notes <span *ngIf="notification" class="badge">3</span></a>
+      <a class="nav-link notification" data-toggle="dropdown" href="myNotes" [routerLink]="['myNotes']" role="button"
+        aria-haspopup="true" aria-expanded="false">My consultations <span *ngIf="notification" class="badge">3</span></a>
 
       
     </li>
@@ -57,7 +57,7 @@
 <nav *ngIf="isLogged && role==='doctor'" class="navbar navbar-expand-lg bg-light">
   <ul class="nav nav-pills" id="menu">
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['doctor']">Welcome Dr. {{username}}</a>
+      <a class="nav-link" [routerLink]="['doctor']">Welcome Dr. {{lastName}}</a>
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -101,19 +101,19 @@
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="admin/" role="button" aria-haspopup="true"
         aria-expanded="false">Patients</a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="admin/">All Patients</a>
-        <a class="dropdown-item" href="admin/">Patients Inactive</a>
-        <a class="dropdown-item" href="admin/">Patients Waiting</a>
-        <a class="dropdown-item" href="admin/">Patient Measurements</a>
+        <a class="dropdown-item" href="admin/">All Patients</a> 
+        <a class="dropdown-item" href="viewInactivePatients" [routerLink]="['viewInactivePatients']">View Inactive Patients</a>
+        <a class="dropdown-item" href="waitingPatients" [routerLink]="['waitingPatients']">View Waiting Patients </a>
+        <a class="dropdown-item" href="admin/">Patient Measurements</a> 
       </div>
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="admin/" role="button" aria-haspopup="true"
         aria-expanded="false">Doctors</a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="admin/">All Doctors</a>
-        <a class="dropdown-item" href="admin/">Doctors Inactive</a>
-        <a class="dropdown-item" href="admin/">Doctors Consultations</a>
+        <a class="dropdown-item" href="admin/">All Doctors</a> 
+        <a class="dropdown-item" href="viewInactiveDoctors" [routerLink]="['viewInactiveDoctors']">View Inactive Doctors</a>
+        <a class="dropdown-item" href="admin/">Doctors Consultations</a> 
       </div>
     </li>
 

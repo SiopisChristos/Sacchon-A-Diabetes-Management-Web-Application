@@ -18,6 +18,7 @@ public class Doctor {
     private String lastName;
     private String phoneNumber;
     private Date dateOfBirth;
+    @Column(nullable = false)
     private Date creationDate;
     private String specialty;
     @ColumnDefault("1")

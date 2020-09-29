@@ -1,6 +1,6 @@
 <div class="container">
 <form [formGroup]="formCarbEntry">
-  
+  <h3>Insert a carb entry</h3>
   <!-- Grams entry -->
   <div class="form-group">
     <label for="formGroupExampleInput">Grams</label>
@@ -28,7 +28,7 @@
   </div>
   <!-- /Date entry -->
 
-  <button class="btn-primary" [disabled]="!formCarbEntry.valid" (click)="clickCarbEntrySubmit()">Submit</button>
+  <button class="btn btn-primary" [disabled]="!formCarbEntry.valid" (click)="clickCarbEntrySubmit()">Submit</button>
 
 </form>
 </div>

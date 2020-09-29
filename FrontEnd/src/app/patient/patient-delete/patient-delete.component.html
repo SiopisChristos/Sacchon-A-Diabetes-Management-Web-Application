@@ -1,4 +1,6 @@
-<h3>Are you sure to delete your account?</h3>
+<div class="container">
+<h3>Are you sure you want to delete your account?</h3>
 <form [formGroup]="formPatientDelete">
-    <button class="btn-primary" [disabled]="!formPatientDelete.valid" (click)="clickDeletePatient()">Delete</button>
+    <button class="btn btn-primary" [disabled]="!formPatientDelete.valid" (click)="clickDeletePatient()">Delete account</button>
 </form>
+</div>

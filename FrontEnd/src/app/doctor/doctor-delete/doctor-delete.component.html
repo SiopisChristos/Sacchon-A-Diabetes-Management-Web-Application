@@ -1,5 +1,5 @@
-<p>Delete your doctor account</p>
+<h3>Are you sure you want to delete your account?</h3>
 <form [formGroup]="formDoctorDelete">
 
-    <button class="btn-primary" [disabled]="!formDoctorDelete.valid" (click)="clickDeleteDoctor()">Delete</button>
+    <button class="btn btn-primary" [disabled]="!formDoctorDelete.valid" (click)="clickDeleteDoctor()">Delete</button>
 </form>
