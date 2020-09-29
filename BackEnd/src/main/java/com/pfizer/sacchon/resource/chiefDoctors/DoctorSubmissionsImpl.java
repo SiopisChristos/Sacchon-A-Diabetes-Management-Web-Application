@@ -3,7 +3,10 @@ package com.pfizer.sacchon.resource.chiefDoctors;
 import com.pfizer.sacchon.exception.BadEntityException;
 import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Note;
+import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.ChiefRepository;
+import com.pfizer.sacchon.repository.DoctorRepository;
+import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.DoctorRepresentation;
 import com.pfizer.sacchon.representation.NoteRepresentation;
@@ -27,6 +30,7 @@ public class DoctorSubmissionsImpl extends ServerResource implements DoctorSubmi
 
     public static final Logger LOGGER = Engine.getLogger(DoctorSubmissionsImpl.class);
     private ChiefRepository chiefRepository;
+    private DoctorRepository doctorRepository;
     private EntityManager entityManager;
     private Date startDate;
     private Date endDate;
@@ -43,6 +47,7 @@ public class DoctorSubmissionsImpl extends ServerResource implements DoctorSubmi
         try {
             entityManager = JpaUtil.getEntityManager();
             chiefRepository = new ChiefRepository(entityManager);
+            doctorRepository = new DoctorRepository(entityManager);
 
             try {
 
@@ -78,8 +83,8 @@ public class DoctorSubmissionsImpl extends ServerResource implements DoctorSubmi
                 throw new BadEntityException("The input dates are not valid");
 
             ResourceUtils.checkRole(this, Shield.ROLE_ADMIN);
-
-            List<Note> notes = chiefRepository.findDoctorNotes(id, startDate, endDate);
+            Doctor doctor = EntityUtil.getFromOptionalEntity(doctorRepository.findDoctorById(id),this,LOGGER);
+            List<Note> notes = chiefRepository.findDoctorNotes(doctor, startDate, endDate);
             List<NoteRepresentation> noteRepresentation = new ArrayList<>();
             notes.forEach(x -> noteRepresentation.add(new NoteRepresentation(x)));
 

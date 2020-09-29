@@ -12,21 +12,22 @@ import { DoctorService } from '../doctor.service';
 export class SeeMyPatientsComponent implements OnInit {
 
   constructor(private doctorService: DoctorService) { }
+
   listOfMyPatients: Patient[];
   data1: Carb[];
   data2: Glucose[];
+
   ngOnInit(): void {
     this.doctorService.getMyPatients().subscribe(
       listMypatient => { this.listOfMyPatients = listMypatient.data; }
     )
-    this.seedata();
-
-    this.ngOnInit;
   }
-  seedata() {
-    this.doctorService.getPatientsData().subscribe(lis => {
+
+  seedata(patient_id) {
+    this.doctorService.getPatientsData(patient_id).subscribe(lis => {
       this.data1 = lis.data[0];
       this.data2 = lis.data[1];
+      this.ngOnInit;
     });
   }
 
