@@ -31,4 +31,6 @@
   
     <button class="btn btn-primary" [disabled]="!formAverageCarbIntake.valid" (click)="clickAverageCarbIntake()">Choose</button>
   
-  </form></div>
+  </form>
+<div *ngIf="s!=null">The average value of carb is: {{s}}</div>
+</div>

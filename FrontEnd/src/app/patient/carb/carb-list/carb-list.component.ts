@@ -13,7 +13,7 @@ export class CarbListComponent implements OnInit {
   constructor(private carbService: CarbService) { }
 
   formAverageCarbIntake: FormGroup;
-
+s:number;
   ngOnInit(): void {
     this.formAverageCarbIntake = new FormGroup({
       from: new FormControl(null, Validators.required),
@@ -23,8 +23,11 @@ export class CarbListComponent implements OnInit {
   
   clickAverageCarbIntake(){
     this.carbService.getAverageCarbIntake(this.formAverageCarbIntake).subscribe(carbAverageData => {
-      alert(JSON.stringify(carbAverageData));
+      
+      this.s=carbAverageData.data;
+
       this.ngOnInit;
+      return this.s;
   })
 }
 
