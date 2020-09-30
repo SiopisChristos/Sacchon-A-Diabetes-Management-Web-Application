@@ -109,9 +109,9 @@ public class ResourceValidator {
     }
 
     public static void validateUserRegister(UserRegistrationRepr userRegistrationRepr) throws BadEntityException{
-        if (userRegistrationRepr.getUsername() != null)
+        if (userRegistrationRepr.getUsername() == null)
             throw new BadEntityException("Username cannot be null");
-        if (userRegistrationRepr.getPassword() != null)
+        if (userRegistrationRepr.getPassword() == null)
             throw new BadEntityException("Password cannot br null");
     }
 
