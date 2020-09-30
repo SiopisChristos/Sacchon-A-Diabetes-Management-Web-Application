@@ -21,6 +21,7 @@ public class Patient {
     private String zipCode;
     private String phoneNumber;
     private Date dateOfBirth;
+    private String diabetesType;
     @ColumnDefault("1")
     private boolean isActive = true;
     @Column(nullable = false)

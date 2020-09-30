@@ -24,6 +24,7 @@ public class UserRegistrationRepr {
     private String zipCode;
     private String username;
     private String password;
+    private String diabetesType;
     private String role;
 
     public Doctor createDoctor(){
@@ -39,6 +40,7 @@ public class UserRegistrationRepr {
 
     public Patient createPatient(){
         Patient patient = new Patient();
+        patient.setDiabetesType(diabetesType);
         patient.setUsername(username);
         patient.setZipCode(zipCode);
         patient.setAddress(address);

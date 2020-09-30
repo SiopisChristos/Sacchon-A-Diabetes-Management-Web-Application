@@ -102,6 +102,9 @@ public class PatientRepository {
         if (patient.getDateOfBirth() != null)
             in.setDateOfBirth(patient.getDateOfBirth());
 
+        if (patient.getDiabetesType() != null)
+            in.setDiabetesType(patient.getDiabetesType());
+
         if (patient.getDoctor() != null)
             in.setDoctor(patient.getDoctor());
 
