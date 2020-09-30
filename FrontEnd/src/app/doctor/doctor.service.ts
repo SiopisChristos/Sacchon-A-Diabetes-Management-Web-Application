@@ -69,10 +69,9 @@ export class DoctorService {
     return this.http.put(
       this.baseUrl + '/account/' + id, {},
       {
-        headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+        headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password)})
       }
     );
   }
   
-
 }

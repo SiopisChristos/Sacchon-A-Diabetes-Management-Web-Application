@@ -15,12 +15,13 @@ export class NoteService {
   username = sessionStorage.getItem("username");
   password = sessionStorage.getItem("passsword");
 
-  addNoteEntry(values):Observable<any>{
+  addNoteEntry(values, id):Observable<any>{
     return this.http.post(
       this.postUrl,
     {
-        'note':values.get('message').value,
-        'date':values.get('date').value
+        'message':values.get('message').value,
+        'date':values.get('date').value,
+        'patient_id':id
     },
     {
       headers:new HttpHeaders({'Authorization': 'Basic ' + btoa(this.username + ':' + this.password)})}

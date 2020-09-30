@@ -14,7 +14,7 @@ import { ViewFreePatientsComponent } from './view-free-patients/view-free-patien
 import { SeeMyPatientsComponent } from './see-my-patients/see-my-patients.component';
 
 const routes: Routes = [
-  { path: 'insertNote', component: NoteEntryComponent },
+  { path: 'insertNote/:id', component: NoteEntryComponent },
   { path: 'updateNote', component: NoteUpdateComponent },
   { path: 'registerPatient', component: PatientRegisterComponent },
   { path: 'registerDoctor', component: DoctorRegisterComponent },

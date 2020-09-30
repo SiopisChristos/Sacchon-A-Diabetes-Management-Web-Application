@@ -18,18 +18,20 @@
         <p *ngIf="!!patient.firstName" class="card-text">FirstName: {{ patient.firstName | titlecase }}</p>
         <p *ngIf="!!patient.lastName" class="card-text">LastName: {{ patient.lastName | titlecase }}</p>
         <p *ngIf="!!patient.city" class="card-text">City: {{ patient.city | titlecase}}</p>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" (click)="seedata(patient.patient_id)">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl"(click)="seedata(patient.patient_id)">
           See patient records
         </button>
-        <hr/>
+      </div>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary" [routerLink]="['/insertNote',patient.patient_id]">Insert New Condulation</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<!-- Extra Large Modal -->
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Patient records</h5>
@@ -39,24 +41,41 @@
       </div>
       <div class="modal-body">
 
-        <div class="card" style="width: 18rem;" *ngFor="let c of data1">
-          <div class="card-header">
-              Carb
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="card" style="width: 15rem;" *ngFor="let c of data1; let i = index">
+              <div class="card-header">Carb #{{i+1}}</div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Grams: {{c.gram}}</li>
+                  <li class="list-group-item">Date: {{c.date | date: 'dd MMM yyyy'}}</li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <ul class="list-group list-group-flush">
-              <li class="list-group-item">{{c.gram}}</li>
-              <li class="list-group-item">{{c.date | date: 'dd MMM yyyy'}}</li><br>
-          </ul>
-        </div>
-      
-        <div class="card" style="width: 18rem;" *ngFor="let g of data2">
-          <div class="card-header">
-              Glucose
+          <div class="col-sm-4">
+            <div class="card" style="width: 15rem;" *ngFor="let g of data2; let i = index">
+              <div class="card-header">Glucose #{{i+1}}</div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">MG: {{g.measurement}}</li>
+                  <li class="list-group-item">Date: {{g.dateTime | date: 'dd MMM yyyy'}}</li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <ul class="list-group list-group-flush">
-              <li class="list-group-item">{{g.measurement}}</li>
-              <li class="list-group-item">{{g.dateTime | date: 'dd MMM yyyy'}}</li><br>
-          </ul>
+          <div class="col-sm-4">
+            <div class="card" style="width: 15rem;" *ngFor="let n of data3; let i = index">
+              <div class="card-header">Notes #{{i+1}}</div>
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Id: {{n.id}}</li>
+                  <li class="list-group-item">Note: {{n.message}}</li>
+              </ul>
+              <!-- <div class="btn-group" role="group">
+                <button type="button" class="btn btn-light" [routerLink]="['/updateNote']">Update</button>
+              </div> -->
+            </div>
+          </div>
         </div>
 
       </div>
