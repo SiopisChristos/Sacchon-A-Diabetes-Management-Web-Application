@@ -18,6 +18,9 @@ export class PatientService {
 
   
     UserRegistration(values): Observable<any> {
+ 
+  
+      
     return this.http.post('http://localhost:9000/v1/login', {
       username: values.get('username').value,
       password: values.get('password').value,
@@ -28,6 +31,7 @@ export class PatientService {
       phoneNumber: values.get('phoneNumber').value,
       city: values.get('city').value,
       zipCode: values.get('zipCode').value,
+      diabetesType: values.get('diabetesType').value,
       role: "patient"
     }, {
       headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })

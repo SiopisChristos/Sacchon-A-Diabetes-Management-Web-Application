@@ -9,4 +9,5 @@ export interface Patient {
     dateOfBirth: Date;
     doctor_id: number;
     zipCode: string;
+    diabetesType: string;
 }

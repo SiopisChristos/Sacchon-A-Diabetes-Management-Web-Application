@@ -9,10 +9,11 @@ import { PatientService } from '../patient.service';
 })
 export class PatientRegisterComponent implements OnInit {
 
-
+  
   formPatientRegister: FormGroup
-
-  constructor(private patientService: PatientService) { }
+  diabetesValue: string;
+  constructor(private patientService: PatientService) {
+ }
 
   ngOnInit(): void {
     this.formPatientRegister = new FormGroup({
@@ -20,6 +21,7 @@ export class PatientRegisterComponent implements OnInit {
       firstName: new FormControl(null, Validators.required),
       lastName: new FormControl(null, Validators.required),
       dateOfBirth: new FormControl(Validators.required),
+      diabetesType: new FormControl('Prediabetes'),
       city: new FormControl(null, Validators.required),
       phoneNumber: new FormControl(null, [Validators.required, Validators.minLength(10)]),
       address: new FormControl(null, Validators.required),
@@ -28,11 +30,15 @@ export class PatientRegisterComponent implements OnInit {
     })
   }
 
+  changeType(e){ this.formPatientRegister.get('diabetesType').setValue(e.target.value,{onlySelf: true})
+console.log(this.formPatientRegister.get('diabetesType').value);
+
+}
 
   RegisterUser() {
     this.patientService.UserRegistration(this.formPatientRegister).subscribe(registerUserData => {
       alert(JSON.stringify(registerUserData));
-      this.ngOnInit;
+      //this.ngOnInit;
 
     })
   }
