@@ -62,6 +62,7 @@ public class CustomRouter {
         router.attach("/patientsInactive", PatientsNoActivityImpl.class);
         router.attach("/doctorNotes/{id}", DoctorSubmissionsImpl.class);
         router.attach("/patientData/{id}", PatientSubmissionsImpl.class);
+        router.attach("/patientsInactiveAndTime", WaitingConsultationAndTimeImpl.class);
         router.attach("/getActivePatients",GetPatients.class);
         router.attach("/getActiveDoctors", GetDoctors.class);
 
