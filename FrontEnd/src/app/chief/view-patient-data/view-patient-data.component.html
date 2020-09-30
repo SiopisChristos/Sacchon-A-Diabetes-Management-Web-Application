@@ -1,7 +1,7 @@
 <div class="container">
   <form [formGroup]="formViewPatientData">
  
-    <h3>Click to see all data of a specific patient over a time range:</h3>
+    <h3>Click to see all data of patient (id: #{{id}}) over a time range:</h3>
   
   
     <!-- From date entry -->
@@ -35,18 +35,49 @@
       Choose
     </button>
   </form>
+
+
+
+  <div *ngIf="noData" class="alert alert-danger mt-5" role="alert">
+    There are not Data!
+  </div>
+
+ <div *ngIf="listOfCarbs.length && listOfGlucose.length" class="btn-group mt-5">
+    <button class="btn btn-dark" (click)="viewEntity(true)" [className]="viewCarb ? 'btn btn-primary' : 'btn btn-dark'">
+      Carbs
+    </button>
+
+    <button class="btn btn-dark" (click)="viewEntity(false)" [className]="!viewCarb ? 'btn btn-primary' : 'btn btn-dark'">
+      Glucose
+    </button>
+  </div>
+
+
   <div id="wrapper">
     <div
       class="card cards-margin"
       style="width: 18rem"
-      *ngFor="let carb of listOfCarbs;">
+      *ngFor="let carb of listOfCarbs;" [hidden]="!viewCarb">
       <div class="card-body">
         <h5 class="card-title">Carb #{{carb.id}}</h5>
         <p *ngIf="!!carb.gram" class="card-text">{{ carb.gram}} Grams</p>
         <p  *ngIf="!!carb.date" class="card-text">Date: {{ carb.date | date }}</p>
-        <p *ngIf="!!carb.patient_id" class="card-text">PatientId: {{ carb.patient_id}}</p> 
+         
       </div>
     </div>
+
+    <div
+    class="card cards-margin"
+    style="width: 18rem"
+    *ngFor="let glucose of listOfGlucose;" [hidden]="viewCarb">
+    <div class="card-body">
+      <h5 class="card-title">Glucose #{{glucose.id}}</h5>
+      <p *ngIf="!!glucose.measurement" class="card-text">{{glucose.measurement }} mg/dL</p>
+      <p  *ngIf="!!glucose.dateTime" class="card-text">Date: {{ glucose.dateTime | date }}</p>
+    
+    </div>
+  </div>
+
   </div>
 
 

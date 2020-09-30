@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { strict } from 'assert';
 import { NoteService } from '../note.service';
 
 @Component({
@@ -12,9 +13,10 @@ export class NoteEntryComponent implements OnInit {
 
   formNoteEntry: FormGroup;
   patient_id: number;
-  
-  constructor(private NoteService: NoteService, private route: ActivatedRoute) { }
+  result:number;
+  constructor(private noteService: NoteService, private route: ActivatedRoute) { }
 
+  
   ngOnInit(): void {
     this.formNoteEntry = new FormGroup({
       message: new FormControl(null, Validators.required),
@@ -26,8 +28,15 @@ export class NoteEntryComponent implements OnInit {
   }
 
   clickNoteEntrySubmit(){
-    this.NoteService.addNoteEntry(this.formNoteEntry, this.patient_id).subscribe(noteData => {
+    this.noteService.addNoteEntry(this.formNoteEntry, this.patient_id).subscribe(noteData => {
       alert(JSON.stringify(noteData));
+      this.result = noteData.status;
+      console.log(this.result);
+
+      if(this.result == 200 || this.result == 204)
+        this.result = 1;
+      else
+        this.result=-1
       this.ngOnInit;
     })
   }
