@@ -17,7 +17,7 @@ export class PatientService {
   password = sessionStorage.getItem("password");
 
   
-  UserRegistration(values): Observable<any> {
+    UserRegistration(values): Observable<any> {
     return this.http.post('http://localhost:9000/v1/login', {
       username: values.get('username').value,
       password: values.get('password').value,
