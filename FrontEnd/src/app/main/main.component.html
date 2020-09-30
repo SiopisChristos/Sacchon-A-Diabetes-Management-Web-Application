@@ -22,8 +22,6 @@
           fluctuation chart</a>
         <a class="dropdown-item" href="patient/carb/carb-update/" [routerLink]="['updateCarbEntry']">Update carb
           entry</a>
-        <a class="dropdown-item" href="patient/carb/carb-delete/" [routerLink]="['deleteCarbEntry']">Delete carb
-          entry</a>
       </div>
     </li>
     <li class="nav-item dropdown">
@@ -35,8 +33,6 @@
         <a class="dropdown-item" href="patient/glucose/glucose-list/"
           [routerLink]="['viewAverageGlucoseIntake']">Glucose fluctuation chart</a>
         <a class="dropdown-item" href="patient/glucose/glucose-update" [routerLink]="['updateGlucoseEntry']">Update
-          glucose entry</a>
-        <a class="dropdown-item" href="patient/glucose/glucose-delete" [routerLink]="['deleteGlucoseEntry']">Delete
           glucose entry</a>
       </div>
     </li>
@@ -72,8 +68,7 @@
         aria-expanded="false">Patient</a>
       <div class="dropdown-menu">
         <a class="dropdown-item" [routerLink]="['seeMyPatients']">My patients</a>
-        <a class="dropdown-item" [routerLink]="['seeFreePatients']">Available free patients</a>
-        <a class="dropdown-item" >Patient Data</a>
+        <a class="dropdown-item" [routerLink]="['seeFreePatients']">Available patients</a>
       </div>
     </li>
     <li class="nav-item dropdown">
@@ -82,7 +77,6 @@
       <div class="dropdown-menu">
         <a class="dropdown-item" href="insertNote/" [routerLink]="['insertNote']">Insert Note</a>
         <a class="dropdown-item" href="updateNote/" [routerLink]="['updateNote']">Update Note</a>
-        <a class="dropdown-item" href="viewMyNotes/">View Notes</a>
       </div>
     </li>
     <li>
@@ -95,25 +89,22 @@
 <nav *ngIf="isLogged && role==='admin'" class="navbar navbar-expand-lg bg-light">
   <ul class="nav nav-pills" id="menu">
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['doctor']">Welcome Chief Dr.{{username}}</a>
+      <a class="nav-link" [routerLink]="['admin']">Welcome Chief Dr.{{username}}</a>
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="admin/" role="button" aria-haspopup="true"
         aria-expanded="false">Patients</a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="admin/">All Patients</a> 
         <a class="dropdown-item" href="viewInactivePatients" [routerLink]="['viewInactivePatients']">View Inactive Patients</a>
         <a class="dropdown-item" href="waitingPatients" [routerLink]="['waitingPatients']">View Waiting Patients </a>
-        <a class="dropdown-item" href="admin/">Patient Measurements</a> 
       </div>
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="admin/" role="button" aria-haspopup="true"
         aria-expanded="false">Doctors</a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="admin/">All Doctors</a> 
         <a class="dropdown-item" href="viewInactiveDoctors" [routerLink]="['viewInactiveDoctors']">View Inactive Doctors</a>
-        <a class="dropdown-item" href="admin/">Doctors Consultations</a> 
+
       </div>
     </li>
 
