@@ -23,6 +23,7 @@ export class DoctorService {
       lastName: values.get('lastName').value,
       firstName: values.get('firstName').value,
       dateOfBirth: values.get('dateOfBirth').value,
+      diabetesType: values.get('diabetesType').value,
       phoneNumber: values.get('phoneNumber').value,
       specialty: values.get('specialty').value,
       role: "doctor"
