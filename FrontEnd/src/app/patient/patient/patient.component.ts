@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DoctorService } from 'src/app/doctor/doctor.service';
+import { News } from 'src/app/doctor/doctor/news';
 
 @Component({
   selector: 'app-patient',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PatientComponent implements OnInit {
 
-  constructor() { }
+  news: News[];
+
+  constructor(private doctorService: DoctorService) { }
 
   ngOnInit(): void {
+    
+    this.doctorService.getNewsApi().subscribe(results => {
+      // console.log(results.articles[0]);
+      this.news = results.articles;
+    })
   }
 
 }
