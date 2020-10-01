@@ -68,7 +68,7 @@ export class GlucoseListComponent implements OnInit {
     this.glucoseService
       .getAverageGlucoseIntake(this.formGlucoseEntry)
       .subscribe((glucoseData) => {
-        this.lineChartLabels = null;
+        this.lineChartLabels = [];
         let start: Date = new Date(this.formGlucoseEntry.get('from').value);
         for (var i: number = 0; i <= glucoseData.data.length; i++) {
           console.log(start);
