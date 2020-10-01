@@ -24,9 +24,10 @@ export class CarbListComponent implements OnInit {
   
   clickAverageCarbIntake(){
     this.carbService.getAverageCarbIntake(this.formAverageCarbIntake).subscribe(carbAverageData => {
+      console.log(carbAverageData);
       
       this.s=carbAverageData.data;
-      if(carbAverageData != 200)
+      if(carbAverageData.status != 200)
         this.resultDiv = -1
       else
         this.resultDiv = 1;

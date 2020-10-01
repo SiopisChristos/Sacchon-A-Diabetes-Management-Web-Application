@@ -12,15 +12,13 @@ import { MainComponent } from './main/main.component';
 import { DoctorModule } from './doctor/doctor.module';
 import { NoteModule } from './doctor/note/note.module';
 import { ChiefModule } from './chief/chief.module';
-import { HomepageComponent } from './homepage/homepage.component';
-import { FooterComponent } from './footer/footer.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
-    HomepageComponent,
-    FooterComponent,
+    MainComponent
+   
     
     ],
   imports: [
