@@ -70,9 +70,14 @@ export class GlucoseListComponent implements OnInit {
       .subscribe((glucoseData) => {
         let start: Date = new Date(this.formGlucoseEntry.get('from').value);
         for (var i: number = 0; i <= glucoseData.data.length; i++) {
+          console.log(start);
+          
           let date : Date = new Date();
           date.setDate(start.getDate() + i);
-          let latest_date =this.datepipe.transform(date, 'yyyy-MM-dd');
+          date.setMonth(date.getMonth() -1)
+          console.log("Date is " + date);
+          
+          let latest_date = this.datepipe.transform(date, 'yyyy-MM-dd');
           this.lineChartLabels.push(latest_date);
         }
         
