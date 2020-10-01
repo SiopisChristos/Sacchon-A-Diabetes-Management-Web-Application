@@ -22,10 +22,12 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl"(click)="seedata(patient.patient_id)">
           See patient records
         </button>
+        <hr/>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary" [routerLink]="['/insertNote',patient.patient_id]">Insert New Condulation</button>
+        </div>
       </div>
-      <div class="btn-group" role="group">
-        <button type="button" class="btn btn-primary" [routerLink]="['/insertNote',patient.patient_id]">Insert New Condulation</button>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -44,7 +46,7 @@
 
         <div class="row">
           <div class="col-sm-4">
-            <div class="card" style="width: 15rem;" *ngFor="let c of data1; let i = index">
+            <div class="card mb-2" style="width: 15rem;" *ngFor="let c of data1; let i = index">
               <div class="card-header">Carb #{{i+1}}</div>
               <div class="card-body">
                 <ul class="list-group list-group-flush">
@@ -55,7 +57,7 @@
             </div>
           </div>
           <div class="col-sm-4">
-            <div class="card" style="width: 15rem;" *ngFor="let g of data2; let i = index">
+            <div class="card mb-2" style="width: 15rem;" *ngFor="let g of data2; let i = index">
               <div class="card-header">Glucose #{{i+1}}</div>
               <div class="card-body">
                 <ul class="list-group list-group-flush">
@@ -66,11 +68,12 @@
             </div>
           </div>
           <div class="col-sm-4">
-            <div class="card" style="width: 15rem;" *ngFor="let n of data3; let i = index">
-              <div class="card-header">Notes #{{i+1}}</div>
+            <div class="card mb-2" style="width: 15rem;" *ngFor="let n of data3; let i = index">
+              <div class="card-header">Note #{{i+1}}</div>
               <ul class="list-group list-group-flush">
                   <li class="list-group-item">Id: {{n.id}}</li>
                   <li class="list-group-item">Note: {{n.message}}</li>
+                  <li class="list-group-item">Date: {{n.date | date}}</li>
               </ul>
               <!-- <div class="btn-group" role="group">
                 <button type="button" class="btn btn-light" [routerLink]="['/updateNote']">Update</button>

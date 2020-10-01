@@ -1,10 +1,10 @@
-
+<div class="container">
 <form [formGroup]="formNoteUpdate">
   
-  <h3>Update consultation</h3>
+  <h3 class="mt-2">Update consultation</h3>
     <!-- Id's entry -->
     <div class="form-group">
-      <label for="formGroupExampleInput">id</label>
+      <label for="formGroupExampleInput">ID:</label>
       <input type="text" 
              class="form-control" 
              id="id" 
@@ -34,3 +34,4 @@
     <button class="btn btn-primary" [disabled]="!formNoteUpdate.valid" (click)="clickNoteUpdateSubmit()">Update</button>
   
   </form>
+</div>

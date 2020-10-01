@@ -31,4 +31,13 @@
   <button class="btn btn-primary" [disabled]="!formCarbEntry.valid" (click)="clickCarbEntrySubmit()">Submit</button>
 
 </form>
+
+<div *ngIf="resultDiv==1" class="alert alert-success mt-2" role="alert">
+  Entry Added!
+</div>
+
+<div *ngIf="resultDiv==-1" class="alert alert-danger mt-2" role="alert">
+  There was a problem! Try again...
+</div>
+
 </div>

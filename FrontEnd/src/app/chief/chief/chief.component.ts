@@ -31,8 +31,6 @@ viewpatient: boolean=true;
   }
 
   viewEntity(value) {
-  console.log(this.viewpatient);
-  
   this.viewpatient=value;
   }
 
