@@ -85,20 +85,6 @@ public class PatientRepresentation {
         return patientIn;
     }
 
-    public static PatientRepresentation initData(Patient newPatient) {
-        PatientRepresentation result =
-                new PatientRepresentation();
-        result.setUsername(newPatient.getUsername());
-        result.setFirstName(newPatient.getFirstName());
-        result.setLastName(newPatient.getLastName());
-        result.setAddress(newPatient.getAddress());
-        result.setDiabetesType(newPatient.getDiabetesType());
-        result.setPhoneNumber(newPatient.getPhoneNumber());
-        result.setCity(newPatient.getCity());
-
-
-        return result;
-    }
 }
 
 
