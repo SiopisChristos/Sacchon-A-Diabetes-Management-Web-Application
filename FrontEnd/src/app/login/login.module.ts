@@ -7,15 +7,17 @@ import { CarbEntryComponent } from '../patient/carb/carb-entry/carb-entry.compon
 import { PatientComponent } from '../patient/patient/patient.component';
 import { PatientModule } from '../patient/patient.module';
 import { TypeAccountComponent } from './type-account/type-account.component';
+import { HomepageComponent } from '../homepage/homepage.component';
 
 const routes: Routes = [
-  {path:'', redirectTo: 'login', pathMatch:'full'},
-  {path:'login',component: LoginFormComponent},
-  {path:'patient', component: PatientComponent},
-  {path:'type',component:TypeAccountComponent}
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginFormComponent },
+  { path: 'patient', component: PatientComponent },
+  { path: 'type', component: TypeAccountComponent },
+  { path: 'home', component: HomepageComponent },
 
   // {path:'doctor', component: DoctorComponent},
-  
+
 ];
 
 @NgModule({
@@ -30,7 +32,7 @@ const routes: Routes = [
     LoginFormComponent,
     RouterModule,
     TypeAccountComponent
-    
+
   ]
 })
 export class LoginModule { }
