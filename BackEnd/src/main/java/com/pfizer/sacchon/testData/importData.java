@@ -33,9 +33,9 @@ public class importData {
                 String query2 = "INSERT INTO Patient ( username, firstName, lastName, address, city, zipCode, phoneNumber, diabetesType, dateOfBirth, doctor_id, creationDate) " +
                         "VALUES (  'ekelid', 'Eirini', 'Kelidou', 'Lassani 6', 'Thessaloniki', '57013', '6983323232','Type I', '1990-05-05', 1, '2020-08-10')," +
                  "(  'vparask', 'Vasilis', 'Paraskevas', 'Leoforos oxi 6', 'Thessaloniki', '57078', '6986426625','Type I', '1993-01-10',1, '2020-07-10'),"+
-                 "(  'gstath', 'Giorgos', 'Stathis', 'Navarinou 35', 'Thessaloniki', '55014', '6981047890','Prediabetes', '1975-05-05', 2, '2020-08-07'),"+
+                 "(  'gstath', 'Giorgos', 'Stathis', 'Navarinou 35', 'Thessaloniki', '55014', '6981047890','Prediabetes', '1975-05-05', null, '2020-08-07'),"+
                  "(  'xsiop', 'Xristos', 'Siopis', 'Lassani 6', 'Thessaloniki', '78452', '6945781240','Type II', '1955-01-12', null, '2020-09-25'),"+
-                 "(  'empelo', 'Eleni', 'Mpelo', 'Koufitsa 12', 'Kozani', '50100', '6940123459','Gestational', '1993-10-07', 1, '2020-06-10'),"+
+                 "(  'empelo', 'Eleni', 'Mpelo', 'Koufitsa 12', 'Kozani', '50100', '6940123459','Gestational', '1993-10-07', null, '2020-06-10'),"+
                 "(  'mntino', 'Marios', 'Ntinopoulos', 'Aetoraxis 7', 'Athina', '16422', '6904783254','Type II', '1970-02-04', 3, '2020-07-22'),"+
                 "(  'kmarkou', 'Kostantinos', 'Markou', 'Argyriadi 2', 'Patra', '78412', '6912487512','Type II', '1960-01-01', null, '2020-09-20'),"+
                         "('thepavl', 'Theodore', 'Pavlou', 'Thiseos 3', 'Thessaloniki', '57013', '6974512032','Type I', '1980-02-10', null, '2020-09-22')";
