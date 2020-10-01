@@ -29,8 +29,13 @@ export class MainComponent implements OnInit {
       this.username = sessionStorage.getItem("username")
       console.log("inside else app component")      
     }
+    
     if (this.role === 'patient') {
-      this.notificationObserver.numberOfNotifications.subscribe(data => this.notification = data );
+          
+      this.notificationObserver.numberOfNotifications.subscribe(data =>{
+         this.notification = data
+        });
+
       this.patientService.getMyNotes().subscribe(data=>{ 
         let number = 0;
         data.forEach(element => {

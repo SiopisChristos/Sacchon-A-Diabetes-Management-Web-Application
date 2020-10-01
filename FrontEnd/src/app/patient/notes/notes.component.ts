@@ -21,22 +21,17 @@ export class NotesComponent implements OnInit {
     this.patientService.getMyNotes().subscribe((viewMyNotes) => {
       this.listOfNotes = viewMyNotes;
       console.log(viewMyNotes);
+      for (let x of this.listOfNotes) {
+        if (!x.seen) {
+          this.patientService.seenNotification().subscribe((result) => {
+            if (result.status == 200) {
+              this.notificationObserver.propagateNotification(0);
+            }
+          });
+          break;
+        }
+      }
     });
 
-    this.patientService.seenNotification().subscribe((result) => {
-      console.log(result);
-      
-      if (result.data === true){ this.notificationObserver.propagateNotification(0);
-      
-      };
-    });
-  }
-
-  clickViewMyNotes() {
-    this.patientService.getMyNotes().subscribe((viewMyNotes) => {
-      this.listOfNotes = viewMyNotes;
-
-      this.ngOnInit;
-    });
   }
 }
