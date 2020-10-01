@@ -20,6 +20,7 @@ public class PatientRepresentation {
     private Date dateOfBirth;
     private long doctor_id;
     private String zipCode;
+    private String diabetesType;
 
 
 
@@ -30,6 +31,7 @@ public class PatientRepresentation {
             address = patient.getAddress();
             city = patient.getCity();
             zipCode = patient.getZipCode();
+            diabetesType = patient.getDiabetesType();
             phoneNumber = patient.getPhoneNumber();
             username = patient.getUsername();
             dateOfBirth = patient.getDateOfBirth();
@@ -48,6 +50,7 @@ public class PatientRepresentation {
         patient.setLastName(lastName);
         patient.setFirstName(firstName);
         patient.setDateOfBirth(dateOfBirth);
+        patient.setDiabetesType(diabetesType);
         patient.setAddress(address);
         patient.setPhoneNumber(phoneNumber);
         patient.setCity(city);
@@ -89,6 +92,7 @@ public class PatientRepresentation {
         result.setFirstName(newPatient.getFirstName());
         result.setLastName(newPatient.getLastName());
         result.setAddress(newPatient.getAddress());
+        result.setDiabetesType(newPatient.getDiabetesType());
         result.setPhoneNumber(newPatient.getPhoneNumber());
         result.setCity(newPatient.getCity());
 

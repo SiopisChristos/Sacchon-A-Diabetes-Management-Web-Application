@@ -38,7 +38,7 @@
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link notification" data-toggle="dropdown" href="myNotes" [routerLink]="['myNotes']" role="button"
-        aria-haspopup="true" aria-expanded="false">My consultations <span *ngIf="notification" class="badge">3</span></a>
+        aria-haspopup="true" aria-expanded="false">My consultations <span *ngIf="notification!=0" class="badge">{{notification}}</span></a>
 
       
     </li>

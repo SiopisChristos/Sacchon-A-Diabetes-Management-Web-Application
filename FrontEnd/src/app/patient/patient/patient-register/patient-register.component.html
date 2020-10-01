@@ -63,6 +63,22 @@
     </div>
     <!-- /DateOfBirth entry -->
 
+<!-- DiabetesType entry -->
+<div class="form-group">
+  <label class="form-control-label">Diabetes Type</label>
+  <select (change)="changeType($event)" class="form-control" formControlName="diabetesType" id="diabetesType" required>
+    <option value="Prediabetes" selected>Prediabetes</option>
+    <option value="Type I">Type I</option>
+    <option value="Type II">Type II</option>
+    <option value="Gestational">Gestational</option>
+    <option value="LADA">LADA</option>
+  </select>
+ 
+</div>
+<!-- DiabetesType entry -->
+
+
+
     <!-- Address entry -->
     <div class="form-group">
       <label for="formGroupExampleInput2">Address</label>
@@ -111,6 +127,7 @@
       </div>
     </div>
     <!-- /City entry -->
+
 
 
     <button class="btn btn-primary" [disabled]="!formPatientRegister.valid" [routerLink]="['/login']"

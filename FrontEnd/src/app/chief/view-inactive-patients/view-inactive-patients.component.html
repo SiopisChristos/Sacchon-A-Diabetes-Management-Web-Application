@@ -49,6 +49,7 @@
         <p *ngIf="!!patient.firstName" class="card-text">FirstName: {{ patient.firstName | titlecase }}</p>
         <p  *ngIf="!!patient.lastName" class="card-text">LastName: {{ patient.lastName | titlecase }}</p>
         <p *ngIf="!!patient.city" class="card-text">City: {{ patient.city | titlecase}}</p>
+        <p *ngIf="!!patient.diabetesType" class="card-text">Diabetes Type {{patient.diabetesType | titlecase}}</p>
           <hr/>
         </div>
       </div>

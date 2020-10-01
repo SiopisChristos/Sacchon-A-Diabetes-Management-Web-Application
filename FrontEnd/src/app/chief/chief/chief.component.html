@@ -1,11 +1,13 @@
 <div class="container">
 
-  <div class="btn-group">
-    <button class="btn btn-light" (click)="viewEntity(true)">
+  <div class="btn-group mt-3">
+    <button class="btn"  [ngClass]="{'btn-primary': viewpatient,
+    'btn-light': !viewpatient}" (click)="viewEntity(true)">
       View all patients
     </button>
 
-    <button class="btn btn-light" (click)="viewEntity(false)">
+    <button class="btn" [ngClass]="{'btn-primary': !viewpatient,
+  'btn-light': viewpatient}"  (click)="viewEntity(false)">
       View all doctors
     </button>
   </div>
@@ -19,6 +21,7 @@
           <p *ngIf="!!patient.firstName" class="card-text">FirstName: {{ patient.firstName | titlecase }}</p>
           <p *ngIf="!!patient.lastName" class="card-text">LastName: {{ patient.lastName | titlecase }}</p>
           <p *ngIf="!!patient.city" class="card-text">City: {{ patient.city | titlecase}}</p>
+          <p *ngIf="!!patient.diabetesType" class="card-text">Diabetes Type {{patient.diabetesType | titlecase}}</p>
 
 
           <hr />

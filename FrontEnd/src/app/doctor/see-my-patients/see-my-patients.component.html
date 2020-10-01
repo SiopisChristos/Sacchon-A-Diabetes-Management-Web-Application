@@ -18,6 +18,7 @@
         <p *ngIf="!!patient.firstName" class="card-text">FirstName: {{ patient.firstName | titlecase }}</p>
         <p *ngIf="!!patient.lastName" class="card-text">LastName: {{ patient.lastName | titlecase }}</p>
         <p *ngIf="!!patient.city" class="card-text">City: {{ patient.city | titlecase}}</p>
+        <p *ngIf="!!patient.diabetesType" class="card-text">Diabetes Type: {{patient.diabetesType | titlecase}}</p>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl"(click)="seedata(patient.patient_id)">
           See patient records
         </button>

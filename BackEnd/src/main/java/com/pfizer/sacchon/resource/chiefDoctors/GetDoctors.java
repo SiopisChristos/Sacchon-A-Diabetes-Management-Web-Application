@@ -48,7 +48,7 @@ public class GetDoctors extends ServerResource {
     }
 
     @Get("json")
-    public RepresentationResponse<List<PatientRepresentation>> getActiveDoctors(){
+    public RepresentationResponse<List<DoctorRepresentation>> getActiveDoctors(){
         try{
             ResourceUtils.checkRole(this, Shield.ROLE_ADMIN);
             List<DoctorRepresentation> doctors = new ArrayList<>();

@@ -12,14 +12,19 @@ import { ChiefService } from '../chief.service';
 })
 export class ViewDoctorNotesComponent implements OnInit {
 
+  private getTime(date?: Date) {
+    return date != null ? new Date(date).getTime() : 0;
+}
+
   id:number;
   listOfNotes: Note[];
+  listOfNotesSorted: Note[];
   constructor(private chiefService: ChiefService, private route: ActivatedRoute) { }
   formViewDoctorNotes: FormGroup;
 
   ngOnInit(): void {
 
-    
+
     this.route.params.subscribe(params => {
       this.id = params.id;   
   });
@@ -34,6 +39,11 @@ export class ViewDoctorNotesComponent implements OnInit {
   clickViewDoctorNotes(){
     this.chiefService.getDoctorNotes(this.formViewDoctorNotes,this.id).subscribe(result => {
       this.listOfNotes = result.data;
+      
+      this.listOfNotes.sort((a: Note, b: Note)=>{
+        return this.getTime(b.date) - this.getTime(a.date);
+      });
+      
       this.ngOnInit;
   })
 }

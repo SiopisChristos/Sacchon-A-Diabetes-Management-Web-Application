@@ -9,6 +9,7 @@ import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.repository.DoctorRepository;
 import com.pfizer.sacchon.repository.PatientRepository;
 import com.pfizer.sacchon.repository.RecordsRepository;
+import com.pfizer.sacchon.repository.util.EntityUtil;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.NoteRepresentation;
 import com.pfizer.sacchon.representation.PatientRepresentation;
@@ -121,25 +122,15 @@ public class DoctorResourceImpl extends ServerResource implements DoctorResource
      * @return
      */
     @Override
-    public RepresentationResponse<Boolean> notificationSeen() {
+    public RepresentationResponse<Boolean> notificationSeen(NoteRepresentation noteRepresentation) {
         try {
 
             String usernameLoggedIn = ResourceAuthorization.currentUserToUsername();
+            Patient patient = EntityUtil.getFromOptionalEntity(patientRepository.findPatientByUsername(usernameLoggedIn),this,LOGGER);
 
-            Note oldNote = getFromOptionalEntity(
-                    findEntityById(new Note(), entityManager, id),
-                    this,
-                    LOGGER);
-
-            ResourceValidator.checkNotePatient(oldNote, usernameLoggedIn);
-
-            recordsRepository.updateNoteSeen(oldNote);
+            recordsRepository.updateNoteSeen(patient);
 
             return new RepresentationResponse(200, Constants.CODE_200, "true");
-        } catch (NotAuthorizedException e) {
-            e.printStackTrace();
-            return new RepresentationResponse(403, Constants.CODE_403, Constants.RESPONSE_403);
-
         } catch (BadEntityException e) {
             e.printStackTrace();
             return new RepresentationResponse(400, Constants.CODE_400, Constants.RESPONSE_400);
