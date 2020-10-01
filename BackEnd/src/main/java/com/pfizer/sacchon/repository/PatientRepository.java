@@ -28,8 +28,9 @@ public class PatientRepository {
     }
 
     /**
+     * Find a Patient by his Username
      * @param username
-     * @return
+     * @return  Optional Patient
      */
     public Optional<Patient> findPatientByUsername(String username) {
         Patient patient = (Patient) entityManager.createQuery(
@@ -48,22 +49,13 @@ public class PatientRepository {
         return patient != null ? Optional.of(patient) : Optional.empty();
     }
 
-    /**
-     * Find all patient of the system
-     *
-     * @return a list of patients
-     */
-    public List<Patient> findAll() {
-        return entityManager.createQuery("from Patient ")
-                .getResultList();
-    }
 
 
     /**
-     * Save a patient into system(db)
+     * Save a patient into system (db)
      *
      * @param patient
-     * @return empty Optional
+     * @return Optional of Patient or Empty
      */
     public Optional<Patient> save(Patient patient) {
         patient.setCreationDate(new Date());
@@ -82,7 +74,7 @@ public class PatientRepository {
      * Update data of an existing Patient
      *
      * @param patient
-     * @return boolean if database has been updated
+     * @return boolean true if database has been updated, else false
      */
     public boolean updatePatient(Patient patient) {
 
@@ -122,7 +114,11 @@ public class PatientRepository {
         return false;
     }
 
-
+    /**
+     * Setting a Patient as inactive from the system
+     * @param patient
+     * @return
+     */
     public boolean removePatient(Patient patient) {
         Patient in = entityManager.find(Patient.class, patient.getId());
         in.setActive(false);

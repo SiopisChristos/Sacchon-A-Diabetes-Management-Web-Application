@@ -79,15 +79,6 @@ public class DoctorRepository {
         }
     }
 
-//    public void freePatients(long doctor_id) {
-//        List<Patient> myPatients = findMyPatients(doctor_id);
-//        myPatients.forEach(x -> x.setDoctor(null));
-//        entityManager.getTransaction().begin();
-//        for (Patient p : myPatients) {
-//            entityManager.persist(p);
-//        }
-//        entityManager.getTransaction().commit();
-//    }
 
     public boolean removeDoctor(long id) {
         Doctor in = entityManager.find(Doctor.class, id);

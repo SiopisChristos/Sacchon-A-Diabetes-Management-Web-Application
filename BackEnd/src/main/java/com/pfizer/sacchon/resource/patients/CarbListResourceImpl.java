@@ -133,10 +133,10 @@ public class CarbListResourceImpl extends ServerResource implements CarbListReso
 //            else
                 carbsAvg = carbRepository.findAverageCarbIntake(patient, startDate , endDate);
 
-            return new RepresentationResponse<>(200,Constants.CODE_200, carbsAvg);
+            return new RepresentationResponse(200,Constants.CODE_200, carbsAvg);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new NotFoundException("Carb entries not found during selected period");
+            return new RepresentationResponse(500,Constants.CODE_500, false);
         }
     }
 }

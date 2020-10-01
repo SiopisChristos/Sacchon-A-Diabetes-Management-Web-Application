@@ -19,12 +19,14 @@ public class GlucoseRepository {
     }
 
     /**
-     * The patient can store their data blood glucose level (date, time, measured in mg/dL)
+     * The patient can store their data blood glucose level
+     * @param glucose
+     * @return true if it's saved in Db else false
      */
     public boolean save(Glucose glucose){
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist (glucose);
+            entityManager.persist(glucose);
             entityManager.getTransaction().commit();
             return true;
         } catch (Exception e) {
@@ -54,8 +56,8 @@ public class GlucoseRepository {
     /**
      * Patients can view their average daily blood glucose level over a user- specified period *REQUIRED*
      *
-     * @param startDate User specified date in format "yyy-MM-dd"
-     * @param endDate User specified date in format "yyy-MM-dd"
+     * @param startDate User specified date
+     * @param endDate User specified date
      * @return The average blood glucose level entries per day as list
      */
     public List<Double> findAverageGlucoseLevel(Patient patient, Date startDate, Date endDate) {
@@ -98,7 +100,7 @@ public class GlucoseRepository {
 
         Glucose in = entityManager.find(Glucose.class, glucose.getId());
         in.setMeasurement(glucose.getMeasurement());
-        in.setDateTime(glucose.getDateTime());
+//        in.setDateTime(glucose.getDateTime());
         in.setPatient(glucose.getPatient());
         try {
             entityManager.getTransaction().begin();
@@ -115,7 +117,7 @@ public class GlucoseRepository {
      * Deletes a Glucose entry completely
      *
      * @param id
-     * @return true if db has been updated
+     * @return true if db has been updated else false
      */
     public boolean removeGlucoseEntry(Long id) {
         Optional<Glucose> optionalGlucose = findById(id);

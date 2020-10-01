@@ -15,8 +15,11 @@ public class CarbRepository {
 
     public CarbRepository(EntityManager entityManager) { this.entityManager = entityManager; }
 
+
     /**
      * The patient can store their data carb intake (measured in grams)
+     * @param carb  a Carb entity to save
+     * @return True if it's saved else false
      */
     public boolean save(Carb carb){
         try {
@@ -33,7 +36,7 @@ public class CarbRepository {
     /**
      * Search for carb entry with specific id
      *
-     * @param id
+     * @param id of the carb
      * @return Carb as Optional
      */
     public Optional<Carb> findById(Long id) {
@@ -41,19 +44,13 @@ public class CarbRepository {
         return carb != null ? Optional.of(carb) : Optional.empty();
     }
 
-    /**
-     * The patient can view all of their carb entries
-     *
-     * @return List of all carb entries
-     */
-    public List<Carb> findAll() { return entityManager.createQuery("from Carb c").getResultList(); }
 
     /**
      * The patient can view their average carb intake over a user-specified period *REQUIRED*
      *
-     * @param startDate User specified date in format "yy-MM-dd"
-     * @param endDate User specified date in format "yy-MM-dd"
-     * @return The average grams of carb entries per day as list
+     * @param startDate
+     * @param endDate
+     * @return The average grams of carb entries per day as a list of doubles
      */
     public Double findAverageCarbIntake(Patient patient, Date startDate, Date endDate) {
 
@@ -72,7 +69,7 @@ public class CarbRepository {
      * Update data of an existing Carb entry
      *
      * @param carb
-     * @return boolean if database has been updated
+     * @return true if carb has been updated else false
      */
     public boolean updateCarb(Carb carb) {
         Carb in = entityManager.find(Carb.class, carb.getId());

@@ -9,7 +9,7 @@ import java.util.Date;
 public class Glucose {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
+    private long id;  /** Technical identifier.  primary key */
     private Date dateTime;
     private double measurement;
     @ManyToOne
