@@ -10,6 +10,7 @@ import { GlucoseService } from '../glucose.service';
 export class GlucoseEntryComponent implements OnInit {
 
   formGlucoseEntry: FormGroup;
+  resultDiv:number;
 
   constructor(private glucoseService: GlucoseService) { }
 
@@ -23,7 +24,11 @@ export class GlucoseEntryComponent implements OnInit {
   
   clickGlucoseEntrySubmit(){
     this.glucoseService.addGlucoseEntry(this.formGlucoseEntry).subscribe(glucoseData => {
-      alert(JSON.stringify(glucoseData));
+      
+      if(glucoseData.data)
+        this.resultDiv = 1
+      else
+        this.resultDiv = -1;
       this.ngOnInit;
     })
   }

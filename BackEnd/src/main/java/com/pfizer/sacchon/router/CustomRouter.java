@@ -2,7 +2,6 @@ package com.pfizer.sacchon.router;
 import com.pfizer.sacchon.resource.LoginImpl;
 import com.pfizer.sacchon.resource.chiefDoctors.*;
 import com.pfizer.sacchon.resource.patients.*;
-import com.pfizer.sacchon.resource.PingServerResource;
 
 import com.pfizer.sacchon.resource.doctors.DoctorRecordsImpl;
 import com.pfizer.sacchon.resource.doctors.DoctorResourceImpl;

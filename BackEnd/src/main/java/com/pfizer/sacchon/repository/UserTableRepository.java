@@ -17,7 +17,12 @@ public class UserTableRepository {
         this.entityManager = entityManager;
     }
 
-
+    /**
+     * A registration method for doctors
+     * @param doctor
+     * @param userTable
+     * @return true if it's completed, else false
+     */
     public boolean register(Doctor doctor,  UserTable userTable){
         doctor.setCreationDate(new Date());
         try {
@@ -32,6 +37,12 @@ public class UserTableRepository {
         return false;
     }
 
+    /**
+     * A registration method for patients
+     * @param patient
+     * @param userTable
+     * @return true if it's completed, else false
+     */
     public boolean register(Patient patient, UserTable userTable){
         patient.setCreationDate(new Date());
         try {
@@ -48,9 +59,9 @@ public class UserTableRepository {
 
 
     /**
-     *
+     *  Find a UserTable Entity by its username
      * @param username
-     * @return
+     * @return the UserTable Entity
      */
     public UserTable findAccountById(String username) throws NotFoundException {
         UserTable user = entityManager.find(UserTable.class, username);
@@ -59,11 +70,18 @@ public class UserTableRepository {
         throw new NotFoundException("There is not a user");
     }
 
+    /**
+     * A function for matching username with it's password
+     * @param username
+     * @param password
+     * @return  The user's Role as String if their matching
+     * @throws NotFoundException
+     */
     public String matchUsernameAndPassword(String username, String password) throws NotFoundException{
         UserTable user = findAccountById(username);
         if (user.getPassword().equals(password))
             return user.getRole();
-        throw new NotFoundException("There is not a user");
+        throw new NotFoundException("The password is not the same");
     }
 
     /**

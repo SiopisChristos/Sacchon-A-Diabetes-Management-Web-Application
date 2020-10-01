@@ -10,11 +10,10 @@ import { ChiefService } from '../chief.service';
 })
 export class ChiefComponent implements OnInit {
   patients: Patient[];
- doctors: Doctor[];
-viewpatient: boolean=true;
+  doctors: Doctor[];
+  viewpatient: boolean=true;
 
   constructor(private chiefService: ChiefService) {
-    
    }
 
   ngOnInit(): void {

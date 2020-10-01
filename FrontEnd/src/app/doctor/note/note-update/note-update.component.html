@@ -1,7 +1,7 @@
 <div class="container">
 <form [formGroup]="formNoteUpdate">
   
-  <h3 class="mt-2">Update consultation</h3>
+  <h3 class="mt-2">Update your consultation</h3>
     <!-- Id's entry -->
     <div class="form-group">
       <label for="formGroupExampleInput">ID:</label>
@@ -34,4 +34,13 @@
     <button class="btn btn-primary" [disabled]="!formNoteUpdate.valid" (click)="clickNoteUpdateSubmit()">Update</button>
   
   </form>
+
+  <div *ngIf="resultDiv===1" class="alert alert-primary mt-3" role="alert">
+    Note Updated!
+  </div>
+
+  <div *ngIf="resultDiv===-1" class="alert alert-danger" role="alert">
+    Error
+  </div>
+
 </div>

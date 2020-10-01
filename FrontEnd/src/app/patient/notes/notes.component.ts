@@ -10,6 +10,10 @@ import { PatientService } from '../patient/patient.service';
   styleUrls: ['./notes.component.scss'],
 })
 export class NotesComponent implements OnInit {
+
+  private getTime(date?: Date) {
+    return date != null ? new Date(date).getTime() : 0;
+}
   constructor(
     private patientService: PatientService,
     private notificationObserver: NotificationObserverService
@@ -20,6 +24,9 @@ export class NotesComponent implements OnInit {
   ngOnInit(): void {
     this.patientService.getMyNotes().subscribe((viewMyNotes) => {
       this.listOfNotes = viewMyNotes;
+      this.listOfNotes.sort((a: Note, b: Note)=>{
+        return this.getTime(b.date) - this.getTime(a.date);
+      });
       console.log(viewMyNotes);
       for (let x of this.listOfNotes) {
         if (!x.seen) {

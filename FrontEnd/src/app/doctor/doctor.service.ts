@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Patient } from '../patient/patient/patient';
 import { PatientComponent } from '../patient/patient/patient.component';
+import { News } from './doctor/news';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,15 @@ export class DoctorService {
     }
     );
   }
+
+  getNewsApi(): Observable<any>{
+    return this.http.get<any>
+    ('http://newsapi.org/v2/top-headlines?country=us&apiKey=9c05e9cd9cf34a3d9a6b36ae0d63ae52', 
+      {
+        headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
+      })
+  }
+
   deleteDoctor(): Observable<any> {
     return this.http.delete(
       this.baseUrl + '/account'

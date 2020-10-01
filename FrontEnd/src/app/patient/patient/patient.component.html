@@ -1,0 +1,15 @@
+<div class="container">
+    <ul class="list-group" *ngFor="let nea of news; let i = index" >
+      <p></p>
+      <li class="list-group-item">
+        Title: {{news[i].title}}<br>
+        <a href="{{news[i].url}}" target="_blank">
+          <img src="{{news[i].urlToImage}}" style="height: 15rem; width: 15rem;">
+        </a>
+        <p>
+          {{news[i].description}}
+        </p>
+        Author: {{news[i].author}}<br>
+      </li>
+    </ul>
+  </div>

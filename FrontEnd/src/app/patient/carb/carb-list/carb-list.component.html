@@ -1,36 +1,58 @@
 <div class="container">
-<form [formGroup]="formAverageCarbIntake">
-
-  <h3>View my average carb intake over a specified period</h3>
+  <form [formGroup]="formAverageCarbIntake">
+    <h3>View my average carb intake over a specified period</h3>
     <!-- From date entry -->
     <div class="form-group">
       <label for="formGroupExampleInput">Date from</label>
-      <input type="date" 
-             class="form-control" 
-             id="from" 
-             placeholder="Enter from date" 
-             formControlName = "from">
-      <div *ngIf="formAverageCarbIntake.get('from').errors?.required && formAverageCarbIntake.get('from').dirty" class="text-danger">
+      <input
+        type="date"
+        class="form-control"
+        id="from"
+        placeholder="Enter from date"
+        formControlName="from"
+      />
+      <div
+        *ngIf="
+          formAverageCarbIntake.get('from').errors?.required &&
+          formAverageCarbIntake.get('from').dirty
+        "
+        class="text-danger"
+      >
         Field is required
       </div>
-    </div>  
+    </div>
     <!-- /From date entry -->
-  
+
     <!-- To date entry -->
     <div class="form-group">
       <label for="formGroupExampleInput">Date to</label>
-      <input type="date" 
-            class="form-control" 
-            id="to" 
-            formControlName="to">
-      <div *ngIf="formAverageCarbIntake.get('to').errors?.required && formAverageCarbIntake.get('to').dirty" class="text-danger">
+      <input type="date" class="form-control" id="to" formControlName="to" />
+      <div
+        *ngIf="
+          formAverageCarbIntake.get('to').errors?.required &&
+          formAverageCarbIntake.get('to').dirty
+        "
+        class="text-danger"
+      >
         Field is required
       </div>
     </div>
     <!-- /To date entry -->
-  
-    <button class="btn btn-primary" [disabled]="!formAverageCarbIntake.valid" (click)="clickAverageCarbIntake()">Choose</button>
-  
+
+    <button
+      class="btn btn-primary"
+      [disabled]="!formAverageCarbIntake.valid"
+      (click)="clickAverageCarbIntake()"
+    >
+      Choose
+    </button>
   </form>
-<div *ngIf="s!=null">The average value of carb is: {{s}}</div>
+
+  <div *ngIf="resultDiv == 1" class="alert alert-success mt-3" role="alert">
+    Your average value of carb is: {{ s | number: "1.0-2" }}
+  </div>
+
+  <div *ngIf="resultDiv == -1" class="alert alert-danger mt-3" role="alert">
+    There are not data over the specified time range.
+  </div>
 </div>

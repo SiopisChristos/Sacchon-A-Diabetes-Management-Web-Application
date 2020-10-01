@@ -14,7 +14,7 @@ public class GlucoseRepresentation {
     private Date dateTime;
     private double measurement;
     private long patient_id;
-    private String uri;
+
 
     public GlucoseRepresentation(Glucose glucose) {
         if (glucose != null) {
@@ -22,7 +22,6 @@ public class GlucoseRepresentation {
             dateTime = glucose.getDateTime();
             measurement = glucose.getMeasurement();
             patient_id = glucose.getPatient().getId();
-            uri = "http://localhost:9000/v1/patient/glucose/" + glucose.getId();
         }
     }
 

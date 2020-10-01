@@ -1,46 +1,28 @@
-<!-- <nav  class="navbar navbar-expand-lg bg-light">
-    <ul class="nav nav-pills" id="menu">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['patient']">Welcome </a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="patient/" role="button" aria-haspopup="true" aria-expanded="false">Patient</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="patient/">Edit your Profile</a>
-          <a class="dropdown-item" href="patient/">Delete your Profile</a>
-          <a class="dropdown-item" href="patient/">Something even more about the patient</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="patient/carb/" role="button" aria-haspopup="true" aria-expanded="false">Carb</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="patient/carb/carb-entry/" [routerLink]="['insertCarbEntry']">Insert carb entry</a>
-          <a class="dropdown-item" href="patient/carb/carb-list/" [routerLink]="['viewAverageCarbIntake']">Carb fluctuation chart</a>
-          <a class="dropdown-item" href="patient/carb/carb-update/" [routerLink]="['updateCarbEntry']">Update carb entry</a>
-          <a class="dropdown-item" href="patient/carb/carb-delete/" [routerLink]="['deleteCarbEntry']">Delete carb entry</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="patient/glucose/" role="button" aria-haspopup="true" aria-expanded="false">Glucose</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="patient/glucose/glucose-entry/" [routerLink]="['insertGlucoseEntry']">Insert glucose entry</a>
-          <a class="dropdown-item" href="patient/glucose/glucose-list/" [routerLink]="['viewAverageGlucoseIntake']">Glucose fluctuation chart</a>
-          <a class="dropdown-item" href="patient/glucose/glucose-update" [routerLink]="['updateGlucoseEntry']">Update glucose entry</a>
-          <a class="dropdown-item" href="patient/glucose/glucose-delete" [routerLink]="['deleteGlucoseEntry']">Delete glucose entry</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle notification" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Notes <span *ngIf="notification" class="badge">3</span></a>
-        
-        <div class="dropdown-menu">
-          <a class="dropdown-item">New Notes</a>
-          <a class="dropdown-item" >Old Notes</a>
-        </div>
-      </li>
-      <li>
-          <button id="logoutBtn" class="btn btn-outline-danger my-2 my-sm-0" (click)="logOut()">LOG OUT</button>
-      </li>
-    </ul>
-  </nav>
--->
-  <router-outlet></router-outlet>
+<!-- <div class="container">
+  <div *ngFor="let nea of news; let i = index" class="card" style="width: 18rem;">
+    <div class="card" style="width: 18rem;">
+      <div class="card-title">
+        <p class="card-text">Capital: {{news[i].title}}</p>
+      </div>
+      <div class="card-body">
+        <a href="{{news[i].url}} " target="_bblank"><img src="{{news[i].urlToImage}}" style="width: 15rem; height: 15rem;"></a>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="container">
+  <ul class="list-group" *ngFor="let nea of news; let i = index" >
+    <p></p>
+    <li class="list-group-item">
+      Title: {{news[i].title}}<br>
+      <a href="{{news[i].url}}" target="_blank">
+        <img src="{{news[i].urlToImage}}" style="height: 15rem; width: 15rem;">
+      </a>
+      <p>
+        {{news[i].description}}
+      </p>
+      Author: {{news[i].author}}<br>
+    </li>
+  </ul>
+</div>

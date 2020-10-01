@@ -15,6 +15,9 @@ import { NoteService } from '../note/note.service';
 })
 export class SeeMyPatientsComponent implements OnInit {
 
+  private getTime(date?: Date) {
+    return date != null ? new Date(date).getTime() : 0;
+}
   constructor(
     private doctorService: DoctorService, 
     private route: ActivatedRoute,
@@ -37,6 +40,20 @@ export class SeeMyPatientsComponent implements OnInit {
       this.data1 = lis.data[0];
       this.data2 = lis.data[1];
       this.data3 = lis.data[2];
+
+      this.data1.sort((a: Carb, b: Carb)=>{
+        return this.getTime(b.date) - this.getTime(a.date);
+      });
+
+      this.data2.sort((a: Glucose, b: Glucose)=>{
+        return this.getTime(b.dateTime) - this.getTime(a.dateTime);
+      });
+      
+      this.data3.sort((a: Note, b: Note)=>{
+        return this.getTime(b.date) - this.getTime(a.date);
+      });
+      
+
       this.ngOnInit;
     });
   }

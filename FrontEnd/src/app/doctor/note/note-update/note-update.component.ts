@@ -9,7 +9,7 @@ import { NoteService } from '../note.service';
 })
 export class NoteUpdateComponent implements OnInit {
 
-
+  resultDiv:number;
   formNoteUpdate: FormGroup;
   constructor(private noteService: NoteService ) { }
 
@@ -22,7 +22,7 @@ export class NoteUpdateComponent implements OnInit {
 
 clickNoteUpdateSubmit(){
   this.noteService.updateNoteEntry(this.formNoteUpdate).subscribe(noteUpdateData => {
-    alert(JSON.stringify(noteUpdateData));
+    this.resultDiv = (noteUpdateData.status == 204) ? 1 : -1;
     this.ngOnInit;
   })
 }

@@ -1,12 +1,14 @@
 <div class="container">
 <h1>My data</h1>
 <div class="btn-group" role="group">
-<button class="btn btn-light" (click)="view('all')">All</button>
-<button class="btn btn-light" (click)="view('carbs')">Carbs</button>
-<button class="btn btn-light" (click)="view('')">Glucose</button>
+<button class="btn"  [ngClass]="(viewDiv===0?'btn-primary':'btn-light')" (click)="view('all')">All</button>
+<button  class="btn"  [ngClass]="(viewDiv===1?'btn-primary':'btn-light')" (click)="view('carbs')">Carbs</button>
+<button class="btn"  [ngClass]="(viewDiv===-1?'btn-primary':'btn-light')" (click)="view('')">Glucose</button>
 </div>
+
+
 <div id="wrapper">
-<div class="card cards-margin" style="width: 18rem;" *ngFor="let c of listOfData1" [hidden]="!viewAll && !viewCarbs" >
+<div class="card cards-margin" style="width: 18rem;" *ngFor="let c of listOfData1" [hidden]="viewDiv == -1" >
     <div class="card-header">
         Carb #{{c.id}}
     </div>
@@ -23,7 +25,7 @@
 </div>
 
 
-<div class="card cards-margin" style="width: 18rem;" *ngFor="let g of listOfData2" [hidden]="!viewAll && viewCarbs">
+<div class="card cards-margin" style="width: 18rem;" *ngFor="let g of listOfData2" [hidden]="viewDiv == 1">
     <div class="card-header">
         Glucose #{{g.id}}
     </div>

@@ -12,8 +12,11 @@ import { PatientService } from '../patient/patient.service';
   styleUrls: ['./patient-my-data.component.scss'],
 })
 export class PatientMyDataComponent implements OnInit {
-  viewAll: boolean;
-  viewCarbs: boolean;
+  private getTime(date?: Date) {
+    return date != null ? new Date(date).getTime() : 0;
+  }
+  viewDiv: number = 0;
+ 
 
   constructor(private patientService: PatientService) {}
   listOfData1: Carb[];
@@ -23,40 +26,46 @@ export class PatientMyDataComponent implements OnInit {
     this.patientService.patientGetMyData().subscribe((viewData) => {
       this.listOfData1 = viewData.data[0];
       this.listOfData2 = viewData.data[1];
-      this.viewAll = true;
+
+      this.listOfData1.sort((a: Carb, b: Carb)=>{
+        return this.getTime(b.date) - this.getTime(a.date);
+      });
+
+      this.listOfData2.sort((a: Glucose, b: Glucose)=>{
+        return this.getTime(b.dateTime) - this.getTime(a.dateTime);
+      });
+      
       this.ngOnInit;
     });
   }
 
   view(type) {
-    console.log(this.listOfData1);
-
+    
     if (type == 'all') {
-      this.viewAll = true;
+      this.viewDiv = 0;
     } else if (type == 'carbs') {
-      this.viewCarbs = true;
-      this.viewAll = false;
+      this.viewDiv = 1;
     } else {
-      this.viewCarbs = false;
-      this.viewAll = false;
+      this.viewDiv = -1;
+
     }
   }
 
-  deleteCarb(id){
-    if(confirm("You want to delete a Carb measurement!\nAre you sure?")){
-      this.patientService.deleteCarbEntry(id).subscribe(glucoseData => {
+  deleteCarb(id) {
+    if (confirm('You want to delete a Carb measurement!\nAre you sure?')) {
+      this.patientService.deleteCarbEntry(id).subscribe((glucoseData) => {
         location.reload();
       });
     }
-      return;
+    return;
   }
 
-  deleteGlucose(id){
-    if(confirm("You want to delete a Glucose measurement!\nAre you sure?")){
-      this.patientService.deleteGlucoseEntry(id).subscribe(glucoseData => {
+  deleteGlucose(id) {
+    if (confirm('You want to delete a Glucose measurement!\nAre you sure?')) {
+      this.patientService.deleteGlucoseEntry(id).subscribe((glucoseData) => {
         location.reload();
       });
     }
-      return;
+    return;
   }
 }
