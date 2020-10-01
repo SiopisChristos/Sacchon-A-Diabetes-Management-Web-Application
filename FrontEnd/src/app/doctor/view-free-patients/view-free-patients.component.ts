@@ -12,6 +12,10 @@ import { Note } from '../note/note';
 })
 export class ViewFreePatientsComponent implements OnInit {
   
+  private getTime(date?: Date) {
+    return date != null ? new Date(date).getTime() : 0;
+}
+
   constructor(private doctorService: DoctorService) {}
 
   listOfFreePatients: Patient[];
@@ -28,6 +32,15 @@ export class ViewFreePatientsComponent implements OnInit {
     this.doctorService.getPatientsData(patient_id).subscribe(viewData => {
         this.listOfData1 = viewData.data[0];
         this.listOfData2 = viewData.data[1];
+
+        this.listOfData1.sort((a: Carb, b: Carb)=>{
+          return this.getTime(b.date) - this.getTime(a.date);
+        });
+  
+        this.listOfData2.sort((a: Glucose, b: Glucose)=>{
+          return this.getTime(b.dateTime) - this.getTime(a.dateTime);
+        });
+        
         this.ngOnInit;
     })
   }
@@ -37,9 +50,12 @@ export class ViewFreePatientsComponent implements OnInit {
       this.doctorService.choosePatient(patient_id).subscribe((result) => {
         console.log(result);
         
-        if (result.data === true)          
+        if (result.data == true)          
           location.reload();
-        
+        else
+        {
+          alert("The Patient needs more time to be consulted!");
+        }
       });
     }
   }

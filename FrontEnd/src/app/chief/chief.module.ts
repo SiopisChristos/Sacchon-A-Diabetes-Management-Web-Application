@@ -13,15 +13,26 @@ const routes: Routes = [
   { path: 'admin/doctorNotes/:id', component: ViewDoctorNotesComponent },
   { path: 'admin/patientData/:id', component: ViewPatientDataComponent },
   { path: 'waitingPatients', component: ViewFreePatientsComponent },
-  {path: 'viewInactivePatients',component: ViewInactivePatientsComponent},
+  { path: 'viewInactivePatients', component: ViewInactivePatientsComponent },
   { path: 'viewInactiveDoctors', component: ViewInactiveDoctorsComponent }
-]
+];
 
 @NgModule({
-  declarations: [ViewFreePatientsComponent, ViewPatientDataComponent, ViewDoctorNotesComponent, ViewInactivePatientsComponent, ViewInactiveDoctorsComponent, ChiefComponent],
-  imports: [
-    CommonModule, ReactiveFormsModule,RouterModule.forRoot(routes)
+  declarations: [
+    ViewFreePatientsComponent,
+    ViewPatientDataComponent,
+    ViewDoctorNotesComponent,
+    ViewInactivePatientsComponent,
+    ViewInactiveDoctorsComponent,
+    ChiefComponent,
   ],
-  exports: [ViewDoctorNotesComponent, ViewFreePatientsComponent, ViewInactiveDoctorsComponent, ViewInactivePatientsComponent,ViewPatientDataComponent]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule.forRoot(routes)],
+  exports: [
+    ViewDoctorNotesComponent,
+    ViewFreePatientsComponent,
+    ViewInactiveDoctorsComponent,
+    ViewInactivePatientsComponent,
+    ViewPatientDataComponent,
+  ],
 })
-export class ChiefModule { }
+export class ChiefModule {}

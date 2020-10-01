@@ -26,7 +26,9 @@ export class DoctorRegisterComponent implements OnInit {
   
   RegisterUser() {
     this.doctorService.UserRegistration(this.formDoctorRegister).subscribe(registerUserData => {
-      alert(JSON.stringify(registerUserData));
+      let message;
+      message = (registerUserData.status == 200) ? "Your registration was completed" : "There was a problem with your registration!";
+      alert(message);
       this.ngOnInit;
 
     })

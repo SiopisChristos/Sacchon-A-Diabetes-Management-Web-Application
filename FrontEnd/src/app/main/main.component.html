@@ -18,8 +18,8 @@
       <div class="dropdown-menu">
         <a class="dropdown-item" href="patient/carb/carb-entry/" [routerLink]="['insertCarbEntry']">Insert carb
           entry</a>
-        <a class="dropdown-item" href="patient/carb/carb-list/" [routerLink]="['viewAverageCarbIntake']">Carb
-          fluctuation chart</a>
+        <a class="dropdown-item" href="patient/carb/carb-list/" [routerLink]="['viewAverageCarbIntake']">My Average Carb Intake
+         </a>
         <a class="dropdown-item" href="patient/carb/carb-update/" [routerLink]="['updateCarbEntry']">Update carb
           entry</a>
       </div>
@@ -75,7 +75,6 @@
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="doctor/notes" role="button" aria-haspopup="true"
         aria-expanded="false">Consultations</a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="insertNote/" [routerLink]="['insertNote']">Insert Note</a>
         <a class="dropdown-item" href="updateNote/" [routerLink]="['updateNote']">Update Note</a>
       </div>
     </li>
@@ -89,7 +88,7 @@
 <nav *ngIf="isLogged && role==='admin'" class="navbar navbar-expand-lg bg-light">
   <ul class="nav nav-pills" id="menu">
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['admin']">Welcome Chief Dr.{{username}}</a>
+      <a class="nav-link" [routerLink]="['admin']">Welcome {{username}}</a>
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="admin/" role="button" aria-haspopup="true"

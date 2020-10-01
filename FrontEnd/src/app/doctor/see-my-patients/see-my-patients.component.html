@@ -74,6 +74,7 @@
                   <li class="list-group-item">Id: {{n.id}}</li>
                   <li class="list-group-item">Note: {{n.message}}</li>
                   <li class="list-group-item">Date: {{n.date | date}}</li>
+                  <li class="list-group-item">By Dr. {{n.doctorLastname || titlecase}}</li>
               </ul>
               <!-- <div class="btn-group" role="group">
                 <button type="button" class="btn btn-light" [routerLink]="['/updateNote']">Update</button>

@@ -18,7 +18,7 @@ export class ViewDoctorNotesComponent implements OnInit {
 
   id:number;
   listOfNotes: Note[];
-  listOfNotesSorted: Note[];
+  resultDiv:number =0;
   constructor(private chiefService: ChiefService, private route: ActivatedRoute) { }
   formViewDoctorNotes: FormGroup;
 
@@ -38,11 +38,18 @@ export class ViewDoctorNotesComponent implements OnInit {
   
   clickViewDoctorNotes(){
     this.chiefService.getDoctorNotes(this.formViewDoctorNotes,this.id).subscribe(result => {
+
+      if(result.status === 200){
+        this.resultDiv =1;
       this.listOfNotes = result.data;
       
       this.listOfNotes.sort((a: Note, b: Note)=>{
         return this.getTime(b.date) - this.getTime(a.date);
       });
+
+    }
+    else
+    this.resultDiv = -1;
       
       this.ngOnInit;
   })
