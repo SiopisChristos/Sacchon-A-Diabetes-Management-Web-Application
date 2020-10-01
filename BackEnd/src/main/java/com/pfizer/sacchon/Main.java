@@ -1,7 +1,5 @@
 package com.pfizer.sacchon;
 
-import com.pfizer.sacchon.model.Carb;
-import com.pfizer.sacchon.repository.CarbRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.router.CustomRouter;
 import com.pfizer.sacchon.security.cors.CorsFilter;
@@ -33,7 +31,6 @@ public class Main extends Application {
         c.getDefaultHost().attach("/v1", new Main());
         c.start();
         LOGGER.info("Sample Web API started");
-        LOGGER.info("URL: http://localhost:9000/v1/");
 
     }
     public Main() {
