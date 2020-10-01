@@ -16,7 +16,7 @@ public interface DoctorResource {
     RepresentationResponse<List<PatientRepresentation>> getFreePatients();
 
     @Post("json")
-    RepresentationResponse <Boolean> notificationSeen() ;
+    RepresentationResponse <Boolean> notificationSeen(NoteRepresentation noteRepresentation) ;
 
     @Put("json")
     RepresentationResponse <Boolean> choosePatient(PatientRepresentation patientRepresentation);

@@ -31,8 +31,6 @@ export class NoteEntryComponent implements OnInit {
     this.noteService.addNoteEntry(this.formNoteEntry, this.patient_id).subscribe(noteData => {
       alert(JSON.stringify(noteData));
       this.result = noteData.status;
-      console.log(this.result);
-
       if(this.result == 200 || this.result == 204)
         this.result = 1;
       else

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NotificationObserverService } from '../notificationService/notification-observer.service';
+import { PatientService } from '../patient/patient/patient.service';
 
 @Component({
   selector: 'app-main',
@@ -7,14 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-
+  
   isLogged:boolean;
   role:String;
   username: String;
-  notification:boolean = true;
-  
+  notification:number ;
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private notificationObserver: NotificationObserverService, private patientService: PatientService) { }
 
   ngOnInit(): void {
     this.role = sessionStorage.getItem("role")
@@ -29,8 +30,18 @@ export class MainComponent implements OnInit {
       console.log("inside else app component")      
     }
     if (this.role === 'patient') {
-      //subscribe to event for notifications
+      this.notificationObserver.numberOfNotifications.subscribe(data => this.notification = data );
+      this.patientService.getMyNotes().subscribe(data=>{ 
+        let number = 0;
+        data.forEach(element => {
+          if(!element.seen)
+            number++;
+        });
+        this.notification = number; 
+      })
     }
+
+    
   }
 
   logOut(){

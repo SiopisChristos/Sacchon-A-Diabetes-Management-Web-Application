@@ -41,15 +41,21 @@ public class RecordsRepository {
     /**
      * Updates the seen property of a note to True
      *
-     * @param note the updated note
+     * @param patient the updated note
      * @return True if updating has been completed, else false
      */
-    public boolean updateNoteSeen(Note note) {
-        Note in = entityManager.find(Note.class, note.getId());
-        in.setSeen(true);
+    public boolean updateNoteSeen(Patient patient) {
+
+        List<Note> in = entityManager.createQuery(
+                "from Note n where :id = n.patient")
+                .setParameter("id", patient).getResultList();
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(in);
+            for(Note n : in){
+                n.setSeen(true);
+                entityManager.persist(n);
+            }
+
             entityManager.getTransaction().commit();
             return true;
         } catch (Exception e) {

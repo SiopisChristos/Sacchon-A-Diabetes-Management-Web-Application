@@ -49,7 +49,7 @@ public class CustomRouter {
         router.attach("/record/{id}", DoctorRecordsImpl.class);
 
         //User section
-        router.attach("/patient/record/{id}", DoctorResourceImpl.class); //{POST} notification's user for a Note
+        router.attach("/patient/records", DoctorResourceImpl.class); //{POST} notification's user for a Note
 
 
         //Chief Section
