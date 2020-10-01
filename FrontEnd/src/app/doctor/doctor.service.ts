@@ -36,7 +36,7 @@ export class DoctorService {
 
   getNewsApi(): Observable<any>{
     return this.http.get<any>
-    ('http://newsapi.org/v2/top-headlines?country=us&apiKey=9c05e9cd9cf34a3d9a6b36ae0d63ae52', 
+    ('http://newsapi.org/v2/top-headlines?country=us&category=health&apiKey=9c05e9cd9cf34a3d9a6b36ae0d63ae52', 
       {
         headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password) })
       })
