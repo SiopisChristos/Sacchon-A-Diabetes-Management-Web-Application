@@ -29,7 +29,7 @@ export class NoteEntryComponent implements OnInit {
 
   clickNoteEntrySubmit(){
     this.noteService.addNoteEntry(this.formNoteEntry, this.patient_id).subscribe(noteData => {
-      alert(JSON.stringify(noteData));
+      // alert(JSON.stringify(noteData));
       this.result = noteData.status;
       if(this.result == 200 || this.result == 204)
         this.result = 1;
