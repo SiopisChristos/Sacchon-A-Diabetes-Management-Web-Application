@@ -19,7 +19,7 @@
     </ul>
     
     <div class="btn-group" role="group">
-    <button type="button" class="btn btn-light" [routerLink]="'/updateCarbEntry'">Update</button>
+    <button type="button" class="btn btn-light" [routerLink]="['/updateCarbEntry/', c.id]">Update</button>
     <button type="button" class="btn btn-danger" (click)="deleteCarb(c.id)">Delete</button>
     </div>
 </div>
@@ -34,7 +34,7 @@
         <li class="list-group-item">{{g.dateTime | date: 'dd MMM yyyy'}}</li>
     </ul>
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-light" [routerLink]="'/updateGlucoseEntry'"> Update</button>
+        <button type="button" class="btn btn-light" [routerLink]="['/updateGlucoseEntry/',g.id]"> Update</button>
         <button type="button" class="btn btn-danger" (click)="deleteGlucose(g.id)">Delete</button>
         </div>
 </div>

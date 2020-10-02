@@ -11,6 +11,7 @@ const routes: Routes = [
   {path: 'insertCarbEntry',component: CarbEntryComponent},
   {path: 'viewAverageCarbIntake',component: CarbListComponent},
   {path: 'updateCarbEntry',component: CarbUpdateComponent},
+  {path: 'updateCarbEntry/:id',component: CarbUpdateComponent},
   {path: 'deleteCarbEntry',  component: CarbDeleteComponent},
 ];
 

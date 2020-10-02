@@ -12,6 +12,7 @@ import { ChartsModule } from 'ng2-charts';
 const routes: Routes = [
   {path: 'insertGlucoseEntry',  component: GlucoseEntryComponent},
   {path: 'viewAverageGlucoseIntake',component: GlucoseListComponent},
+  {path: 'updateGlucoseEntry/:id',component: GlucoseUpdateComponent},
   {path: 'updateGlucoseEntry',component: GlucoseUpdateComponent},
   {path: 'deleteGlucoseEntry',  component: GlucoseDeleteComponent},
 ]
