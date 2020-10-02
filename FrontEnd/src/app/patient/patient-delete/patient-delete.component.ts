@@ -21,8 +21,11 @@ export class PatientDeleteComponent implements OnInit {
 
   clickDeletePatient() {
     this.patientDeleteService.patientDelete().subscribe(patientData => {
-      alert(JSON.stringify(patientData));
-      this.ngOnInit;
+    sessionStorage.removeItem("username")
+    sessionStorage.removeItem("password")
+    sessionStorage.removeItem("role")
+    location.reload();
+    this.ngOnInit;
     })
   }
 

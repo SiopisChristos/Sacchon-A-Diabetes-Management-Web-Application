@@ -16,6 +16,11 @@ export class DoctorDeleteComponent implements OnInit {
   }
   clickDeleteDoctor() {
     this.doctorDeleteService.deleteDoctor().subscribe((doctorData) => {
+    sessionStorage.removeItem("username")
+    sessionStorage.removeItem("password")
+    sessionStorage.removeItem("role")
+    location.reload();
+    this.ngOnInit;
       let message;
       if (doctorData.status == 200) 
         message = 'You deleted your account';
