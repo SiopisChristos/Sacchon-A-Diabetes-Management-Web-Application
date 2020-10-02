@@ -15,15 +15,18 @@ export class DoctorDeleteComponent implements OnInit {
     this.formDoctorDelete = new FormGroup({});
   }
   clickDeleteDoctor() {
+       
     this.doctorDeleteService.deleteDoctor().subscribe((doctorData) => {
-    sessionStorage.removeItem("username")
-    sessionStorage.removeItem("password")
-    sessionStorage.removeItem("role")
-    location.reload();
+    
     this.ngOnInit;
       let message;
-      if (doctorData.status == 200) 
+      if (doctorData.status == 200) {
         message = 'You deleted your account';
+        sessionStorage.removeItem("username")
+        sessionStorage.removeItem("password")
+        sessionStorage.removeItem("role")
+        location.reload();
+      }
       else 
         message = "There was a problem. Your account was not deleted!"
       alert(message);

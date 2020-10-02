@@ -13,4 +13,6 @@ public class Constants {
     public static final String CODE_400 = "Bad Request";
     public static final String CODE_403 = "FORBIDDEN";
     public static final String CODE_500 = "Internal Server Error";
+
+    public static final String NOT_ACTIVE_ACCOUNT = "Not an Active Account. Please contact with us";
 }

@@ -137,9 +137,9 @@ public class DoctorRepository {
 
 
 
-    /**
+    /** Find Doctor by username
      * @param username
-     * @return
+     * @return Optional of Doctor or Empty
      */
     public Optional<Doctor> findDoctorByUsername(String username) {
         Doctor doctor = (Doctor) entityManager.createQuery(

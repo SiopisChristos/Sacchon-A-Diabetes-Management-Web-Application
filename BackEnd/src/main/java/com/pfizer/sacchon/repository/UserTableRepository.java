@@ -103,4 +103,34 @@ public class UserTableRepository {
         }
     }
 
+    /**
+     * Checks if an existing Doctor has his account Active
+     * @param username
+     * @return true if it's active, else false
+     */
+    public boolean doctorIsActive(String username){
+        Doctor doctor = (Doctor) entityManager.createQuery(
+                    "from Doctor d where :username = d.username")
+                .setParameter("username", username).getSingleResult();
+        if (doctor.isActive())
+            return true;
+        return false;
+
+    }
+
+    /**
+     * Checks if an existing Patient has his account Active
+     * @param username
+     * @return  true if it's active, else false
+     */
+    public boolean patientIsActive(String username){
+        Patient patient = (Patient) entityManager.createQuery(
+                "from Patient p where :username = p.username")
+                .setParameter("username", username).getSingleResult();
+        if (patient.isActive())
+            return true;
+        return false;
+
+    }
+
 }

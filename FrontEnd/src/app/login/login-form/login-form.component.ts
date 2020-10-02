@@ -36,6 +36,7 @@ export class LoginFormComponent implements OnInit {
     
     this.loginService.authorization(this.formLogin).subscribe(data => {
       console.log(data);
+
       
       if (data.data == "admin" || data.data == "patient" || data.data == "doctor") { //here you check the text you return from the api
         this.username = this.formLogin.get('username').value;
@@ -49,7 +50,8 @@ export class LoginFormComponent implements OnInit {
         this.router.navigate([this.role])
       }
       else {
-        alert("Wrong login or password");
+        var message = (data.status == 200) ? data.data : "Wrong Username/Password!"
+        alert(message);
       }
     });
     

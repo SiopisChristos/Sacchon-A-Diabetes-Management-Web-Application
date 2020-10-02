@@ -6,6 +6,8 @@ import com.pfizer.sacchon.model.Doctor;
 import com.pfizer.sacchon.model.Patient;
 import com.pfizer.sacchon.model.UserTable;
 import com.pfizer.sacchon.repository.ChiefRepository;
+import com.pfizer.sacchon.repository.DoctorRepository;
+import com.pfizer.sacchon.repository.PatientRepository;
 import com.pfizer.sacchon.repository.UserTableRepository;
 import com.pfizer.sacchon.repository.util.JpaUtil;
 import com.pfizer.sacchon.representation.LoginRepresentation;
@@ -63,6 +65,10 @@ public class LoginImpl extends ServerResource {
 
             //Throws NotFoundException
             String resultRole = userTableRepository.matchUsernameAndPassword(userToLogin.getUsername(), userToLogin.getPassword());
+            if (resultRole.equals("patient"))
+                resultRole = (userTableRepository.patientIsActive(username)) ? resultRole : Constants.NOT_ACTIVE_ACCOUNT;
+            else if (resultRole.equals("doctor"))
+                resultRole = (userTableRepository.doctorIsActive(username)) ? resultRole : Constants.NOT_ACTIVE_ACCOUNT;
 
             return new RepresentationResponse(200, Constants.CODE_200, resultRole);
         } catch (NotFoundException e) {
