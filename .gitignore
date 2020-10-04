@@ -1,7 +1,0 @@
-node_modules
-BackEnd/.idea/uiDesigner.xml
-BackEnd/myApp.log
-.idea
-FrontEnd/node_modules
-myApp.log
-package-lock.json
